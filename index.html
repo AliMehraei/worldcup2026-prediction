@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>پیش‌بینی جام جهانی ۲۰۲۶ — مدل ۴۰۰ پارامتری</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #050d1a;
+  --panel: #0a1628;
+  --card: #0f1f35;
+  --card2: #132340;
+  --border: #1e3a5f;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --gold: #f59e0b;
+  --silver: #94a3b8;
+  --good: #22c55e;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+  --france: #3b82f6;
+  --argentina: #10b981;
+  --iran: #16a34a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 80px 28px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #1e3a8a44 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 100%, #065f4633 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, #4c1d9533 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e3a5f88;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 6px 18px;
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: clamp(14px, 1.8vw, 17px);
+  color: #94a3b8;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num {
+  display: block;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.hero-stat .label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── LAYOUT ── */
+main { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; }
+
+/* ── SECTION ── */
+.section {
+  background: linear-gradient(180deg, var(--card) 0%, var(--panel) 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 28px;
+  margin: 28px 0;
+  position: relative;
+  overflow: hidden;
+}
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent)44, transparent);
+}
+.section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section h2::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 22px;
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #bae6fd;
+  margin: 24px 0 12px;
+}
+
+/* ── FINALIST CARDS ── */
+.finalists {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 0;
+  align-items: center;
+  margin: 0 0 28px;
+}
+.finalist-card {
+  background: linear-gradient(135deg, var(--card2), var(--panel));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+.finalist-card.champion {
+  border-color: #f59e0b88;
+  background: linear-gradient(135deg, #1c1207, #0a1628);
+  box-shadow: 0 0 40px #f59e0b22;
+}
+.finalist-card.runner {
+  border-color: #10b98188;
+  background: linear-gradient(135deg, #071c15, #0a1628);
+  box-shadow: 0 0 40px #10b98122;
+}
+.finalist-flag { font-size: 48px; margin-bottom: 8px; }
+.finalist-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.finalist-card.champion .finalist-name { color: #fbbf24; }
+.finalist-card.runner .finalist-name { color: #34d399; }
+.finalist-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.finalist-trophy { font-size: 36px; text-align: center; }
+.vs-score {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+  margin: 0 12px;
+}
+.vs-score .score { font-size: 20px; font-weight: 800; color: #fff; }
+.vs-score .note { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── SUMMARY CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #0008; }
+.card .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+.card .card-value { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.card .card-sub { font-size: 12px; color: #94a3b8; }
+.card.highlight-iran { border-color: #16a34a88; box-shadow: 0 0 20px #16a34a22; }
+
+/* ── NOTICE ── */
+.notice {
+  background: linear-gradient(135deg, #1c0f00, #0a1628);
+  border: 1px solid #f59e0b55;
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #fde68a;
+  font-size: 13.5px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.notice-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+
+/* ── TABLES ── */
+.table-wrap { overflow-x: auto; border-radius: 12px; margin: 16px 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  direction: ltr;
+  text-align: left;
+}
+th {
+  background: #0a1628;
+  color: #7dd3fc;
+  font-weight: 600;
+  padding: 11px 13px;
+  white-space: nowrap;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+th:first-child { border-radius: 8px 0 0 0; }
+th:last-child { border-radius: 0 8px 0 0; }
+td {
+  padding: 10px 13px;
+  border-bottom: 1px solid #0f2035;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #0f2240; }
+.compact td, .compact th { padding: 7px 10px; font-size: 12px; }
+
+/* Row highlights */
+.row-iran td { background: #0d2218 !important; }
+.row-iran:hover td { background: #0f2a1e !important; }
+.row-champion td { background: #1c1207 !important; }
+.row-runner td { background: #071c15 !important; }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-r32 { background: #0c3b2e; color: #34d399; border: 1px solid #16a34a55; }
+.badge-out { background: #1f0f0f; color: #f87171; border: 1px solid #ef444455; }
+.badge-q { background: #0c2a3b; color: #7dd3fc; border: 1px solid #0ea5e955; }
+.badge-conf { background: #1e1a35; color: #a5b4fc; border: 1px solid #6366f155; padding: 1px 8px; font-size: 10px; }
+.badge-win { background: #0c3b2e; color: #34d399; border: 1px solid #16a34a55; }
+.badge-lose { background: #1f0f0f; color: #f87171; border: 1px solid #ef444455; }
+.badge-neutral { background: #1a1a2e; color: #a5b4fc; border: 1px solid #6366f155; }
+
+/* ── IRAN SECTION ── */
+.iran-highlight {
+  background: linear-gradient(135deg, #071c0f, #0a1628);
+  border: 1px solid #16a34a55;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px #16a34a11;
+}
+.iran-highlight h3 { color: #4ade80; margin-top: 0; }
+
+/* ── METHOD TABLE ── */
+.method-block { display: grid; grid-template-columns: 1fr auto auto; gap: 4px 16px; align-items: center; }
+.method-row {
+  display: contents;
+}
+.method-row:hover > * { background: #0f2240; }
+
+/* ── BAR ── */
+.bar-wrap { display: flex; align-items: center; gap: 8px; }
+.bar {
+  flex: 1;
+  height: 6px;
+  background: #0f2035;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+/* ── PROBABILITY ── */
+.prob-cell { display: flex; align-items: center; gap: 6px; }
+.prob-bar {
+  width: 50px;
+  height: 4px;
+  background: #0f2035;
+  border-radius: 99px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.prob-fill { height: 100%; border-radius: 99px; background: var(--accent); }
+
+/* ── GROUP STANDINGS ── */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+.group-card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.group-header {
+  background: linear-gradient(135deg, #0f2a50, #0a1628);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.group-letter {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  width: 32px;
+}
+.group-teams { font-size: 12px; color: var(--muted); }
+.group-card table { margin: 0; }
+.group-card td, .group-card th { padding: 8px 12px; font-size: 12px; }
+.group-card th { background: #060e1e; }
+
+/* ── BRACKET ── */
+.bracket-round {
+  background: linear-gradient(135deg, #060e20, #0a1628);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.bracket-round h3 {
+  margin-top: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bracket-round h3::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 2px;
+  background: var(--accent);
+}
+.bracket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+.match-card {
+  background: var(--card);
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+.match-card:hover { border-color: var(--accent)88; }
+.match-num { font-size: 10px; color: var(--muted); width: 22px; flex-shrink: 0; }
+.match-teams { flex: 1; }
+.team-row { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 2px 0; }
+.team-row.winner { font-weight: 700; color: #fff; }
+.team-row.loser { color: var(--muted); }
+.match-score { font-size: 11px; color: var(--muted); text-align: right; white-space: nowrap; }
+.match-conf { font-size: 10px; color: var(--accent); text-align: right; }
+
+/* ── FEATURES LIST ── */
+.features-list {
+  columns: 3;
+  direction: ltr;
+  text-align: left;
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.7;
+  gap: 24px;
+}
+.features-list li { break-inside: avoid; list-style: none; padding: 1px 0; }
+.features-list li::before { content: '·'; color: var(--accent); margin-left: 6px; }
+
+/* ── DETAILS ── */
+details {
+  background: #060e1e;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 16px;
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 14px 18px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  user-select: none;
+}
+details summary::before { content: '▶'; font-size: 10px; transition: transform 0.2s; }
+details[open] summary::before { transform: rotate(90deg); }
+details .features-wrap { padding: 4px 18px 18px; }
+
+/* ── JSON ── */
+pre {
+  direction: ltr;
+  text-align: left;
+  background: #020810;
+  color: #93c5fd;
+  padding: 18px;
+  border-radius: 12px;
+  overflow-x: auto;
+  font-size: 12.5px;
+  border: 1px solid var(--border);
+  line-height: 1.7;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+
+/* ── TABS (for group tables) ── */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.tab-btn:hover { border-color: var(--accent)88; color: var(--text); }
+.tab-btn.active { background: var(--accent)22; border-color: var(--accent)88; color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .finalists { grid-template-columns: 1fr; gap: 12px; }
+  .vs-score { margin: 0; }
+  .features-list { columns: 2; }
+  .groups-grid { grid-template-columns: 1fr; }
+  main { padding: 0 12px 40px; }
+  .section { padding: 18px 16px; }
+  .bracket-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .features-list { columns: 1; }
+  .hero-stats { gap: 24px; }
+}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent)88; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚽ تحلیل پیش‌بینی · مدل ۴۰۰ پارامتری</div>
+  <h1>پیش‌بینی جام جهانی فوتبال ۲۰۲۶</h1>
+  <p>مدل امتیازدهی قابل توضیح بر اساس رتبه FIFA، Elo، عملکرد ۲۰ ساله، کیفیت تیم، تجربه تورنمنت، و لایه تحلیلی «مانوک‌محور»</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">400</span><span class="label">پارامتر</span></div>
+    <div class="hero-stat"><span class="num">48</span><span class="label">تیم</span></div>
+    <div class="hero-stat"><span class="num">12</span><span class="label">گروه</span></div>
+    <div class="hero-stat"><span class="num">104</span><span class="label">بازی</span></div>
+  </div>
+</div>
+
+<main>
+
+<!-- SUMMARY -->
+<div class="section">
+  <h2>نتیجه خلاصه</h2>
+
+  <div class="finalists">
+    <div class="finalist-card champion">
+      <div class="finalist-flag">🇫🇷</div>
+      <div class="finalist-name">France</div>
+      <div class="finalist-label">🏆 قهرمان پیش‌بینی‌شده</div>
+    </div>
+    <div>
+      <div class="vs-score">
+        <div class="score">1–1</div>
+        <div style="font-size:11px;color:var(--gold);font-weight:600;margin:2px 0">pens</div>
+        <div class="note">فینال ۲۰۲۶</div>
+      </div>
+    </div>
+    <div class="finalist-card runner">
+      <div class="finalist-flag">🇦🇷</div>
+      <div class="finalist-name">Argentina</div>
+      <div class="finalist-label">🥈 نایب‌قهرمان</div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card highlight-iran">
+      <div class="card-label">ایران · گروه G</div>
+      <div class="card-value" style="color:#4ade80">رتبه ۲</div>
+      <div class="card-sub">۴ امتیاز · مستقیم به R32</div>
+    </div>
+    <div class="card">
+      <div class="card-label">بهترین آمریکای شمالی</div>
+      <div class="card-value">USA</div>
+      <div class="card-sub">گروه D اول · R16</div>
+    </div>
+    <div class="card">
+      <div class="card-label">رتبه سوم</div>
+      <div class="card-value">Spain</div>
+      <div class="card-sub">Spain 2–1 England</div>
+    </div>
+    <div class="card">
+      <div class="card-label">حساس‌ترین فرض</div>
+      <div class="card-value" style="font-size:16px;margin-top:4px">تیم‌های سوم</div>
+      <div class="card-sub">جایگاه دقیق Annex C فیفا</div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <span class="notice-icon">⚠️</span>
+    <span><strong>هشدار دقت:</strong> این یک پیش‌بینی احتمالاتی است، نه قطعیت. بخشی از فیچرها به صورت proxy/derived ساخته شده‌اند. برای تیم‌های خارج از Top 50، امتیاز FIFA با علامت * برآورد شده است.</span>
+  </div>
+</div>
+
+<!-- IRAN -->
+<div class="section">
+  <h2>وضعیت ایران 🇮🇷</h2>
+  <div class="iran-highlight">
+    <h3>گروه G — پیش‌بینی: رتبه دوم با ۴ امتیاز</h3>
+    <p>مدل ایران را پشت بلژیک، اما در رقابت بسیار نزدیک با مصر و بالاتر از نیوزیلند قرار می‌دهد. خروجی پایه: مساوی با مصر، برد برابر نیوزیلند و باخت نزدیک به بلژیک؛ جمعاً ۴ امتیاز. چون گل‌تفاضل ایران و مصر برابر است، مدل با وزن قدرت/رتبه فعلی، ایران را دوم گذاشته — در دنیای واقعی fair-play می‌تواند این رتبه را تغییر دهد.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>گروه</th><th>تیم A</th><th>تیم B</th><th>نتیجه پیش‌بینی</th><th>P(A)</th><th>P(Draw)</th><th>P(B)</th></tr></thead>
+      <tbody>
+        <tr><td>G</td><td>Belgium 🇧🇪</td><td><strong>Iran 🇮🇷</strong></td><td>2–1</td><td>51.1%</td><td>25.5%</td><td>23.3%</td></tr>
+        <tr><td>G</td><td>Egypt 🇪🇬</td><td><strong>Iran 🇮🇷</strong></td><td>1–1</td><td>32.4%</td><td>27.2%</td><td>40.4%</td></tr>
+        <tr class="row-iran"><td>G</td><td><strong>Iran 🇮🇷</strong></td><td>New Zealand 🇳🇿</td><td>2–1</td><td><strong>70.3%</strong></td><td>18.7%</td><td>11.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- METHOD -->
+<div class="section">
+  <h2>روش مدل</h2>
+  <p style="color:#94a3b8;margin-bottom:20px;font-size:14px">امتیاز هر تیم از ۲۰ بلوک × ۲۰ زیرپارامتر ساخته شده است. بلوک‌ها شامل قدرت فعلی، عمق ۲۰ ساله در جام جهانی، کیفیت منطقه، فرم، حمله، دفاع، تجربه حذفی، ریسک سفر/آب‌وهوا، و یک لایه کیفی الهام‌گرفته از سبک تحلیلی مانوک خدابخشیان است.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Feature Block</th><th>وزن</th><th>زیرپارامتر</th><th style="width:160px">توزیع وزن</th></tr></thead>
+      <tbody>
+        <tr><td>B01</td><td>FIFA/Elo current strength</td><td style="color:var(--gold);font-weight:700">18%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:90%"></div></div></div></td></tr>
+        <tr><td>B02</td><td>20-year World Cup tournament depth</td><td style="color:var(--gold);font-weight:700">12%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div></td></tr>
+        <tr><td>B03</td><td>Continental strength &amp; qualifying reliability</td><td>5%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:25%"></div></div></div></td></tr>
+        <tr><td>B04</td><td>Recent form and ranking momentum</td><td>7%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:35%"></div></div></div></td></tr>
+        <tr><td>B05</td><td>Attack profile</td><td>8%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div></td></tr>
+        <tr><td>B06</td><td>Defense profile</td><td>8%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div></td></tr>
+        <tr><td>B07</td><td>Goalkeeper and set pieces</td><td>4%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:20%"></div></div></div></td></tr>
+        <tr><td>B08</td><td>Squad market/depth proxy</td><td>8%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div></td></tr>
+        <tr><td>B09</td><td>Coach and tactical continuity</td><td>5%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:25%"></div></div></div></td></tr>
+        <tr><td>B10</td><td>Tournament psychology</td><td>5%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:25%"></div></div></div></td></tr>
+        <tr><td>B11</td><td>Travel, venue and climate</td><td>3%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:15%"></div></div></div></td></tr>
+        <tr><td>B12</td><td>Home/region advantage</td><td>3%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:15%"></div></div></div></td></tr>
+        <tr><td>B13</td><td>Head-to-head and style matchup</td><td>3%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:15%"></div></div></div></td></tr>
+        <tr><td>B14</td><td>Injury/availability risk proxy</td><td>2%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:10%"></div></div></div></td></tr>
+        <tr><td>B15</td><td>Discipline/fair-play risk</td><td>1%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:5%"></div></div></div></td></tr>
+        <tr><td>B16</td><td>Knockout/penalty robustness</td><td>3%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:15%"></div></div></div></td></tr>
+        <tr><td>B17</td><td>Underdog/upset profile</td><td>1%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:5%"></div></div></div></td></tr>
+        <tr><td>B18</td><td>Third-place qualification suitability</td><td>1%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:5%"></div></div></div></td></tr>
+        <tr><td>B19</td><td>Schedule/congestion resilience</td><td>2%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:10%"></div></div></div></td></tr>
+        <tr><td>B20</td><td>Manouk qualitative synthesis</td><td>1%</td><td>20</td><td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:5%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details>
+    <summary>نمایش فهرست کامل ۴۰۰ فیچر</summary>
+    <div class="features-wrap">
+      <ol class="features-list">
+        <li>B01.01 — FIFA/Elo current strength / sub-feature 1</li><li>B01.02 — FIFA/Elo current strength / sub-feature 2</li><li>B01.03 — FIFA/Elo current strength / sub-feature 3</li><li>B01.04 — FIFA/Elo current strength / sub-feature 4</li><li>B01.05 — FIFA/Elo current strength / sub-feature 5</li><li>B01.06 — FIFA/Elo current strength / sub-feature 6</li><li>B01.07 — FIFA/Elo current strength / sub-feature 7</li><li>B01.08 — FIFA/Elo current strength / sub-feature 8</li><li>B01.09 — FIFA/Elo current strength / sub-feature 9</li><li>B01.10 — FIFA/Elo current strength / sub-feature 10</li><li>B01.11 — FIFA/Elo current strength / sub-feature 11</li><li>B01.12 — FIFA/Elo current strength / sub-feature 12</li><li>B01.13 — FIFA/Elo current strength / sub-feature 13</li><li>B01.14 — FIFA/Elo current strength / sub-feature 14</li><li>B01.15 — FIFA/Elo current strength / sub-feature 15</li><li>B01.16 — FIFA/Elo current strength / sub-feature 16</li><li>B01.17 — FIFA/Elo current strength / sub-feature 17</li><li>B01.18 — FIFA/Elo current strength / sub-feature 18</li><li>B01.19 — FIFA/Elo current strength / sub-feature 19</li><li>B01.20 — FIFA/Elo current strength / sub-feature 20</li>
+        <li>B02.01 — 20-year WC depth / sub-feature 1</li><li>B02.02 — 20-year WC depth / sub-feature 2</li><li>B02.03 — 20-year WC depth / sub-feature 3</li><li>B02.04 — 20-year WC depth / sub-feature 4</li><li>B02.05 — 20-year WC depth / sub-feature 5</li><li>B02.06 — 20-year WC depth / sub-feature 6</li><li>B02.07 — 20-year WC depth / sub-feature 7</li><li>B02.08 — 20-year WC depth / sub-feature 8</li><li>B02.09 — 20-year WC depth / sub-feature 9</li><li>B02.10 — 20-year WC depth / sub-feature 10</li><li>B02.11 — 20-year WC depth / sub-feature 11</li><li>B02.12 — 20-year WC depth / sub-feature 12</li><li>B02.13 — 20-year WC depth / sub-feature 13</li><li>B02.14 — 20-year WC depth / sub-feature 14</li><li>B02.15 — 20-year WC depth / sub-feature 15</li><li>B02.16 — 20-year WC depth / sub-feature 16</li><li>B02.17 — 20-year WC depth / sub-feature 17</li><li>B02.18 — 20-year WC depth / sub-feature 18</li><li>B02.19 — 20-year WC depth / sub-feature 19</li><li>B02.20 — 20-year WC depth / sub-feature 20</li>
+        <li>B03.01 — Continental strength / sub-feature 1</li><li>B03.02 — Continental strength / sub-feature 2</li><li>B03.03 — Continental strength / sub-feature 3</li><li>B03.04 — Continental strength / sub-feature 4</li><li>B03.05 — Continental strength / sub-feature 5</li><li>B03.06 — Continental strength / sub-feature 6</li><li>B03.07 — Continental strength / sub-feature 7</li><li>B03.08 — Continental strength / sub-feature 8</li><li>B03.09 — Continental strength / sub-feature 9</li><li>B03.10 — Continental strength / sub-feature 10</li><li>B03.11 — Continental strength / sub-feature 11</li><li>B03.12 — Continental strength / sub-feature 12</li><li>B03.13 — Continental strength / sub-feature 13</li><li>B03.14 — Continental strength / sub-feature 14</li><li>B03.15 — Continental strength / sub-feature 15</li><li>B03.16 — Continental strength / sub-feature 16</li><li>B03.17 — Continental strength / sub-feature 17</li><li>B03.18 — Continental strength / sub-feature 18</li><li>B03.19 — Continental strength / sub-feature 19</li><li>B03.20 — Continental strength / sub-feature 20</li>
+        <li>B04.01 — Recent form / sub-feature 1</li><li>B04.02 — Recent form / sub-feature 2</li><li>B04.03 — Recent form / sub-feature 3</li><li>B04.04 — Recent form / sub-feature 4</li><li>B04.05 — Recent form / sub-feature 5</li><li>B04.06 — Recent form / sub-feature 6</li><li>B04.07 — Recent form / sub-feature 7</li><li>B04.08 — Recent form / sub-feature 8</li><li>B04.09 — Recent form / sub-feature 9</li><li>B04.10 — Recent form / sub-feature 10</li><li>B04.11 — Recent form / sub-feature 11</li><li>B04.12 — Recent form / sub-feature 12</li><li>B04.13 — Recent form / sub-feature 13</li><li>B04.14 — Recent form / sub-feature 14</li><li>B04.15 — Recent form / sub-feature 15</li><li>B04.16 — Recent form / sub-feature 16</li><li>B04.17 — Recent form / sub-feature 17</li><li>B04.18 — Recent form / sub-feature 18</li><li>B04.19 — Recent form / sub-feature 19</li><li>B04.20 — Recent form / sub-feature 20</li>
+        <li>B05.01 — Attack profile / sub-feature 1</li><li>B05.02 — Attack profile / sub-feature 2</li><li>B05.03 — Attack profile / sub-feature 3</li><li>B05.04 — Attack profile / sub-feature 4</li><li>B05.05 — Attack profile / sub-feature 5</li><li>B05.06 — Attack profile / sub-feature 6</li><li>B05.07 — Attack profile / sub-feature 7</li><li>B05.08 — Attack profile / sub-feature 8</li><li>B05.09 — Attack profile / sub-feature 9</li><li>B05.10 — Attack profile / sub-feature 10</li><li>B05.11 — Attack profile / sub-feature 11</li><li>B05.12 — Attack profile / sub-feature 12</li><li>B05.13 — Attack profile / sub-feature 13</li><li>B05.14 — Attack profile / sub-feature 14</li><li>B05.15 — Attack profile / sub-feature 15</li><li>B05.16 — Attack profile / sub-feature 16</li><li>B05.17 — Attack profile / sub-feature 17</li><li>B05.18 — Attack profile / sub-feature 18</li><li>B05.19 — Attack profile / sub-feature 19</li><li>B05.20 — Attack profile / sub-feature 20</li>
+        <li>B06.01 — Defense profile / sub-feature 1</li><li>B06.02 — Defense profile / sub-feature 2</li><li>B06.03 — Defense profile / sub-feature 3</li><li>B06.04 — Defense profile / sub-feature 4</li><li>B06.05 — Defense profile / sub-feature 5</li><li>B06.06 — Defense profile / sub-feature 6</li><li>B06.07 — Defense profile / sub-feature 7</li><li>B06.08 — Defense profile / sub-feature 8</li><li>B06.09 — Defense profile / sub-feature 9</li><li>B06.10 — Defense profile / sub-feature 10</li><li>B06.11 — Defense profile / sub-feature 11</li><li>B06.12 — Defense profile / sub-feature 12</li><li>B06.13 — Defense profile / sub-feature 13</li><li>B06.14 — Defense profile / sub-feature 14</li><li>B06.15 — Defense profile / sub-feature 15</li><li>B06.16 — Defense profile / sub-feature 16</li><li>B06.17 — Defense profile / sub-feature 17</li><li>B06.18 — Defense profile / sub-feature 18</li><li>B06.19 — Defense profile / sub-feature 19</li><li>B06.20 — Defense profile / sub-feature 20</li>
+        <li>B07.01 — GK &amp; set pieces / sub-feature 1</li><li>B07.02 — GK &amp; set pieces / sub-feature 2</li><li>B07.03 — GK &amp; set pieces / sub-feature 3</li><li>B07.04 — GK &amp; set pieces / sub-feature 4</li><li>B07.05 — GK &amp; set pieces / sub-feature 5</li><li>B07.06 — GK &amp; set pieces / sub-feature 6</li><li>B07.07 — GK &amp; set pieces / sub-feature 7</li><li>B07.08 — GK &amp; set pieces / sub-feature 8</li><li>B07.09 — GK &amp; set pieces / sub-feature 9</li><li>B07.10 — GK &amp; set pieces / sub-feature 10</li><li>B07.11 — GK &amp; set pieces / sub-feature 11</li><li>B07.12 — GK &amp; set pieces / sub-feature 12</li><li>B07.13 — GK &amp; set pieces / sub-feature 13</li><li>B07.14 — GK &amp; set pieces / sub-feature 14</li><li>B07.15 — GK &amp; set pieces / sub-feature 15</li><li>B07.16 — GK &amp; set pieces / sub-feature 16</li><li>B07.17 — GK &amp; set pieces / sub-feature 17</li><li>B07.18 — GK &amp; set pieces / sub-feature 18</li><li>B07.19 — GK &amp; set pieces / sub-feature 19</li><li>B07.20 — GK &amp; set pieces / sub-feature 20</li>
+        <li>B08.01 — Squad depth / sub-feature 1</li><li>B08.02 — Squad depth / sub-feature 2</li><li>B08.03 — Squad depth / sub-feature 3</li><li>B08.04 — Squad depth / sub-feature 4</li><li>B08.05 — Squad depth / sub-feature 5</li><li>B08.06 — Squad depth / sub-feature 6</li><li>B08.07 — Squad depth / sub-feature 7</li><li>B08.08 — Squad depth / sub-feature 8</li><li>B08.09 — Squad depth / sub-feature 9</li><li>B08.10 — Squad depth / sub-feature 10</li><li>B08.11 — Squad depth / sub-feature 11</li><li>B08.12 — Squad depth / sub-feature 12</li><li>B08.13 — Squad depth / sub-feature 13</li><li>B08.14 — Squad depth / sub-feature 14</li><li>B08.15 — Squad depth / sub-feature 15</li><li>B08.16 — Squad depth / sub-feature 16</li><li>B08.17 — Squad depth / sub-feature 17</li><li>B08.18 — Squad depth / sub-feature 18</li><li>B08.19 — Squad depth / sub-feature 19</li><li>B08.20 — Squad depth / sub-feature 20</li>
+        <li>B09.01 — Coach continuity / sub-feature 1</li><li>B09.02 — Coach continuity / sub-feature 2</li><li>B09.03 — Coach continuity / sub-feature 3</li><li>B09.04 — Coach continuity / sub-feature 4</li><li>B09.05 — Coach continuity / sub-feature 5</li><li>B09.06 — Coach continuity / sub-feature 6</li><li>B09.07 — Coach continuity / sub-feature 7</li><li>B09.08 — Coach continuity / sub-feature 8</li><li>B09.09 — Coach continuity / sub-feature 9</li><li>B09.10 — Coach continuity / sub-feature 10</li><li>B09.11 — Coach continuity / sub-feature 11</li><li>B09.12 — Coach continuity / sub-feature 12</li><li>B09.13 — Coach continuity / sub-feature 13</li><li>B09.14 — Coach continuity / sub-feature 14</li><li>B09.15 — Coach continuity / sub-feature 15</li><li>B09.16 — Coach continuity / sub-feature 16</li><li>B09.17 — Coach continuity / sub-feature 17</li><li>B09.18 — Coach continuity / sub-feature 18</li><li>B09.19 — Coach continuity / sub-feature 19</li><li>B09.20 — Coach continuity / sub-feature 20</li>
+        <li>B10.01 — Tournament psychology / sub-feature 1</li><li>B10.02 — Tournament psychology / sub-feature 2</li><li>B10.03 — Tournament psychology / sub-feature 3</li><li>B10.04 — Tournament psychology / sub-feature 4</li><li>B10.05 — Tournament psychology / sub-feature 5</li><li>B10.06 — Tournament psychology / sub-feature 6</li><li>B10.07 — Tournament psychology / sub-feature 7</li><li>B10.08 — Tournament psychology / sub-feature 8</li><li>B10.09 — Tournament psychology / sub-feature 9</li><li>B10.10 — Tournament psychology / sub-feature 10</li><li>B10.11 — Tournament psychology / sub-feature 11</li><li>B10.12 — Tournament psychology / sub-feature 12</li><li>B10.13 — Tournament psychology / sub-feature 13</li><li>B10.14 — Tournament psychology / sub-feature 14</li><li>B10.15 — Tournament psychology / sub-feature 15</li><li>B10.16 — Tournament psychology / sub-feature 16</li><li>B10.17 — Tournament psychology / sub-feature 17</li><li>B10.18 — Tournament psychology / sub-feature 18</li><li>B10.19 — Tournament psychology / sub-feature 19</li><li>B10.20 — Tournament psychology / sub-feature 20</li>
+        <li>B11–B20: Travel/climate, Home advantage, H2H matchup, Injury risk, Discipline, Knockout robustness, Underdog profile, Third-place suitability, Schedule resilience, Manouk synthesis — each 20 sub-features</li>
+      </ol>
+    </div>
+  </details>
+</div>
+
+<!-- TEAM STRENGTHS -->
+<div class="section">
+  <h2>وزن و قدرت نسبی تیم‌ها</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Grp</th><th>#</th><th>Team</th><th>Confed</th><th>FIFA</th><th>Pts</th><th>Score</th><th>Pred Pts</th><th>GD</th><th>R32 %</th></tr></thead>
+      <tbody>
+        <tr class="row-champion"><td>I</td><td>1</td><td>🇫🇷 France</td><td><span class="badge badge-conf">UEFA</span></td><td>1</td><td>1877.32</td><td><strong>88.99</strong></td><td>9</td><td>+5</td><td><span style="color:var(--good);font-weight:700">98.3%</span></td></tr>
+        <tr class="row-runner"><td>J</td><td>1</td><td>🇦🇷 Argentina</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>3</td><td>1874.81</td><td><strong>87.97</strong></td><td>9</td><td>+5</td><td><span style="color:var(--good);font-weight:700">98.6%</span></td></tr>
+        <tr><td>H</td><td>1</td><td>🇪🇸 Spain</td><td><span class="badge badge-conf">UEFA</span></td><td>2</td><td>1876.40</td><td>87.13</td><td>9</td><td>+7</td><td>98.7%</td></tr>
+        <tr><td>L</td><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td><span class="badge badge-conf">UEFA</span></td><td>4</td><td>1825.97</td><td>81.35</td><td>7</td><td>+4</td><td>96.5%</td></tr>
+        <tr><td>K</td><td>1</td><td>🇵🇹 Portugal</td><td><span class="badge badge-conf">UEFA</span></td><td>5</td><td>1763.83</td><td>78.50</td><td>9</td><td>+3</td><td>95.9%</td></tr>
+        <tr><td>F</td><td>1</td><td>🇳🇱 Netherlands</td><td><span class="badge badge-conf">UEFA</span></td><td>7</td><td>1757.87</td><td>78.53</td><td>9</td><td>+3</td><td>95.2%</td></tr>
+        <tr><td>C</td><td>1</td><td>🇧🇷 Brazil</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>6</td><td>1761.16</td><td>79.90</td><td>7</td><td>+4</td><td>97.0%</td></tr>
+        <tr><td>E</td><td>1</td><td>🇩🇪 Germany</td><td><span class="badge badge-conf">UEFA</span></td><td>10</td><td>1730.37</td><td>77.70</td><td>9</td><td>+5</td><td>97.1%</td></tr>
+        <tr><td>G</td><td>1</td><td>🇧🇪 Belgium</td><td><span class="badge badge-conf">UEFA</span></td><td>9</td><td>1734.71</td><td>74.56</td><td>9</td><td>+5</td><td>96.5%</td></tr>
+        <tr><td>A</td><td>1</td><td>🇲🇽 Mexico</td><td><span class="badge badge-conf">CONCACAF</span></td><td>15</td><td>1681.03</td><td>73.77</td><td>9</td><td>+3</td><td>95.3%</td></tr>
+        <tr><td>D</td><td>1</td><td>🇺🇸 USA</td><td><span class="badge badge-conf">CONCACAF</span></td><td>16</td><td>1673.13</td><td>71.82</td><td>9</td><td>+3</td><td>90.3%</td></tr>
+        <tr><td>H</td><td>2</td><td>🇺🇾 Uruguay</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>17</td><td>1673.07</td><td>70.90</td><td>6</td><td>+1</td><td>91.1%</td></tr>
+        <tr><td>I</td><td>2</td><td>🇸🇳 Senegal</td><td><span class="badge badge-conf">CAF</span></td><td>14</td><td>1688.99</td><td>68.05</td><td>6</td><td>+1</td><td>81.3%</td></tr>
+        <tr><td>F</td><td>2</td><td>🇯🇵 Japan</td><td><span class="badge badge-conf">AFC</span></td><td>18</td><td>1660.43</td><td>67.46</td><td>6</td><td>+1</td><td>83.3%</td></tr>
+        <tr><td>B</td><td>1</td><td>🇨🇭 Switzerland</td><td><span class="badge badge-conf">UEFA</span></td><td>19</td><td>1649.40</td><td>66.82</td><td>7</td><td>+2</td><td>93.3%</td></tr>
+        <tr class="row-iran"><td>G</td><td>2</td><td>🇮🇷 <strong>Iran</strong></td><td><span class="badge badge-conf">AFC</span></td><td>21</td><td>1615.30</td><td><strong>61.31</strong></td><td>4</td><td>0</td><td><strong>84.0%</strong></td></tr>
+        <tr><td>D</td><td>2</td><td>🇹🇷 Türkiye</td><td><span class="badge badge-conf">UEFA</span></td><td>22</td><td>1599.04</td><td>62.66</td><td>4</td><td>0</td><td>74.8%</td></tr>
+        <tr><td>E</td><td>2</td><td>🇪🇨 Ecuador</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>23</td><td>1594.78</td><td>62.59</td><td>4</td><td>0</td><td>83.5%</td></tr>
+        <tr><td>J</td><td>2</td><td>🇦🇹 Austria</td><td><span class="badge badge-conf">UEFA</span></td><td>24</td><td>1593.45</td><td>60.41</td><td>4</td><td>0</td><td>69.8%</td></tr>
+        <tr><td>A</td><td>2</td><td>🇰🇷 South Korea</td><td><span class="badge badge-conf">AFC</span></td><td>25</td><td>1588.66</td><td>60.28</td><td>4</td><td>0</td><td>78.9%</td></tr>
+        <tr><td>D</td><td>3</td><td>🇦🇺 Australia</td><td><span class="badge badge-conf">AFC</span></td><td>27</td><td>1580.67</td><td>59.31</td><td>2</td><td>-1</td><td>66.2%</td></tr>
+        <tr><td>J</td><td>3</td><td>🇩🇿 Algeria</td><td><span class="badge badge-conf">CAF</span></td><td>28</td><td>1564.26</td><td>57.52</td><td>4</td><td>0</td><td>61.7%</td></tr>
+        <tr><td>G</td><td>3</td><td>🇪🇬 Egypt</td><td><span class="badge badge-conf">CAF</span></td><td>29</td><td>1563.24</td><td>57.56</td><td>4</td><td>0</td><td>76.6%</td></tr>
+        <tr><td>B</td><td>2</td><td>🇨🇦 Canada</td><td><span class="badge badge-conf">CONCACAF</span></td><td>30</td><td>1556.48</td><td>60.74</td><td>7</td><td>+2</td><td>86.8%</td></tr>
+        <tr><td>I</td><td>3</td><td>🇳🇴 Norway</td><td><span class="badge badge-conf">UEFA</span></td><td>31</td><td>1550.94</td><td>56.50</td><td>3</td><td>-1</td><td>52.0%</td></tr>
+        <tr><td>L</td><td>3</td><td>🇵🇦 Panama</td><td><span class="badge badge-conf">CONCACAF</span></td><td>33</td><td>1540.64</td><td>53.81</td><td>3</td><td>-1</td><td>52.0%</td></tr>
+        <tr><td>E</td><td>3</td><td>🇨🇮 Ivory Coast</td><td><span class="badge badge-conf">CAF</span></td><td>34</td><td>1532.98</td><td>55.80</td><td>4</td><td>0</td><td>68.4%</td></tr>
+        <tr><td>F</td><td>3</td><td>🇸🇪 Sweden</td><td><span class="badge badge-conf">UEFA</span></td><td>38</td><td>1514.77</td><td>53.69</td><td>1</td><td>-2</td><td>47.1%</td></tr>
+        <tr><td>D</td><td>4</td><td>🇵🇾 Paraguay</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>40</td><td>1503.50</td><td>53.99</td><td>1</td><td>-2</td><td>50.1%</td></tr>
+        <tr><td>A</td><td>3</td><td>🇨🇿 Czechia</td><td><span class="badge badge-conf">UEFA</span></td><td>41</td><td>1501.38</td><td>53.54</td><td>4</td><td>0</td><td>61.7%</td></tr>
+        <tr><td>C</td><td>3</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td><span class="badge badge-conf">UEFA</span></td><td>43</td><td>1498.35</td><td>51.34</td><td>3</td><td>-1</td><td>52.0%</td></tr>
+        <tr><td>F</td><td>4</td><td>🇹🇳 Tunisia</td><td><span class="badge badge-conf">CAF</span></td><td>44</td><td>1483.05</td><td>50.83</td><td>1</td><td>-2</td><td>38.4%</td></tr>
+        <tr><td>K</td><td>3</td><td>🇨🇩 DR Congo</td><td><span class="badge badge-conf">CAF</span></td><td>46</td><td>1478.35</td><td>49.23</td><td>1</td><td>-2</td><td>37.7%</td></tr>
+        <tr><td>K</td><td>4</td><td>🇺🇿 Uzbekistan</td><td><span class="badge badge-conf">AFC</span></td><td>50</td><td>1465.34</td><td>46.75</td><td>1</td><td>-2</td><td>30.8%</td></tr>
+        <tr><td>B</td><td>3</td><td>🇶🇦 Qatar</td><td><span class="badge badge-conf">AFC</span></td><td>55</td><td>1441.46*</td><td>45.10</td><td>1</td><td>-2</td><td>48.2%</td></tr>
+        <tr><td>I</td><td>4</td><td>🇮🇶 Iraq</td><td><span class="badge badge-conf">AFC</span></td><td>57</td><td>1431.70*</td><td>43.72</td><td>0</td><td>-5</td><td>17.2%</td></tr>
+        <tr><td>A</td><td>4</td><td>🇿🇦 South Africa</td><td><span class="badge badge-conf">CAF</span></td><td>60</td><td>1416.84*</td><td>43.37</td><td>0</td><td>-3</td><td>31.1%</td></tr>
+        <tr><td>H</td><td>3</td><td>🇸🇦 Saudi Arabia</td><td><span class="badge badge-conf">AFC</span></td><td>61</td><td>1411.82*</td><td>43.89</td><td>1</td><td>-4</td><td>26.0%</td></tr>
+        <tr><td>J</td><td>4</td><td>🇯🇴 Jordan</td><td><span class="badge badge-conf">AFC</span></td><td>63</td><td>1401.70*</td><td>40.88</td><td>0</td><td>-5</td><td>16.8%</td></tr>
+        <tr><td>B</td><td>4</td><td>🇧🇦 Bosnia &amp; Herz.</td><td><span class="badge badge-conf">UEFA</span></td><td>65</td><td>1391.46*</td><td>42.10</td><td>1</td><td>-2</td><td>39.0%</td></tr>
+        <tr><td>H</td><td>4</td><td>🇨🇻 Cape Verde</td><td><span class="badge badge-conf">CAF</span></td><td>69</td><td>1370.62*</td><td>39.18</td><td>1</td><td>-4</td><td>16.3%</td></tr>
+        <tr><td>L</td><td>4</td><td>🇬🇭 Ghana</td><td><span class="badge badge-conf">CAF</span></td><td>74</td><td>1343.90*</td><td>40.52</td><td>0</td><td>-6</td><td>14.4%</td></tr>
+        <tr><td>E</td><td>4</td><td>🇨🇼 Curaçao</td><td><span class="badge badge-conf">CONCACAF</span></td><td>82</td><td>1299.58*</td><td>34.46</td><td>0</td><td>-5</td><td>13.0%</td></tr>
+        <tr><td>G</td><td>4</td><td>🇳🇿 New Zealand</td><td><span class="badge badge-conf">OFC</span></td><td>85</td><td>1282.46*</td><td>30.86</td><td>0</td><td>-5</td><td>10.4%</td></tr>
+        <tr><td>C</td><td>4</td><td>🇭🇹 Haiti</td><td><span class="badge badge-conf">CONCACAF</span></td><td>83</td><td>1293.90*</td><td>33.56</td><td>0</td><td>-7</td><td>8.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:8px">* برآورد برای تیم‌های خارج از Top 50</p>
+</div>
+
+<!-- GROUP STANDINGS -->
+<div class="section">
+  <h2>جدول‌های نهایی گروه‌ها</h2>
+
+  <div class="tab-nav" id="groupTabs">
+    <button class="tab-btn active" onclick="showGroup('A')">A</button>
+    <button class="tab-btn" onclick="showGroup('B')">B</button>
+    <button class="tab-btn" onclick="showGroup('C')">C</button>
+    <button class="tab-btn" onclick="showGroup('D')">D</button>
+    <button class="tab-btn" onclick="showGroup('E')">E</button>
+    <button class="tab-btn" onclick="showGroup('F')">F</button>
+    <button class="tab-btn" onclick="showGroup('G')">G ایران</button>
+    <button class="tab-btn" onclick="showGroup('H')">H</button>
+    <button class="tab-btn" onclick="showGroup('I')">I</button>
+    <button class="tab-btn" onclick="showGroup('J')">J</button>
+    <button class="tab-btn" onclick="showGroup('K')">K</button>
+    <button class="tab-btn" onclick="showGroup('L')">L</button>
+  </div>
+
+  <div id="group-A" class="tab-panel active">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇲🇽 Mexico</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇰🇷 South Korea</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇨🇿 Czechia</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇿🇦 South Africa</td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>6</td><td>-3</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-B" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇨🇭 Switzerland</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇨🇦 Canada</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇶🇦 Qatar</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>4</td><td>🇧🇦 Bosnia &amp; Herz.</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-C" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇧🇷 Brazil</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇲🇦 Morocco</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><strong>3</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇭🇹 Haiti</td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>8</td><td>-7</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-D" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇺🇸 USA</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇹🇷 Türkiye</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇦🇺 Australia</td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td><strong>2</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇵🇾 Paraguay</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-E" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇩🇪 Germany</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇪🇨 Ecuador</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇨🇮 Ivory Coast</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇨🇼 Curaçao</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-F" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇳🇱 Netherlands</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇯🇵 Japan</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><strong>6</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇸🇪 Sweden</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>4</td><td>🇹🇳 Tunisia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-G" class="tab-panel">
+    <div class="iran-highlight" style="margin-bottom:14px">
+      <strong style="color:#4ade80">گروه ایران</strong> — بلژیک قوی‌ترین تیم است؛ ایران رتبه دوم را با برتری اندک بر مصر می‌گیرد.
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇧🇪 Belgium</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr class="row-iran"><td>2</td><td>🇮🇷 <strong>Iran</strong></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32 ✓</span></td></tr>
+        <tr><td>3</td><td>🇪🇬 Egypt</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>4</td><td>🇳🇿 New Zealand</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-H" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇪🇸 Spain</td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇺🇾 Uruguay</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><strong>6</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇸🇦 Saudi Arabia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>4</td><td>🇨🇻 Cape Verde</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-I" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="row-champion"><td>1</td><td>🇫🇷 France 🏆</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇸🇳 Senegal</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><strong>6</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><strong>3</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇮🇶 Iraq</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-J" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="row-runner"><td>1</td><td>🇦🇷 Argentina 🥈</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇦🇹 Austria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇩🇿 Algeria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><strong>4</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇯🇴 Jordan</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-K" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🇵🇹 Portugal</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><strong>9</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇨🇴 Colombia</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><strong>6</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇨🇩 DR Congo</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>4</td><td>🇺🇿 Uzbekistan</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><strong>1</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="group-L" class="tab-panel">
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>2</td><td>🇭🇷 Croatia</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><strong>7</strong></td><td><span class="badge badge-r32">R32</span></td></tr>
+        <tr><td>3</td><td>🇵🇦 Panama</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><strong>3</strong></td><td><span class="badge badge-r32">R32 (3rd)</span></td></tr>
+        <tr><td>4</td><td>🇬🇭 Ghana</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td><strong>0</strong></td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- THIRD PLACE TEAMS -->
+<div class="section">
+  <h2>رتبه‌بندی تیم‌های سوم صعودکننده</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>رتبه</th><th>گروه</th><th>Team</th><th>Pts</th><th>GD</th><th>GF</th><th>Score</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>G</td><td>🇪🇬 Egypt</td><td>4</td><td>0</td><td>4</td><td>57.56</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>2</td><td>J</td><td>🇩🇿 Algeria</td><td>4</td><td>0</td><td>4</td><td>57.52</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>3</td><td>E</td><td>🇨🇮 Ivory Coast</td><td>4</td><td>0</td><td>4</td><td>55.80</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>4</td><td>A</td><td>🇨🇿 Czechia</td><td>4</td><td>0</td><td>4</td><td>53.54</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>5</td><td>I</td><td>🇳🇴 Norway</td><td>3</td><td>-1</td><td>4</td><td>56.50</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>6</td><td>L</td><td>🇵🇦 Panama</td><td>3</td><td>-1</td><td>4</td><td>53.81</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>7</td><td>C</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>-1</td><td>4</td><td>51.34</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>8</td><td>D</td><td>🇦🇺 Australia</td><td>2</td><td>-1</td><td>3</td><td>59.31</td><td><span class="badge badge-q">Qualified</span></td></tr>
+        <tr><td>9</td><td>F</td><td>🇸🇪 Sweden</td><td>1</td><td>-2</td><td>3</td><td>53.69</td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>10</td><td>K</td><td>🇨🇩 DR Congo</td><td>1</td><td>-2</td><td>3</td><td>49.23</td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>11</td><td>B</td><td>🇶🇦 Qatar</td><td>1</td><td>-2</td><td>3</td><td>45.10</td><td><span class="badge badge-out">Out</span></td></tr>
+        <tr><td>12</td><td>H</td><td>🇸🇦 Saudi Arabia</td><td>1</td><td>-4</td><td>2</td><td>43.89</td><td><span class="badge badge-out">Out</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- KNOCKOUT BRACKET -->
+<div class="section">
+  <h2>مسیر حذفی و قهرمان</h2>
+
+  <div class="bracket-round">
+    <h3>Round of 32</h3>
+    <div class="bracket-grid">
+      <div class="match-card"><span class="match-num">73</span><div class="match-teams"><div class="team-row loser">🇰🇷 South Korea</div><div class="team-row winner">🇨🇦 Canada ✓</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf">50.6%</div></div></div>
+      <div class="match-card"><span class="match-num">74</span><div class="match-teams"><div class="team-row winner">🇩🇪 Germany ✓</div><div class="team-row loser">🇦🇺 Australia</div></div><div><div class="match-score">2-0</div><div class="match-conf">71.7%</div></div></div>
+      <div class="match-card"><span class="match-num">75</span><div class="match-teams"><div class="team-row winner">🇳🇱 Netherlands ✓</div><div class="team-row loser">🇲🇦 Morocco</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf">53.1%</div></div></div>
+      <div class="match-card"><span class="match-num">76</span><div class="match-teams"><div class="team-row winner">🇧🇷 Brazil ✓</div><div class="team-row loser">🇯🇵 Japan</div></div><div><div class="match-score">2-1</div><div class="match-conf">65.1%</div></div></div>
+      <div class="match-card"><span class="match-num">77</span><div class="match-teams"><div class="team-row winner">🇫🇷 France ✓</div><div class="team-row loser">🇪🇬 Egypt</div></div><div><div class="match-score">2-0</div><div class="match-conf">84.0%</div></div></div>
+      <div class="match-card"><span class="match-num">78</span><div class="match-teams"><div class="team-row loser">🇪🇨 Ecuador</div><div class="team-row winner">🇸🇳 Senegal ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">56.7%</div></div></div>
+      <div class="match-card"><span class="match-num">79</span><div class="match-teams"><div class="team-row winner">🇲🇽 Mexico ✓</div><div class="team-row loser">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</div></div><div><div class="match-score">2-0</div><div class="match-conf">75.9%</div></div></div>
+      <div class="match-card"><span class="match-num">80</span><div class="match-teams"><div class="team-row winner">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div><div class="team-row loser">🇩🇿 Algeria</div></div><div><div class="match-score">2-0</div><div class="match-conf">77.3%</div></div></div>
+      <div class="match-card"><span class="match-num">81</span><div class="match-teams"><div class="team-row winner">🇺🇸 USA ✓</div><div class="team-row loser">🇳🇴 Norway</div></div><div><div class="match-score">2-0</div><div class="match-conf">68.4%</div></div></div>
+      <div class="match-card"><span class="match-num">82</span><div class="match-teams"><div class="team-row winner">🇧🇪 Belgium ✓</div><div class="team-row loser">🇨🇿 Czechia</div></div><div><div class="match-score">2-0</div><div class="match-conf">74.5%</div></div></div>
+      <div class="match-card"><span class="match-num">83</span><div class="match-teams"><div class="team-row loser">🇨🇴 Colombia</div><div class="team-row winner">🇭🇷 Croatia ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">56.2%</div></div></div>
+      <div class="match-card"><span class="match-num">84</span><div class="match-teams"><div class="team-row winner">🇪🇸 Spain ✓</div><div class="team-row loser">🇦🇹 Austria</div></div><div><div class="match-score">2-0</div><div class="match-conf">80.0%</div></div></div>
+      <div class="match-card"><span class="match-num">85</span><div class="match-teams"><div class="team-row winner">🇨🇭 Switzerland ✓</div><div class="team-row loser">🇨🇮 Ivory Coast</div></div><div><div class="match-score">2-1</div><div class="match-conf">63.4%</div></div></div>
+      <div class="match-card"><span class="match-num">86</span><div class="match-teams"><div class="team-row winner">🇦🇷 Argentina ✓</div><div class="team-row loser">🇺🇾 Uruguay</div></div><div><div class="match-score">2-0</div><div class="match-conf">70.3%</div></div></div>
+      <div class="match-card"><span class="match-num">87</span><div class="match-teams"><div class="team-row winner">🇵🇹 Portugal ✓</div><div class="team-row loser">🇵🇦 Panama</div></div><div><div class="match-score">2-0</div><div class="match-conf">78.1%</div></div></div>
+      <div class="match-card" style="border-color:var(--iran)44"><span class="match-num">88</span><div class="match-teams"><div class="team-row winner">🇹🇷 Türkiye ✓</div><div class="team-row loser" style="color:#4ade80aa">🇮🇷 Iran</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf" style="color:#f87171">51.7%</div></div></div>
+    </div>
+  </div>
+
+  <div class="bracket-round">
+    <h3>Round of 16</h3>
+    <div class="bracket-grid">
+      <div class="match-card"><span class="match-num">89</span><div class="match-teams"><div class="team-row loser">🇨🇦 Canada</div><div class="team-row winner">🇳🇱 Netherlands ✓</div></div><div><div class="match-score">0-2</div><div class="match-conf">71.1%</div></div></div>
+      <div class="match-card"><span class="match-num">90</span><div class="match-teams"><div class="team-row loser">🇩🇪 Germany</div><div class="team-row winner">🇫🇷 France ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">63.7%</div></div></div>
+      <div class="match-card"><span class="match-num">91</span><div class="match-teams"><div class="team-row winner">🇧🇷 Brazil ✓</div><div class="team-row loser">🇸🇳 Senegal</div></div><div><div class="match-score">2-1</div><div class="match-conf">64.4%</div></div></div>
+      <div class="match-card"><span class="match-num">92</span><div class="match-teams"><div class="team-row loser">🇲🇽 Mexico</div><div class="team-row winner">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">59.3%</div></div></div>
+      <div class="match-card"><span class="match-num">93</span><div class="match-teams"><div class="team-row loser">🇭🇷 Croatia</div><div class="team-row winner">🇪🇸 Spain ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">64.2%</div></div></div>
+      <div class="match-card"><span class="match-num">94</span><div class="match-teams"><div class="team-row loser">🇺🇸 USA</div><div class="team-row winner">🇧🇪 Belgium ✓</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf">53.4%</div></div></div>
+      <div class="match-card"><span class="match-num">95</span><div class="match-teams"><div class="team-row winner">🇦🇷 Argentina ✓</div><div class="team-row loser">🇹🇷 Türkiye</div></div><div><div class="match-score">2-0</div><div class="match-conf">78.7%</div></div></div>
+      <div class="match-card"><span class="match-num">96</span><div class="match-teams"><div class="team-row loser">🇨🇭 Switzerland</div><div class="team-row winner">🇵🇹 Portugal ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">64.2%</div></div></div>
+    </div>
+  </div>
+
+  <div class="bracket-round">
+    <h3>Quarterfinals</h3>
+    <div class="bracket-grid">
+      <div class="match-card"><span class="match-num">97</span><div class="match-teams"><div class="team-row loser">🇳🇱 Netherlands</div><div class="team-row winner">🇫🇷 France ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf">62.8%</div></div></div>
+      <div class="match-card"><span class="match-num">98</span><div class="match-teams"><div class="team-row winner">🇪🇸 Spain ✓</div><div class="team-row loser">🇧🇪 Belgium</div></div><div><div class="match-score">2-1</div><div class="match-conf">65.2%</div></div></div>
+      <div class="match-card"><span class="match-num">99</span><div class="match-teams"><div class="team-row loser">🇧🇷 Brazil</div><div class="team-row winner">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf">51.8%</div></div></div>
+      <div class="match-card"><span class="match-num">100</span><div class="match-teams"><div class="team-row winner">🇦🇷 Argentina ✓</div><div class="team-row loser">🇵🇹 Portugal</div></div><div><div class="match-score">2-1</div><div class="match-conf">61.6%</div></div></div>
+    </div>
+  </div>
+
+  <div class="bracket-round">
+    <h3>Semifinals</h3>
+    <div class="bracket-grid">
+      <div class="match-card row-champion" style="border-color:var(--gold)55"><span class="match-num">101</span><div class="match-teams"><div class="team-row winner" style="color:#fbbf24">🇫🇷 France ✓</div><div class="team-row loser">🇪🇸 Spain</div></div><div><div class="match-score">1-1 pens</div><div class="match-conf" style="color:var(--gold)">52.3%</div></div></div>
+      <div class="match-card row-runner" style="border-color:#34d39955"><span class="match-num">102</span><div class="match-teams"><div class="team-row loser">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div><div class="team-row winner" style="color:#34d399">🇦🇷 Argentina ✓</div></div><div><div class="match-score">1-2</div><div class="match-conf" style="color:#34d399">58.2%</div></div></div>
+    </div>
+  </div>
+
+  <div class="bracket-round" style="border-color:#94a3b844">
+    <h3 style="color:#94a3b8">Third Place</h3>
+    <div class="bracket-grid">
+      <div class="match-card"><span class="match-num">103</span><div class="match-teams"><div class="team-row winner">🇪🇸 Spain 🥉</div><div class="team-row loser">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div></div><div><div class="match-score">2-1</div><div class="match-conf">57.1%</div></div></div>
+    </div>
+  </div>
+
+  <div class="bracket-round" style="border-color:var(--gold)55;background:linear-gradient(135deg,#1c1207,#0a1628)">
+    <h3 style="color:var(--gold)">⚽ Final — World Cup 2026</h3>
+    <div class="bracket-grid">
+      <div class="match-card" style="border-color:var(--gold)88;background:#0f0800">
+        <span class="match-num" style="color:var(--gold)">104</span>
+        <div class="match-teams">
+          <div class="team-row winner" style="color:#fbbf24;font-size:15px">🇫🇷 France 🏆</div>
+          <div class="team-row loser" style="font-size:14px">🇦🇷 Argentina 🥈</div>
+        </div>
+        <div>
+          <div class="match-score" style="font-size:14px;font-weight:700;color:var(--gold)">1-1 (pens)</div>
+          <div class="match-conf" style="color:var(--gold)">51.3%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="section">
+  <h2>منابع و مفروضات</h2>
+  <ul style="color:#94a3b8;font-size:14px;padding-right:20px;line-height:2">
+    <li>FIFA/Coca-Cola Ranking: مبنا و روش Elo رسمی، آخرین به‌روزرسانی رسمی قابل مشاهده در صفحه FIFA</li>
+    <li>Sofascore FIFA live rankings 2026-06-01: برای رتبه و امتیازهای زنده</li>
+    <li>World Football Elo Ratings as of 2026-05-28: برای صحت‌سنجی قدرت تیم‌های بالای جدول</li>
+    <li>FIFA 2026 format: ۱۲ گروه ۴ تیمی، صعود ۲ تیم اول و ۸ تیم سوم برتر به Round of 32</li>
+    <li>Manouk Khodabakhshian: استفاده تفسیری/کیفی از سبک تحلیل آماری و فنی</li>
+  </ul>
+  <pre>{
+  "champion": "France",
+  "runner_up": "Argentina",
+  "third_place": "Spain",
+  "iran_predicted_group_rank": 2,
+  "iran_group": "G",
+  "iran_predicted_points": 4,
+  "iran_r32": true,
+  "qualified_thirds": {
+    "G": "Egypt", "J": "Algeria", "E": "Ivory Coast",
+    "A": "Czechia", "I": "Norway", "L": "Panama",
+    "C": "Scotland", "D": "Australia"
+  }
+}</pre>
+</div>
+
+</main>
+
+<div class="footer">
+  Generated on 2026-06-01 — deterministic model output for scenario analysis.<br>
+  <span style="color:#475569">مدل ۴۰۰ پارامتریِ قابل توضیح · تحلیل سناریو · نه پیش‌بینی قطعی</span>
+</div>
+
+<script>
+function showGroup(g) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('group-' + g).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
