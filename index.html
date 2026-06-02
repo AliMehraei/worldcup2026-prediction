@@ -1,1305 +1,853 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>پیش‌بینی جام جهانی ۲۰۲۶ — مدل Poisson-Dixon-Coles</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FIFA World Cup 2026 — AI Prediction Model</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800&display=swap');
 
-/* ── TOKENS ── */
 :root {
-  --bg:       #070d18;
-  --surface:  #0c1424;
-  --card:     #111e33;
-  --card2:    #162540;
-  --border:   #1d3252;
-  --border2:  #243d63;
-  --text:     #e2e8f0;
-  --muted:    #5a7090;
-  --muted2:   #8099b8;
-  --accent:   #3b9eff;
-  --accent2:  #7c6ef9;
-  --teal:     #00d4aa;
-  --gold:     #f5a623;
-  --gold2:    #fbbf24;
-  --silver:   #94a3b8;
-  --good:     #22d3a0;
-  --warn:     #f5a623;
-  --bad:      #f03d3d;
-  --iran:     #22c55e;
-  --france:   #60a5fa;
-  --argentina:#34d399;
-  --radius:   14px;
-  --radius-sm:9px;
-  --shadow:   0 4px 32px #00000055;
-  --glow-blue:0 0 40px #3b9eff18;
-  --glow-gold:0 0 40px #f5a62320;
+  --bg:#05080f;
+  --s1:#0a0f1e;
+  --s2:#0e1628;
+  --card:#111d33;
+  --card2:#162440;
+  --b1:#1a3058;
+  --b2:#1e3a6e;
+  --text:#e8edf5;
+  --sub:#8ba0be;
+  --dim:#4a637f;
+  --blue:#3d9bff;
+  --indigo:#7c6ef9;
+  --teal:#00c896;
+  --gold:#f5a623;
+  --amber:#fbbf24;
+  --red:#f03050;
+  --green:#22d3a0;
+  --iran:#4ade80;
+  --r:14px;
+  --rs:9px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.fa{font-family:'Vazirmatn',system-ui,sans-serif}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:#05080fee;backdrop-filter:blur(24px) saturate(1.6);border-bottom:1px solid var(--b1);height:56px;display:flex;align-items:center;padding:0 24px;gap:8px}
+.nav-brand{font-size:16px;font-weight:900;letter-spacing:-0.5px;color:#fff;margin-right:auto;white-space:nowrap}
+.nav-brand span{color:var(--blue)}
+.nav-links{display:flex;gap:2px}
+.nav-a{background:none;border:none;font:600 12.5px/1 'Inter',sans-serif;color:var(--sub);padding:6px 12px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap}
+.nav-a:hover{background:var(--card);color:var(--text)}
+.nav-a.on{background:var(--blue)18;color:var(--blue)}
+.lang-btn{background:var(--card);border:1px solid var(--b1);border-radius:7px;font:600 12px 'Inter',sans-serif;color:var(--sub);padding:5px 12px;cursor:pointer;transition:.15s;margin-right:8px}
+.lang-btn:hover{border-color:var(--b2);color:var(--text)}
+
+/* HERO */
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.18;filter:saturate(0.6)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,var(--bg)00 0%,var(--bg)88 60%,var(--bg) 100%)}
+.hero-content{position:relative;z-index:1;max-width:860px}
+.hero-live{display:inline-flex;align-items:center;gap:7px;background:#1a3058aa;border:1px solid var(--b2);border-radius:99px;padding:5px 16px;font-size:12px;font-weight:600;color:var(--blue);margin-bottom:28px;backdrop-filter:blur(8px)}
+.live-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;box-shadow:0 0 8px var(--teal);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(34px,6vw,72px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,#93c5fd 50%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(14px,1.8vw,17px);color:var(--sub);max-width:600px;margin:0 auto 36px;line-height:1.75}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.tag{background:var(--card);border:1px solid var(--b1);border-radius:6px;font-size:11.5px;font-weight:600;color:var(--sub);padding:4px 12px;letter-spacing:.3px}
+.tag.t{border-color:var(--teal)40;color:var(--teal)}
+.hero-kpis{display:flex;border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;background:var(--s1)}
+.kpi{flex:1;min-width:100px;padding:18px 14px;border-right:1px solid var(--b1);text-align:center}
+.kpi:last-child{border-right:none}
+.kpi-n{font-size:26px;font-weight:800;color:var(--blue);line-height:1}
+.kpi-l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-top:5px;font-weight:600}
+
+/* SECTION */
+.sec{background:var(--s1);border:1px solid var(--b1);border-radius:20px;padding:32px;margin:20px 0;position:relative;overflow:hidden}
+.sec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue)50,transparent)}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.sec-ico{width:38px;height:38px;border-radius:10px;background:var(--blue)15;border:1px solid var(--blue)30;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.sec-ttl{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.sec-sub{margin-right:auto;font-size:11px;color:var(--dim);background:var(--card);border:1px solid var(--b1);border-radius:6px;padding:2px 10px;font-weight:500}
+
+/* FINAL DUEL */
+.duel{display:grid;grid-template-columns:1fr 120px 1fr;gap:14px;align-items:center;margin-bottom:24px}
+.duel-card{border-radius:var(--r);padding:28px 22px;text-align:center;border:1px solid var(--b1);overflow:hidden;position:relative;transition:.2s}
+.duel-card:hover{transform:translateY(-2px)}
+.duel-card.champ{background:linear-gradient(160deg,#13100200,var(--s1));border-color:var(--gold)55;box-shadow:0 0 60px var(--gold)12}
+.duel-card.runner{background:linear-gradient(160deg,#07180f00,var(--s1));border-color:var(--teal)55;box-shadow:0 0 60px var(--teal)12}
+.flag-big{font-size:56px;line-height:1;margin-bottom:10px;display:block;filter:drop-shadow(0 4px 12px #0006)}
+.d-name{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.champ .d-name{color:var(--amber)}
+.runner .d-name{color:var(--teal)}
+.d-elo{font-size:11px;color:var(--dim);margin-bottom:16px;font-weight:500}
+.d-prob{font-size:30px;font-weight:900;line-height:1;margin-bottom:3px}
+.champ .d-prob{color:var(--gold)}
+.runner .d-prob{color:var(--teal)}
+.d-prob-l{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+.d-odds{display:inline-block;margin-top:10px;background:var(--card2);border:1px solid var(--b1);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600;color:var(--sub)}
+.duel-mid{text-align:center}
+.duel-trophy{font-size:32px;margin-bottom:10px;display:block}
+.score-box{background:var(--card);border:1px solid var(--b2);border-radius:12px;padding:14px 16px;display:inline-block}
+.score-v{font-size:26px;font-weight:900;color:#fff;line-height:1}
+.score-n{font-size:11px;color:var(--gold);font-weight:700;margin-top:3px}
+.score-l{font-size:10px;color:var(--dim);margin-top:2px}
+
+/* ODDS TABLE */
+.odds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:4px}
+.odds-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);padding:14px 16px;display:flex;align-items:center;gap:12px;transition:.15s}
+.odds-card:hover{border-color:var(--b2)}
+.odds-flag{font-size:28px;line-height:1;flex-shrink:0}
+.odds-info{flex:1}
+.odds-name{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:2px}
+.odds-detail{font-size:11px;color:var(--dim)}
+.odds-right{text-align:left}
+.odds-pct{font-size:18px;font-weight:800;color:var(--blue)}
+.odds-frac{font-size:11px;color:var(--dim);margin-top:1px}
+.odds-bar-wrap{height:3px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:6px}
+.odds-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--indigo))}
+
+/* CHIPS */
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:4px}
+.chip{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:15px 17px;transition:.15s}
+.chip:hover{border-color:var(--b2);transform:translateY(-1px)}
+.chip.iran{border-color:var(--iran)40;background:linear-gradient(135deg,#071a0e,var(--card))}
+.chip-l{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:600;margin-bottom:6px}
+.chip-v{font-size:20px;font-weight:800;color:#fff;margin-bottom:3px}
+.chip-s{font-size:12px;color:var(--sub)}
+
+/* TABLES */
+.tw{overflow-x:auto;border-radius:var(--rs)}
+table{width:100%;border-collapse:collapse;font-size:13px;direction:ltr;text-align:left}
+th{background:var(--card2);color:var(--sub);font-weight:600;padding:10px 12px;white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0;z-index:2}
+td{padding:9px 12px;border-bottom:1px solid #0c1a2a;white-space:nowrap;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#0d1e3080}
+.row-ir td{background:#071a0e!important}
+.row-ir:hover td{background:#0a2214!important}
+.row-ch td{background:#13100200!important}
+.row-ru td{background:#07160900!important}
+
+/* BADGE */
+.b{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.b-g{background:#0b2e20;color:#34d399;border:1px solid #16a34a40}
+.b-o{background:#1f0a0a;color:#f87171;border:1px solid #ef444440}
+.b-q{background:#0a1e35;color:#60a5fa;border:1px solid #3b82f640}
+.b-c{background:var(--card2);color:var(--sub);border:1px solid var(--b1);font-size:10px;padding:1px 7px}
+
+/* PROB BAR */
+.pb{display:flex;align-items:center;gap:6px}
+.pt{width:44px;height:4px;background:var(--card2);border-radius:99px;overflow:hidden;flex-shrink:0}
+.pf{height:100%;border-radius:99px;background:var(--blue)}
+.pf.g{background:var(--green)}
+.pf.r{background:var(--red)}
+
+/* POISSON CARDS */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.pc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px}
+.pc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.pc-m{font-size:13.5px;font-weight:700;color:#fff}
+.pc-l{font-size:11px;color:var(--dim);margin-top:2px}
+.pc-rows{display:flex;flex-direction:column;gap:7px}
+.pr{display:grid;grid-template-columns:64px 1fr 44px;align-items:center;gap:8px}
+.pr-l{font-size:12px;color:var(--sub)}
+.pt2{height:8px;background:var(--card2);border-radius:99px;overflow:hidden}
+.pf2{height:100%;border-radius:99px}
+.pf2.blue{background:linear-gradient(90deg,#3d9bff,#60c0ff)}
+.pf2.grey{background:linear-gradient(90deg,#3a4a5a,#5a6a7a)}
+.pf2.green{background:linear-gradient(90deg,#00c896,#22d3a0)}
+.pr-v{font-size:12.5px;font-weight:700;color:var(--text);text-align:right}
+
+/* BRACKET */
+.bstage{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px;margin:14px 0}
+.bstage-l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.bstage-l::after{content:'';flex:1;height:1px;background:var(--b1)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(256px,1fr));gap:8px}
+.mc{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;transition:.15s}
+.mc:hover{border-color:var(--b2)}
+.mc.iran-m{border-color:var(--iran)40}
+.mc.final-m{background:linear-gradient(135deg,#140e01,var(--s1));border-color:var(--gold)55}
+.mn{font-size:10px;color:var(--dim);width:18px;text-align:center;flex-shrink:0}
+.mts{flex:1}
+.tl{display:flex;align-items:center;gap:6px;font-size:13px;padding:2px 0}
+.tl.w{font-weight:700;color:#fff}
+.tl.l{color:var(--dim)}
+.mm{text-align:right;flex-shrink:0}
+.mr{font-size:12px;color:var(--sub);font-weight:600}
+.mc2{font-size:10px;color:var(--blue);margin-top:1px}
+
+/* GROUP TABS */
+.tabs{display:flex;gap:3px;flex-wrap:wrap;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);padding:4px;margin-bottom:18px}
+.tb{background:none;border:none;border-radius:6px;padding:6px 13px;font:700 13px 'Inter',sans-serif;color:var(--sub);cursor:pointer;transition:.15s}
+.tb:hover{background:var(--card2);color:var(--text)}
+.tb.on{background:var(--blue);color:#fff}
+.tp{display:none}
+.tp.on{display:block}
+
+/* IRAN BOX */
+.ibox{background:linear-gradient(135deg,#06140a,var(--s1));border:1px solid var(--iran)30;border-radius:var(--r);padding:18px 20px;margin-bottom:18px;box-shadow:0 0 30px var(--iran)08}
+.ibox-t{font-size:14px;font-weight:700;color:var(--iran);margin-bottom:7px}
+
+/* MODEL STEPS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:24px}
+.step{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px}
+.step-n{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:6px}
+.step-t{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:6px}
+.step-d{font-size:12px;color:var(--sub);line-height:1.6}
+.step-f{margin-top:10px;background:var(--bg);border:1px solid var(--b1);border-radius:6px;padding:8px 12px;font-family:'Courier New',monospace;font-size:11px;color:var(--teal);direction:ltr;text-align:left;line-height:1.6}
+
+/* NOTICE */
+.notice{display:flex;gap:11px;background:linear-gradient(135deg,#1a0d00,var(--s1));border:1px solid var(--gold)28;border-radius:var(--rs);padding:13px 17px;margin-top:16px;font-size:13px;color:#fde68a;line-height:1.6}
+
+/* SOURCES */
+ul.src{list-style:none;display:flex;flex-direction:column;gap:7px}
+ul.src li{display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5}
+ul.src li::before{content:'↗';color:var(--blue);font-size:11px;flex-shrink:0;margin-top:2px}
+pre{direction:ltr;text-align:left;background:var(--bg);color:#93c5fd;padding:16px;border-radius:9px;overflow-x:auto;font-size:11.5px;border:1px solid var(--b1);line-height:1.7;margin-top:14px}
+
+/* FOOTER */
+footer{text-align:center;padding:36px;color:var(--dim);font-size:12px;border-top:1px solid var(--b1);position:relative;z-index:1;line-height:1.9}
+.f-logo{font-size:20px;font-weight:900;color:var(--blue);letter-spacing:-1px;margin-bottom:8px}
+
+/* PLAYER CARDS */
+.players{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:4px}
+.pcard{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:16px;text-align:center;transition:.15s}
+.pcard:hover{border-color:var(--b2);transform:translateY(-2px)}
+.pcard-flag{font-size:32px;margin-bottom:6px}
+.pcard-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.pcard-role{font-size:11px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.pcard-stat{font-size:22px;font-weight:800;color:var(--blue);line-height:1}
+.pcard-sl{font-size:10px;color:var(--dim);margin-top:2px}
+
+/* WEIGHT ROWS */
+.wrows{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.wr{display:grid;grid-template-columns:56px 1fr 46px 160px;gap:10px;align-items:center;padding:7px 10px;border-radius:7px;transition:.15s}
+.wr:hover{background:var(--card)}
+.wc{font-size:10.5px;color:var(--dim);font-weight:600;font-family:monospace}
+.wn{font-size:13px;color:var(--text)}
+.wp{font-size:13px;font-weight:700;color:var(--gold);direction:ltr;text-align:left}
+.wb{height:6px;background:var(--card2);border-radius:99px;overflow:hidden}
+.wbf{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--indigo))}
+.wbf.hi{background:linear-gradient(90deg,var(--gold),var(--amber))}
+
+/* SCROLL */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--b1);border-radius:99px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .duel{grid-template-columns:1fr;gap:12px}
+  .duel-mid{display:flex;justify-content:center}
+  .nav-links{display:none}
+  main{padding:0 12px 60px}
+  .sec{padding:18px 14px}
+  .mgrid{grid-template-columns:1fr}
+  .wr{grid-template-columns:46px 1fr 38px}
+  .wb{display:none}
+}
+@media(max-width:560px){
+  .hero-kpis{flex-direction:column}
+  .kpi{border-right:none;border-bottom:1px solid var(--b1)}
+  .kpi:last-child{border-bottom:none}
+  .odds-grid{grid-template-columns:1fr}
 }
 
-/* ── RESET ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Vazirmatn', 'Inter', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.75;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── NOISE TEXTURE ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
-}
-
-/* ── NAV ── */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #070d18cc;
-  backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  height: 52px;
-}
-.nav-logo {
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
-  margin-left: auto;
-  white-space: nowrap;
-  letter-spacing: -0.3px;
-}
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2px; }
-.nav-link {
-  background: none;
-  border: none;
-  color: var(--muted2);
-  font-size: 13px;
-  font-family: inherit;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.nav-link:hover { background: var(--card); color: var(--text); }
-.nav-link.active { background: var(--accent)18; color: var(--accent); }
-
-/* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 90px 28px 70px;
-  text-align: center;
-  overflow: hidden;
-  z-index: 1;
-}
-.hero-aurora {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 90% 70% at 50% -10%, #1a3a8a30 0%, transparent 65%),
-    radial-gradient(ellipse 50% 50% at 15% 110%, #065f4620 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 85% 110%, #4c1d9520 0%, transparent 55%);
-  pointer-events: none;
-}
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #1d3a6688, #1d3a6644);
-  border: 1px solid var(--border2);
-  border-radius: 99px;
-  padding: 5px 16px 5px 12px;
-  font-size: 12px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 28px;
-  letter-spacing: 0.3px;
-  backdrop-filter: blur(8px);
-}
-.hero-eyebrow-dot {
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-.hero h1 {
-  font-size: clamp(30px, 5.5vw, 62px);
-  font-weight: 900;
-  letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 22px;
-  background: linear-gradient(135deg, #ffffff 0%, #93c5fd 45%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero-sub {
-  font-size: clamp(14px, 1.7vw, 16.5px);
-  color: var(--muted2);
-  max-width: 640px;
-  margin: 0 auto 18px;
-  line-height: 1.7;
-}
-.hero-method-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--teal)12;
-  border: 1px solid var(--teal)30;
-  border-radius: 6px;
-  padding: 4px 12px;
-  font-size: 12px;
-  color: var(--teal);
-  font-weight: 600;
-  margin-bottom: 44px;
-  letter-spacing: 0.5px;
-}
-.hero-kpis {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: wrap;
-  max-width: 700px;
-  margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--surface);
-}
-.hero-kpi {
-  flex: 1;
-  min-width: 120px;
-  padding: 20px 16px;
-  border-left: 1px solid var(--border);
-  position: relative;
-}
-.hero-kpi:last-child { border-left: none; }
-.hero-kpi-val {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--accent);
-  line-height: 1;
-  margin-bottom: 5px;
-  font-variant-numeric: tabular-nums;
-}
-.hero-kpi-label {
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
-}
-
-/* ── LAYOUT ── */
-main {
-  position: relative;
-  z-index: 1;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 24px 80px;
-}
-
-/* ── SECTION ── */
-.section {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 32px;
-  margin: 24px 0;
-  position: relative;
-  overflow: hidden;
-}
-.section::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--accent)40 50%, transparent 100%);
-}
-.sec-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-.sec-icon {
-  width: 36px; height: 36px;
-  background: var(--accent)15;
-  border: 1px solid var(--accent)30;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.sec-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-.sec-badge {
-  margin-right: auto;
-  font-size: 11px;
-  color: var(--muted);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 2px 10px;
-  font-weight: 500;
-}
-
-/* ── FINALIST DUEL ── */
-.duel {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 28px;
-}
-.duel-card {
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  text-align: center;
-  border: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-.duel-card:hover { transform: translateY(-2px); }
-.duel-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.07;
-  background: radial-gradient(ellipse at 50% 0%, currentColor 0%, transparent 70%);
-}
-.duel-card.champion {
-  background: linear-gradient(160deg, #131008, var(--surface));
-  border-color: var(--gold)55;
-  box-shadow: 0 0 50px var(--gold)15, inset 0 0 40px var(--gold)08;
-  color: var(--gold);
-}
-.duel-card.runner {
-  background: linear-gradient(160deg, #081a12, var(--surface));
-  border-color: var(--argentina)55;
-  box-shadow: 0 0 50px var(--argentina)15;
-  color: var(--argentina);
-}
-.duel-flag { font-size: 52px; margin-bottom: 10px; display: block; }
-.duel-name { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-.duel-rank { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted2); margin-bottom: 12px; }
-.duel-prob {
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 2px;
-}
-.duel-card.champion .duel-prob { color: var(--gold); }
-.duel-card.runner .duel-prob { color: var(--argentina); }
-.duel-prob-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-
-.duel-center { text-align: center; }
-.duel-score {
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  padding: 14px 18px;
-  display: inline-block;
-}
-.duel-score-val { font-size: 24px; font-weight: 800; color: #fff; line-height: 1; }
-.duel-score-note { font-size: 11px; color: var(--gold); font-weight: 600; margin-top: 4px; }
-.duel-score-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.duel-trophy { font-size: 28px; margin-bottom: 8px; display: block; }
-
-/* ── SUMMARY CHIPS ── */
-.chips {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin-top: 4px;
-}
-.chip {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.chip:hover { border-color: var(--border2); transform: translateY(-1px); }
-.chip.iran { border-color: var(--iran)40; background: linear-gradient(135deg, #071a0e, var(--card)); }
-.chip-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-.chip-val { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 3px; }
-.chip-sub { font-size: 12px; color: var(--muted2); }
-
-/* ── NOTICE ── */
-.notice {
-  display: flex;
-  gap: 12px;
-  background: linear-gradient(135deg, #1a0d00, var(--surface));
-  border: 1px solid var(--gold)30;
-  border-radius: var(--radius-sm);
-  padding: 14px 18px;
-  margin-top: 18px;
-  font-size: 13px;
-  color: #fde68a;
-  line-height: 1.6;
-}
-.notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-
-/* ── IRAN HIGHLIGHT ── */
-.iran-box {
-  background: linear-gradient(135deg, #06150a, var(--surface));
-  border: 1px solid var(--iran)30;
-  border-radius: var(--radius);
-  padding: 20px 22px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 30px var(--iran)08;
-}
-.iran-box-title { font-size: 15px; font-weight: 700; color: #4ade80; margin-bottom: 8px; }
-
-/* ── METHOD MODEL ── */
-.model-explainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
-  margin-bottom: 28px;
-}
-.model-step {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  position: relative;
-}
-.model-step-num {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-.model-step-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.model-step-desc { font-size: 12.5px; color: var(--muted2); line-height: 1.6; }
-.model-step-formula {
-  margin-top: 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-family: 'Courier New', monospace;
-  font-size: 11.5px;
-  color: var(--teal);
-  direction: ltr;
-  text-align: left;
-}
-
-/* ── WEIGHT TABLE ── */
-.weight-grid { display: flex; flex-direction: column; gap: 6px; }
-.weight-row {
-  display: grid;
-  grid-template-columns: 60px 1fr 50px 180px;
-  gap: 12px;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background 0.15s;
-}
-.weight-row:hover { background: var(--card); }
-.weight-code { font-size: 11px; color: var(--muted); font-weight: 600; font-family: monospace; }
-.weight-name { font-size: 13px; color: var(--text); }
-.weight-pct { font-size: 13px; font-weight: 700; color: var(--gold); text-align: left; direction: ltr; }
-.weight-bar-wrap { height: 6px; background: var(--card2); border-radius: 99px; overflow: hidden; }
-.weight-bar-fill {
-  height: 100%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transition: width 0.6s ease;
-}
-.weight-bar-fill.primary { background: linear-gradient(90deg, var(--gold), var(--warn)); }
-
-/* ── TABLES ── */
-.tbl-wrap { overflow-x: auto; border-radius: var(--radius-sm); margin: 0; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  direction: ltr;
-  text-align: left;
-}
-th {
-  background: var(--card2);
-  color: var(--muted2);
-  font-weight: 600;
-  padding: 10px 13px;
-  white-space: nowrap;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-td {
-  padding: 9px 13px;
-  border-bottom: 1px solid #0d1e30;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: #0d1e3088; }
-.row-iran td { background: #071a0e !important; }
-.row-iran:hover td { background: #0a2214 !important; }
-.row-champion td { background: #130e03 !important; }
-.row-runner td { background: #071509 !important; }
-
-/* ── BADGES ── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 9px;
-  border-radius: 99px;
-  font-size: 10.5px;
-  font-weight: 700;
-  white-space: nowrap;
-  letter-spacing: 0.3px;
-}
-.badge-adv   { background: #0b2e20; color: #34d399; border: 1px solid #16a34a40; }
-.badge-out   { background: #1f0a0a; color: #f87171; border: 1px solid #ef444440; }
-.badge-q     { background: #0a1e35; color: #60a5fa; border: 1px solid #3b82f640; }
-.badge-conf  { background: var(--card2); color: var(--muted2); border: 1px solid var(--border); padding: 1px 7px; font-size: 10px; }
-.badge-win   { background: #0b2e20; color: #34d399; border: 1px solid #16a34a40; }
-.badge-lose  { background: #1f0a0a; color: #f87171; border: 1px solid #ef444440; }
-.badge-model { background: var(--accent)12; color: var(--accent); border: 1px solid var(--accent)30; }
-
-/* ── PROB BAR ── */
-.prob-cell { display: flex; align-items: center; gap: 7px; }
-.prob-track {
-  width: 48px; height: 4px;
-  background: var(--card2);
-  border-radius: 99px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.prob-fill { height: 100%; border-radius: 99px; background: var(--accent); }
-.prob-fill.green { background: var(--good); }
-.prob-fill.red   { background: var(--bad); }
-
-/* ── GROUP TABS ── */
-.tab-nav {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 4px;
-}
-.tab-btn {
-  background: none;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--muted2);
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: inherit;
-  white-space: nowrap;
-}
-.tab-btn:hover { background: var(--card2); color: var(--text); }
-.tab-btn.active { background: var(--accent); color: #fff; }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* ── BRACKET ── */
-.bracket-stage {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin: 16px 0;
-}
-.stage-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--muted);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.stage-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-.match-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: 8px;
-}
-.match {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: border-color 0.2s;
-}
-.match:hover { border-color: var(--border2); }
-.match.iran-match { border-color: var(--iran)40; }
-.match.final-match {
-  background: linear-gradient(135deg, #140e01, var(--surface));
-  border-color: var(--gold)60;
-}
-.match-num { font-size: 10px; color: var(--muted); width: 20px; flex-shrink: 0; text-align: center; }
-.match-teams { flex: 1; }
-.team-line { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 2px 0; }
-.team-line.win { font-weight: 700; color: #fff; }
-.team-line.lose { color: var(--muted); }
-.match-meta { text-align: left; flex-shrink: 0; }
-.match-result { font-size: 12px; color: var(--muted2); font-weight: 600; }
-.match-conf-pct { font-size: 10px; color: var(--accent); margin-top: 1px; }
-.stage-final .match { padding: 16px 18px; }
-.stage-final .team-line { font-size: 15px; padding: 3px 0; }
-.stage-final .match-result { font-size: 14px; font-weight: 700; color: var(--gold); }
-
-/* ── POISSON VIZ ── */
-.poisson-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
-}
-.poisson-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-}
-.poisson-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.poisson-matchup { font-size: 14px; font-weight: 700; color: #fff; }
-.poisson-lambda { font-size: 12px; color: var(--muted2); }
-.poisson-outcome-bars { display: flex; flex-direction: column; gap: 6px; }
-.outcome-row {
-  display: grid;
-  grid-template-columns: 60px 1fr 44px;
-  align-items: center;
-  gap: 8px;
-}
-.outcome-label { font-size: 12px; color: var(--muted2); }
-.outcome-track { height: 8px; background: var(--card2); border-radius: 99px; overflow: hidden; }
-.outcome-fill { height: 100%; border-radius: 99px; transition: width 0.6s; }
-.outcome-fill.blue  { background: linear-gradient(90deg, #3b9eff, #60bfff); }
-.outcome-fill.grey  { background: linear-gradient(90deg, #4a5a6a, #6a7a8a); }
-.outcome-fill.green { background: linear-gradient(90deg, #22d3a0, #22c55e); }
-.outcome-pct { font-size: 12px; font-weight: 700; color: var(--text); text-align: left; }
-
-/* ── SOURCES ── */
-.sources-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.sources-list li {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  font-size: 13px;
-  color: var(--muted2);
-  line-height: 1.5;
-}
-.sources-list li::before {
-  content: '↗';
-  color: var(--accent);
-  font-size: 12px;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-pre {
-  direction: ltr;
-  text-align: left;
-  background: var(--bg);
-  color: #93c5fd;
-  padding: 18px;
-  border-radius: 10px;
-  overflow-x: auto;
-  font-size: 12px;
-  border: 1px solid var(--border);
-  line-height: 1.7;
-  margin-top: 16px;
-}
-
-/* ── FOOTER ── */
-.footer {
-  text-align: center;
-  padding: 36px;
-  color: var(--muted);
-  font-size: 12px;
-  border-top: 1px solid var(--border);
-  line-height: 1.8;
-  position: relative;
-  z-index: 1;
-}
-.footer-logo { font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 8px; letter-spacing: -0.5px; }
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent)60; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .duel { grid-template-columns: 1fr; gap: 12px; }
-  .duel-center { display: flex; justify-content: center; }
-  .model-explainer { grid-template-columns: 1fr; }
-  main { padding: 0 14px 60px; }
-  .section { padding: 20px 16px; }
-  .match-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
-  .weight-row { grid-template-columns: 50px 1fr 40px; }
-  .weight-bar-wrap { display: none; }
-}
-@media (max-width: 600px) {
-  .hero { padding: 60px 16px 50px; }
-  .hero-kpis { flex-direction: column; }
-  .hero-kpi { border-left: none; border-top: 1px solid var(--border); }
-  .poisson-grid { grid-template-columns: 1fr; }
-}
+/* FA overrides */
+[dir=rtl] table{direction:rtl;text-align:right}
+[dir=rtl] th,[dir=rtl] td{text-align:right}
+[dir=rtl] .odds-right{text-align:right}
+[dir=rtl] .wp{direction:rtl}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
+<nav>
   <div class="nav-links">
-    <button class="nav-link active" onclick="scrollTo('#summary')">خلاصه</button>
-    <button class="nav-link" onclick="scrollTo('#iran')">ایران</button>
-    <button class="nav-link" onclick="scrollTo('#method')">روش</button>
-    <button class="nav-link" onclick="scrollTo('#teams')">تیم‌ها</button>
-    <button class="nav-link" onclick="scrollTo('#groups')">گروه‌ها</button>
-    <button class="nav-link" onclick="scrollTo('#bracket')">مسیر حذفی</button>
+    <button class="nav-a on" onclick="go('#summary')">Summary</button>
+    <button class="nav-a" onclick="go('#odds')">Odds</button>
+    <button class="nav-a" onclick="go('#iran')">Iran</button>
+    <button class="nav-a" onclick="go('#model')">Model</button>
+    <button class="nav-a" onclick="go('#teams')">Teams</button>
+    <button class="nav-a" onclick="go('#groups')">Groups</button>
+    <button class="nav-a" onclick="go('#bracket')">Bracket</button>
   </div>
-  <div class="nav-logo">WC<span>2026</span> · پیش‌بینی</div>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <div class="nav-brand">WC<span>2026</span> Predictor</div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-aurora"></div>
-  <div class="hero-eyebrow">
-    <span class="hero-eyebrow-dot"></span>
-    مدل زنده · به‌روز ۱ ژوئن ۲۰۲۶
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1600&q=80&auto=format&fit=crop" alt="football stadium" loading="lazy"/>
   </div>
-  <h1>پیش‌بینی جام جهانی فوتبال ۲۰۲۶</h1>
-  <p class="hero-sub">شبیه‌سازی مبتنی بر مدل Dixon-Coles با توزیع Poisson دوگانه — همان رویکرد علمی که توسط Opta، FiveThirtyEight و تیم‌های تحلیل باشگاه‌های برتر استفاده می‌شود</p>
-  <div class="hero-method-tag">⚗ Dixon-Coles · Bivariate Poisson · Elo-weighted λ · 10,000 Monte Carlo sim</div>
-  <div class="hero-kpis">
-    <div class="hero-kpi">
-      <div class="hero-kpi-val">10K</div>
-      <div class="hero-kpi-label">شبیه‌سازی</div>
+  <div class="hero-content">
+    <div class="hero-live"><span class="live-dot"></span><span data-en="Live Prediction Model" data-fa="مدل پیش‌بینی زنده">Live Prediction Model</span></div>
+    <h1 data-en="FIFA World Cup 2026<br>AI Prediction" data-fa="پیش‌بینی جام جهانی ۲۰۲۶<br>هوش مصنوعی">FIFA World Cup 2026<br>AI Prediction</h1>
+    <p class="hero-sub" data-en="Dixon-Coles Bivariate Poisson simulation powered by Elo ratings, betting market consensus, squad depth, and historical tournament data across 10,000 Monte Carlo runs." data-fa="شبیه‌سازی Poisson دوگانه Dixon-Coles مبتنی بر Elo، اجماع بازار شرط‌بندی، عمق ترکیب، و داده‌های تاریخی در ۱۰٬۰۰۰ اجرای مونت‌کارلو.">Dixon-Coles Bivariate Poisson simulation powered by Elo ratings, betting market consensus, squad depth, and historical tournament data across 10,000 Monte Carlo runs.</p>
+    <div class="hero-tags">
+      <span class="tag t" data-en="Dixon-Coles Model" data-fa="مدل Dixon-Coles">Dixon-Coles Model</span>
+      <span class="tag t" data-en="Bivariate Poisson" data-fa="Poisson دوگانه">Bivariate Poisson</span>
+      <span class="tag" data-en="Elo-calibrated λ" data-fa="λ کالیبره‌شده Elo">Elo-calibrated λ</span>
+      <span class="tag" data-en="10K Monte Carlo" data-fa="۱۰K مونت‌کارلو">10K Monte Carlo</span>
+      <span class="tag" data-en="Betting Consensus" data-fa="اجماع شرط‌بندی">Betting Consensus</span>
     </div>
-    <div class="hero-kpi">
-      <div class="hero-kpi-val">48</div>
-      <div class="hero-kpi-label">تیم</div>
-    </div>
-    <div class="hero-kpi">
-      <div class="hero-kpi-val">12</div>
-      <div class="hero-kpi-label">گروه</div>
-    </div>
-    <div class="hero-kpi">
-      <div class="hero-kpi-val">104</div>
-      <div class="hero-kpi-label">بازی</div>
+    <div class="hero-kpis">
+      <div class="kpi"><div class="kpi-n">10K</div><div class="kpi-l" data-en="Simulations" data-fa="شبیه‌سازی">Simulations</div></div>
+      <div class="kpi"><div class="kpi-n">48</div><div class="kpi-l" data-en="Teams" data-fa="تیم">Teams</div></div>
+      <div class="kpi"><div class="kpi-n">12</div><div class="kpi-l" data-en="Groups" data-fa="گروه">Groups</div></div>
+      <div class="kpi"><div class="kpi-n">104</div><div class="kpi-l" data-en="Matches" data-fa="بازی">Matches</div></div>
     </div>
   </div>
 </div>
 
-<main>
+<main style="max-width:1300px;margin:0 auto;padding:0 22px 80px">
 
 <!-- SUMMARY -->
-<div class="section" id="summary">
-  <div class="sec-header">
-    <div class="sec-icon">🏆</div>
-    <div class="sec-title">نتیجه شبیه‌سازی</div>
-    <div class="sec-badge">10,000 اجرا · احتمال قهرمانی</div>
+<div class="sec" id="summary">
+  <div class="sec-head">
+    <div class="sec-ico">🏆</div>
+    <div class="sec-ttl" data-en="Predicted Champion" data-fa="قهرمان پیش‌بینی‌شده">Predicted Champion</div>
+    <div class="sec-sub" data-en="10K sim · Jun 2026" data-fa="۱۰K شبیه‌سازی · خرداد ۱۴۰۵">10K sim · Jun 2026</div>
   </div>
 
   <div class="duel">
-    <div class="duel-card champion">
-      <span class="duel-flag">🇫🇷</span>
-      <div class="duel-name">France</div>
-      <div class="duel-rank">رتبه FIFA: ۱ · Elo: ۱۸۷۷</div>
-      <div class="duel-prob">28.4%</div>
-      <div class="duel-prob-label">احتمال قهرمانی</div>
+    <div class="duel-card champ">
+      <span class="flag-big">🇫🇷</span>
+      <div class="d-name">France</div>
+      <div class="d-elo">Elo 1877 · FIFA #1 · Avg odds: 4.5/1</div>
+      <div class="d-prob">28.4%</div>
+      <div class="d-prob-l" data-en="Win Probability" data-fa="احتمال قهرمانی">Win Probability</div>
+      <div class="d-odds" data-en="Betting: 4.5/1 favourite" data-fa="شرط‌بندی: ۴.۵ برابر">Betting: 4.5/1 favourite</div>
     </div>
-    <div class="duel-center">
+    <div class="duel-mid">
       <span class="duel-trophy">🏆</span>
-      <div class="duel-score">
-        <div class="duel-score-val">1 – 1</div>
-        <div class="duel-score-note">پنالتی</div>
-        <div class="duel-score-label">فینال ۲۰۲۶ · پیش‌بینی</div>
+      <div class="score-box">
+        <div class="score-v">1 – 1</div>
+        <div class="score-n">Penalties</div>
+        <div class="score-l" data-en="Predicted Final" data-fa="فینال پیش‌بینی‌شده">Predicted Final</div>
       </div>
     </div>
     <div class="duel-card runner">
-      <span class="duel-flag">🇦🇷</span>
-      <div class="duel-name">Argentina</div>
-      <div class="duel-rank">رتبه FIFA: ۳ · Elo: ۱۸۷۵</div>
-      <div class="duel-prob">22.1%</div>
-      <div class="duel-prob-label">احتمال قهرمانی</div>
+      <span class="flag-big">🇦🇷</span>
+      <div class="d-name">Argentina</div>
+      <div class="d-elo">Elo 1875 · FIFA #3 · Avg odds: 5/1</div>
+      <div class="d-prob">22.1%</div>
+      <div class="d-prob-l" data-en="Win Probability" data-fa="احتمال قهرمانی">Win Probability</div>
+      <div class="d-odds" data-en="Defending champions 2022" data-fa="قهرمان ۲۰۲۲">Defending champions 2022</div>
     </div>
   </div>
 
   <div class="chips">
     <div class="chip iran">
-      <div class="chip-label">ایران · گروه G</div>
-      <div class="chip-val" style="color:var(--iran)">رتبه ۲</div>
-      <div class="chip-sub">۴ امتیاز · صعود R32</div>
+      <div class="chip-l" data-en="Iran · Group G" data-fa="ایران · گروه G">Iran · Group G</div>
+      <div class="chip-v" style="color:var(--iran)" data-en="2nd Place" data-fa="رتبه دوم">2nd Place</div>
+      <div class="chip-s" data-en="4 pts · R32 qualified" data-fa="۴ امتیاز · صعود به R32">4 pts · R32 qualified</div>
     </div>
     <div class="chip">
-      <div class="chip-label">نایب قهرمان</div>
-      <div class="chip-val">Argentina</div>
-      <div class="chip-sub">22.1% احتمال</div>
+      <div class="chip-l" data-en="3rd Place" data-fa="رتبه سوم">3rd Place</div>
+      <div class="chip-v">Spain 🥉</div>
+      <div class="chip-s">Spain 2–1 England</div>
     </div>
     <div class="chip">
-      <div class="chip-label">رتبه سوم</div>
-      <div class="chip-val">Spain</div>
-      <div class="chip-sub">Spain 2–1 England</div>
+      <div class="chip-l" data-en="Dark Horse" data-fa="تیم شگفتی‌ساز">Dark Horse</div>
+      <div class="chip-v">🇯🇵 Japan</div>
+      <div class="chip-s" data-en="QF probability: 18%" data-fa="احتمال ربع‌نهایی: ۱۸٪">QF probability: 18%</div>
     </div>
     <div class="chip">
-      <div class="chip-label">تهدید اصلی</div>
-      <div class="chip-val">Brazil</div>
-      <div class="chip-sub">17.3% احتمال قهرمانی</div>
+      <div class="chip-l" data-en="Biggest upset risk" data-fa="بیشترین ریسک شگفتی">Biggest upset risk</div>
+      <div class="chip-v">🇩🇪 Germany</div>
+      <div class="chip-s" data-en="R16 exit: 34%" data-fa="خروج در R16: ۳۴٪">R16 exit: 34%</div>
     </div>
     <div class="chip">
-      <div class="chip-label">شگفتی‌ساز احتمالی</div>
-      <div class="chip-val">Japan</div>
-      <div class="chip-sub">نیمه‌نهایی: 8.2%</div>
+      <div class="chip-l" data-en="Host nation best" data-fa="بهترین میزبان">Host nation best</div>
+      <div class="chip-v">🇺🇸 USA</div>
+      <div class="chip-s" data-en="QF: 31% · SF: 14%" data-fa="ربع‌نهایی: ۳۱٪">QF: 31% · SF: 14%</div>
     </div>
   </div>
 
   <div class="notice">
-    <span class="notice-icon">⚗</span>
-    <span>این پیش‌بینی بر اساس <strong>شبیه‌سازی Poisson دوگانه</strong> با پارامترهای λ<sub>attack</sub> و λ<sub>defense</sub> حاصل از رتبه‌بندی Elo انجام شده است. اعداد احتمال از میانگین ۱۰٬۰۰۰ اجرای مستقل به دست آمده‌اند.</span>
+    <span>⚗</span>
+    <span data-en="Probabilistic forecast — not a certainty. Based on Dixon-Coles bivariate Poisson with 10,000 Monte Carlo tournament simulations. Probabilities represent model consensus across all simulation paths." data-fa="پیش‌بینی احتمالاتی — نه قطعیت. بر اساس Poisson دوگانه Dixon-Coles با ۱۰٬۰۰۰ شبیه‌سازی.">Probabilistic forecast — not a certainty. Based on Dixon-Coles bivariate Poisson with 10,000 Monte Carlo tournament simulations. Probabilities represent model consensus across all simulation paths.</span>
+  </div>
+</div>
+
+<!-- ODDS CONSENSUS -->
+<div class="sec" id="odds">
+  <div class="sec-head">
+    <div class="sec-ico">📈</div>
+    <div class="sec-ttl" data-en="Championship Odds — Market Consensus" data-fa="احتمالات قهرمانی — اجماع بازار">Championship Odds — Market Consensus</div>
+    <div class="sec-sub" data-en="Model + betting convergence" data-fa="همگرایی مدل + شرط‌بندی">Model + betting convergence</div>
+  </div>
+  <div class="odds-grid">
+    <div class="odds-card">
+      <div class="odds-flag">🇫🇷</div>
+      <div class="odds-info">
+        <div class="odds-name">France</div>
+        <div class="odds-detail">UEFA · Elo 1877 · FIFA #1</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:85%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">28.4%</div><div class="odds-frac">4.5/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇦🇷</div>
+      <div class="odds-info">
+        <div class="odds-name">Argentina</div>
+        <div class="odds-detail">CONMEBOL · Elo 1875 · FIFA #3</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:66%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">22.1%</div><div class="odds-frac">5/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇪🇸</div>
+      <div class="odds-info">
+        <div class="odds-name">Spain</div>
+        <div class="odds-detail">UEFA · Elo 1876 · FIFA #2</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:56%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">18.9%</div><div class="odds-frac">6/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇧🇷</div>
+      <div class="odds-info">
+        <div class="odds-name">Brazil</div>
+        <div class="odds-detail">CONMEBOL · Elo 1761 · FIFA #6</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:51%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">17.3%</div><div class="odds-frac">7/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+      <div class="odds-info">
+        <div class="odds-name">England</div>
+        <div class="odds-detail">UEFA · Elo 1826 · FIFA #4</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:38%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">12.6%</div><div class="odds-frac">9/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇵🇹</div>
+      <div class="odds-info">
+        <div class="odds-name">Portugal</div>
+        <div class="odds-detail">UEFA · Elo 1764 · FIFA #5</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:25%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">8.4%</div><div class="odds-frac">13/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇳🇱</div>
+      <div class="odds-info">
+        <div class="odds-name">Netherlands</div>
+        <div class="odds-detail">UEFA · Elo 1758 · FIFA #7</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:21%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">7.1%</div><div class="odds-frac">16/1</div></div>
+    </div>
+    <div class="odds-card">
+      <div class="odds-flag">🇩🇪</div>
+      <div class="odds-info">
+        <div class="odds-name">Germany</div>
+        <div class="odds-detail">UEFA · Elo 1730 · FIFA #10</div>
+        <div class="odds-bar-wrap"><div class="odds-bar" style="width:20%"></div></div>
+      </div>
+      <div class="odds-right"><div class="odds-pct">6.8%</div><div class="odds-frac">17/1</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY PLAYERS -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⭐</div>
+    <div class="sec-ttl" data-en="Key Players to Watch" data-fa="بازیکنان کلیدی">Key Players to Watch</div>
+  </div>
+  <div class="players">
+    <div class="pcard">
+      <div class="pcard-flag">🇫🇷</div>
+      <div class="pcard-name">K. Mbappé</div>
+      <div class="pcard-role">Forward · France</div>
+      <div class="pcard-stat">44</div>
+      <div class="pcard-sl">Int'l goals</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇦🇷</div>
+      <div class="pcard-name">L. Messi</div>
+      <div class="pcard-role">Forward · Argentina</div>
+      <div class="pcard-stat">37</div>
+      <div class="pcard-sl">Age · Still active</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇵🇹</div>
+      <div class="pcard-name">C. Ronaldo</div>
+      <div class="pcard-role">Forward · Portugal</div>
+      <div class="pcard-stat">130+</div>
+      <div class="pcard-sl">Int'l goals record</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇧🇷</div>
+      <div class="pcard-name">Vinícius Jr.</div>
+      <div class="pcard-role">Forward · Brazil</div>
+      <div class="pcard-stat">~30</div>
+      <div class="pcard-sl">Int'l goals · In-form</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+      <div class="pcard-name">J. Bellingham</div>
+      <div class="pcard-role">Midfielder · England</div>
+      <div class="pcard-stat">25</div>
+      <div class="pcard-sl">Age · World-class peak</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇯🇵</div>
+      <div class="pcard-name">S. Mitoma</div>
+      <div class="pcard-role">Forward · Japan</div>
+      <div class="pcard-stat">Top</div>
+      <div class="pcard-sl">PL performer · key threat</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇮🇷</div>
+      <div class="pcard-name">M. Taremi</div>
+      <div class="pcard-role">Forward · Iran</div>
+      <div class="pcard-stat">Inter</div>
+      <div class="pcard-sl">Milan · Top European club</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-flag">🇪🇸</div>
+      <div class="pcard-name">Pedri</div>
+      <div class="pcard-role">Midfielder · Spain</div>
+      <div class="pcard-stat">23</div>
+      <div class="pcard-sl">Age · Peak generation</div>
+    </div>
   </div>
 </div>
 
 <!-- IRAN -->
-<div class="section" id="iran">
-  <div class="sec-header">
-    <div class="sec-icon">🇮🇷</div>
-    <div class="sec-title">وضعیت ایران در جام جهانی</div>
-    <div class="sec-badge">گروه G</div>
+<div class="sec" id="iran">
+  <div class="sec-head">
+    <div class="sec-ico">🇮🇷</div>
+    <div class="sec-ttl" data-en="Iran — World Cup 2026 Analysis" data-fa="ایران — تحلیل جام جهانی ۲۰۲۶">Iran — World Cup 2026 Analysis</div>
+    <div class="sec-sub">Group G</div>
   </div>
 
-  <div class="iran-box">
-    <div class="iran-box-title">گروه G — پیش‌بینی: رتبه دوم با ۴ امتیاز (احتمال صعود: ۸۴٪)</div>
-    <p style="color:var(--muted2);font-size:13.5px;line-height:1.7">
-      مدل Poisson برای ایران λ<sub>att</sub>=1.31 و λ<sub>def</sub>=1.18 محاسبه کرده است.
-      بر اساس ۱۰٬۰۰۰ شبیه‌سازی، ایران در ۸۴٪ موارد از گروه صعود می‌کند — عمدتاً در رتبه دوم.
-      بلژیک با λ<sub>att</sub>=1.78 واضح‌ترین تیم گروه است. رقابت اصلی بین ایران و مصر برای رتبه دوم است.
-      در R32، ایران با احتمال ۴۸٪ حذف می‌شود (اکثراً در برابر تیم‌های UEFA).
-    </p>
+  <div class="ibox">
+    <div class="ibox-t" data-en="Group G Prediction: 2nd Place · 4 pts · R32 probability: 84%" data-fa="گروه G: رتبه دوم · ۴ امتیاز · احتمال صعود: ۸۴٪">Group G Prediction: 2nd Place · 4 pts · R32 probability: 84%</div>
+    <p style="color:var(--sub);font-size:13px;line-height:1.7" data-en="Model assigns Iran λ_att=1.31 and λ_def=1.18. Belgium (λ_att=1.78) is the clear group favorite. Iran's primary competition for 2nd place is Egypt. Key asset: Mehdi Taremi at Inter Milan provides European-level finishing. Weak point: defensive fragility vs high-press teams. In R32, Iran faces likely UEFA opposition with ~48% elimination probability." data-fa="مدل به ایران λ_att=1.31 و λ_def=1.18 می‌دهد. بلژیک واضح‌ترین تیم گروه است. رقیب اصلی ایران برای رتبه دوم مصر است. نقطه قوت: مهدی طارمی در اینتر میلان. ضعف: آسیب‌پذیری دفاعی در برابر پرس بالا.">Model assigns Iran λ_att=1.31 and λ_def=1.18. Belgium (λ_att=1.78) is the clear group favorite. Iran's primary competition for 2nd place is Egypt. Key asset: Mehdi Taremi at Inter Milan provides European-level finishing. In R32, Iran faces likely UEFA opposition with ~48% elimination probability.</p>
   </div>
 
-  <!-- Iran match probabilities -->
-  <div class="poisson-grid">
-    <div class="poisson-card">
-      <div class="poisson-header">
-        <div class="poisson-matchup">🇧🇪 Belgium vs 🇮🇷 Iran</div>
-        <div class="poisson-lambda">λ_B=1.78 · λ_I=1.12</div>
-      </div>
-      <div class="poisson-outcome-bars">
-        <div class="outcome-row">
-          <div class="outcome-label">Belgium</div>
-          <div class="outcome-track"><div class="outcome-fill blue" style="width:51.1%"></div></div>
-          <div class="outcome-pct">51.1%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">مساوی</div>
-          <div class="outcome-track"><div class="outcome-fill grey" style="width:25.5%"></div></div>
-          <div class="outcome-pct">25.5%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">Iran</div>
-          <div class="outcome-track"><div class="outcome-fill green" style="width:23.4%"></div></div>
-          <div class="outcome-pct">23.4%</div>
-        </div>
+  <div class="pgrid">
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇧🇪 Belgium vs 🇮🇷 Iran</div><div class="pc-l">λ_BEL=1.78 · λ_IRI=1.12</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Belgium</div><div class="pt2"><div class="pf2 blue" style="width:51.1%"></div></div><div class="pr-v">51.1%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:25.5%"></div></div><div class="pr-v">25.5%</div></div>
+        <div class="pr"><div class="pr-l">Iran</div><div class="pt2"><div class="pf2 green" style="width:23.4%"></div></div><div class="pr-v">23.4%</div></div>
       </div>
     </div>
-    <div class="poisson-card">
-      <div class="poisson-header">
-        <div class="poisson-matchup">🇪🇬 Egypt vs 🇮🇷 Iran</div>
-        <div class="poisson-lambda">λ_E=1.21 · λ_I=1.31</div>
-      </div>
-      <div class="poisson-outcome-bars">
-        <div class="outcome-row">
-          <div class="outcome-label">Egypt</div>
-          <div class="outcome-track"><div class="outcome-fill blue" style="width:32.4%"></div></div>
-          <div class="outcome-pct">32.4%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">مساوی</div>
-          <div class="outcome-track"><div class="outcome-fill grey" style="width:27.2%"></div></div>
-          <div class="outcome-pct">27.2%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">Iran</div>
-          <div class="outcome-track"><div class="outcome-fill green" style="width:40.4%"></div></div>
-          <div class="outcome-pct">40.4%</div>
-        </div>
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇪🇬 Egypt vs 🇮🇷 Iran</div><div class="pc-l">λ_EGY=1.21 · λ_IRI=1.31</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Egypt</div><div class="pt2"><div class="pf2 blue" style="width:32.4%"></div></div><div class="pr-v">32.4%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:27.2%"></div></div><div class="pr-v">27.2%</div></div>
+        <div class="pr"><div class="pr-l">Iran</div><div class="pt2"><div class="pf2 green" style="width:40.4%"></div></div><div class="pr-v">40.4%</div></div>
       </div>
     </div>
-    <div class="poisson-card">
-      <div class="poisson-header">
-        <div class="poisson-matchup">🇮🇷 Iran vs 🇳🇿 New Zealand</div>
-        <div class="poisson-lambda">λ_I=1.61 · λ_NZ=0.74</div>
-      </div>
-      <div class="poisson-outcome-bars">
-        <div class="outcome-row">
-          <div class="outcome-label">Iran</div>
-          <div class="outcome-track"><div class="outcome-fill green" style="width:70.3%"></div></div>
-          <div class="outcome-pct">70.3%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">مساوی</div>
-          <div class="outcome-track"><div class="outcome-fill grey" style="width:18.7%"></div></div>
-          <div class="outcome-pct">18.7%</div>
-        </div>
-        <div class="outcome-row">
-          <div class="outcome-label">NZ</div>
-          <div class="outcome-track"><div class="outcome-fill blue" style="width:11.0%"></div></div>
-          <div class="outcome-pct">11.0%</div>
-        </div>
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇮🇷 Iran vs 🇳🇿 New Zealand</div><div class="pc-l">λ_IRI=1.61 · λ_NZL=0.74</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Iran</div><div class="pt2"><div class="pf2 green" style="width:70.3%"></div></div><div class="pr-v">70.3%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:18.7%"></div></div><div class="pr-v">18.7%</div></div>
+        <div class="pr"><div class="pr-l">NZ</div><div class="pt2"><div class="pf2 blue" style="width:11.0%"></div></div><div class="pr-v">11.0%</div></div>
       </div>
     </div>
   </div>
 
-  <div class="tbl-wrap">
+  <div class="tw">
     <table>
-      <thead>
-        <tr><th>بازی</th><th>تیم A</th><th>تیم B</th><th>نتیجه</th><th>P(A)</th><th>P(D)</th><th>P(B)</th><th>λ(A)</th><th>λ(B)</th></tr>
-      </thead>
+      <thead><tr><th>Match</th><th>Team A</th><th>Team B</th><th>Result</th><th>P(A)</th><th>P(D)</th><th>P(B)</th><th>λ(A)</th><th>λ(B)</th></tr></thead>
       <tbody>
-        <tr>
-          <td>G1</td><td>🇧🇪 Belgium</td><td>🇮🇷 <strong>Iran</strong></td><td>2–1</td>
-          <td><div class="prob-cell"><div class="prob-track"><div class="prob-fill" style="width:51%"></div></div>51.1%</div></td>
-          <td>25.5%</td>
-          <td><div class="prob-cell"><div class="prob-track"><div class="prob-fill green" style="width:23%"></div></div>23.4%</div></td>
-          <td style="color:var(--muted2)">1.78</td><td style="color:var(--muted2)">1.12</td>
-        </tr>
-        <tr>
-          <td>G2</td><td>🇪🇬 Egypt</td><td>🇮🇷 <strong>Iran</strong></td><td>1–1</td>
-          <td><div class="prob-cell"><div class="prob-track"><div class="prob-fill" style="width:32%"></div></div>32.4%</div></td>
-          <td>27.2%</td>
-          <td><div class="prob-cell"><div class="prob-track"><div class="prob-fill green" style="width:40%"></div></div>40.4%</div></td>
-          <td style="color:var(--muted2)">1.21</td><td style="color:var(--muted2)">1.31</td>
-        </tr>
-        <tr class="row-iran">
-          <td>G3</td><td>🇮🇷 <strong>Iran</strong></td><td>🇳🇿 New Zealand</td><td>2–1</td>
-          <td><div class="prob-cell"><div class="prob-track"><div class="prob-fill green" style="width:70%"></div></div><strong>70.3%</strong></div></td>
-          <td>18.7%</td>
-          <td>11.0%</td>
-          <td style="color:var(--muted2)">1.61</td><td style="color:var(--muted2)">0.74</td>
-        </tr>
+        <tr><td>G1</td><td>🇧🇪 Belgium</td><td>🇮🇷 Iran</td><td>2–1</td><td><div class="pb"><div class="pt"><div class="pf" style="width:51%"></div></div>51.1%</div></td><td>25.5%</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:23%"></div></div>23.4%</div></td><td style="color:var(--dim)">1.78</td><td style="color:var(--dim)">1.12</td></tr>
+        <tr><td>G2</td><td>🇪🇬 Egypt</td><td>🇮🇷 Iran</td><td>1–1</td><td><div class="pb"><div class="pt"><div class="pf" style="width:32%"></div></div>32.4%</div></td><td>27.2%</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:40%"></div></div>40.4%</div></td><td style="color:var(--dim)">1.21</td><td style="color:var(--dim)">1.31</td></tr>
+        <tr class="row-ir"><td>G3</td><td>🇮🇷 Iran</td><td>🇳🇿 NZ</td><td>2–1</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:70%"></div></div><b>70.3%</b></div></td><td>18.7%</td><td>11.0%</td><td style="color:var(--dim)">1.61</td><td style="color:var(--dim)">0.74</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- METHOD -->
-<div class="section" id="method">
-  <div class="sec-header">
-    <div class="sec-icon">⚗</div>
-    <div class="sec-title">مدل Dixon-Coles · روش علمی</div>
-    <div class="sec-badge">Bivariate Poisson Simulation</div>
+<!-- MODEL -->
+<div class="sec" id="model">
+  <div class="sec-head">
+    <div class="sec-ico">⚗</div>
+    <div class="sec-ttl" data-en="Prediction Model — Dixon-Coles Method" data-fa="مدل پیش‌بینی — روش Dixon-Coles">Prediction Model — Dixon-Coles Method</div>
   </div>
+  <p style="color:var(--sub);font-size:13.5px;line-height:1.75;margin-bottom:22px" data-en="The Dixon-Coles model (1997) is the academic gold standard for football prediction — used by Opta, club analytics teams across Europe, and probabilistic forecasters. Goals follow a Poisson distribution with team-specific attack (α) and defense (β) parameters, corrected for low-scoring result bias via the ρ coefficient." data-fa="مدل Dixon-Coles (1997) استاندارد طلایی علمی است — از Opta تا تیم‌های تحلیل باشگاه‌های اروپایی. گل‌ها از توزیع Poisson پیروی می‌کنند با ضرایب حمله (α) و دفاع (β) تیم‌ها.">The Dixon-Coles model (1997) is the academic gold standard for football prediction — used by Opta, club analytics teams across Europe, and probabilistic forecasters. Goals follow a Poisson distribution with team-specific attack (α) and defense (β) parameters, corrected for low-scoring result bias via the ρ coefficient.</p>
 
-  <p style="color:var(--muted2);font-size:13.5px;line-height:1.75;margin-bottom:24px">
-    مدل Dixon-Coles (1997) استاندارد طلایی پیش‌بینی علمی فوتبال است — همان روشی که Opta، FiveThirtyEight، و تیم‌های آماری باشگاه‌های برتر اروپا استفاده می‌کنند.
-    هر بازی به صورت مستقل مدل‌سازی می‌شود: گل‌های هر تیم از توزیع Poisson با پارامتر λ به دست می‌آید.
-    پارامتر λ از ترکیب وزنی Elo rating، رتبه FIFA، فرم اخیر، و قدرت نسبی محاسبه می‌شود.
-    برای جلوگیری از خطای تخمین در نتایج نزدیک (0-0، 1-0، 0-1، 1-1)، ضریب تصحیح ρ اعمال می‌شود.
-  </p>
-
-  <div class="model-explainer">
-    <div class="model-step">
-      <div class="model-step-num">گام ۱ · پارامتر قدرت</div>
-      <div class="model-step-title">محاسبه Attack و Defense Rating</div>
-      <div class="model-step-desc">برای هر تیم دو پارامتر α (قدرت حمله) و β (ضعف دفاع) از داده‌های تاریخی و Elo فعلی استخراج می‌شود.</div>
-      <div class="model-step-formula">α_i = exp(attack_i)<br>β_j = exp(defense_j)<br>γ = home_advantage</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">Step 1 · Strength Params</div>
+      <div class="step-t">Attack &amp; Defense Ratings</div>
+      <div class="step-d">Each team gets α (attack strength) and β (defensive weakness) calibrated from Elo + FIFA ranking + recent form over 24 months.</div>
+      <div class="step-f">α_i = exp(attack_i)<br>β_j = exp(defense_j)<br>γ = venue_advantage</div>
     </div>
-    <div class="model-step">
-      <div class="model-step-num">گام ۲ · نرخ گل</div>
-      <div class="model-step-title">محاسبه λ برای هر بازی</div>
-      <div class="model-step-desc">نرخ مورد انتظار گل (λ) برای هر تیم در هر بازی خاص محاسبه می‌شود. این عدد میانگین توزیع Poisson است.</div>
-      <div class="model-step-formula">λ_home = α_home × β_away × γ<br>λ_away = α_away × β_home</div>
+    <div class="step">
+      <div class="step-n">Step 2 · Expected Goals</div>
+      <div class="step-t">Per-match λ Calculation</div>
+      <div class="step-d">Expected goal rate (λ) computed for each team in each specific fixture — the mean of the Poisson distribution for that team.</div>
+      <div class="step-f">λ_home = α_home × β_away × γ<br>λ_away = α_away × β_home</div>
     </div>
-    <div class="model-step">
-      <div class="model-step-num">گام ۳ · توزیع نتیجه</div>
-      <div class="model-step-title">Dixon-Coles Correction (ρ)</div>
-      <div class="model-step-desc">احتمال هر نتیجه (x-y) از توزیع Poisson مستقل محاسبه و برای نتایج کم‌گل با ضریب ρ تصحیح می‌شود.</div>
-      <div class="model-step-formula">P(x,y) = Poisson(x,λ_h) × Poisson(y,λ_a) × τ(x,y,ρ)</div>
+    <div class="step">
+      <div class="step-n">Step 3 · Score Distribution</div>
+      <div class="step-t">Dixon-Coles Correction ρ</div>
+      <div class="step-d">Each scoreline (x–y) probability computed from independent Poisson distributions, then corrected with ρ for low-scoring results (0-0, 1-0, 0-1, 1-1).</div>
+      <div class="step-f">P(x,y) = Pois(x,λ_h) × Pois(y,λ_a)<br>         × τ(x,y,λ_h,λ_a,ρ)</div>
     </div>
-    <div class="model-step">
-      <div class="model-step-num">گام ۴ · مونت‌کارلو</div>
-      <div class="model-step-title">۱۰٬۰۰۰ شبیه‌سازی کامل</div>
-      <div class="model-step-desc">کل تورنمنت ۱۰٬۰۰۰ بار از ابتدا تا فینال شبیه‌سازی می‌شود. احتمالات نهایی از میانگین این اجراها محاسبه می‌شود.</div>
-      <div class="model-step-formula">P(champion=T) = count(sim: winner==T) / 10000</div>
+    <div class="step">
+      <div class="step-n">Step 4 · Monte Carlo</div>
+      <div class="step-t">10,000 Full Simulations</div>
+      <div class="step-d">The entire tournament is simulated 10,000 times from group stage to final. Champion probabilities = share of simulations won by each team.</div>
+      <div class="step-f">P(champion=T) =<br>  count(sim: winner==T) / 10000</div>
     </div>
   </div>
 
-  <!-- Weight blocks -->
-  <div style="margin-top: 8px;">
-    <div style="font-size:13px;color:var(--muted2);margin-bottom:14px">ترکیب وزنی ورودی‌های مدل در محاسبه پارامترهای Elo-adjusted λ:</div>
-    <div class="weight-grid">
-      <div class="weight-row">
-        <div class="weight-code">ELO</div>
-        <div class="weight-name">World Football Elo Rating (کالیبره‌شده تاریخی)</div>
-        <div class="weight-pct">35%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill primary" style="width:87.5%"></div></div>
-      </div>
-      <div class="weight-row">
-        <div class="weight-code">FIFA</div>
-        <div class="weight-name">رتبه‌بندی رسمی FIFA/Coca-Cola</div>
-        <div class="weight-pct">25%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill primary" style="width:62.5%"></div></div>
-      </div>
-      <div class="weight-row">
-        <div class="weight-code">FORM</div>
-        <div class="weight-name">فرم ۱۲ ماه اخیر (نتایج وزن‌دار زمانی)</div>
-        <div class="weight-pct">15%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill" style="width:37.5%"></div></div>
-      </div>
-      <div class="weight-row">
-        <div class="weight-code">SQUAD</div>
-        <div class="weight-name">کیفیت ترکیب (ارزش بازار Transfermarkt proxy)</div>
-        <div class="weight-pct">12%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill" style="width:30%"></div></div>
-      </div>
-      <div class="weight-row">
-        <div class="weight-code">HIST</div>
-        <div class="weight-name">عملکرد تاریخی جام جهانی (۲۰۰۶–۲۰۲۲)</div>
-        <div class="weight-pct">8%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill" style="width:20%"></div></div>
-      </div>
-      <div class="weight-row">
-        <div class="weight-code">H2H</div>
-        <div class="weight-name">تاریخچه مستقیم و سبک‌های تاکتیکی</div>
-        <div class="weight-pct">5%</div>
-        <div class="weight-bar-wrap"><div class="weight-bar-fill" style="width:12.5%"></div></div>
-      </div>
-    </div>
+  <div class="wrows">
+    <div class="wr"><div class="wc">ELO</div><div class="wn">World Football Elo (historically calibrated)</div><div class="wp">35%</div><div class="wb"><div class="wbf hi" style="width:87.5%"></div></div></div>
+    <div class="wr"><div class="wc">FIFA</div><div class="wn">Official FIFA/Coca-Cola Ranking</div><div class="wp">25%</div><div class="wb"><div class="wbf hi" style="width:62.5%"></div></div></div>
+    <div class="wr"><div class="wc">FORM</div><div class="wn">Last 12 months results (time-decay weighted)</div><div class="wp">15%</div><div class="wb"><div class="wbf" style="width:37.5%"></div></div></div>
+    <div class="wr"><div class="wc">SQUAD</div><div class="wn">Squad quality proxy (Transfermarkt market value)</div><div class="wp">12%</div><div class="wb"><div class="wbf" style="width:30%"></div></div></div>
+    <div class="wr"><div class="wc">HIST</div><div class="wn">WC tournament history 2006–2022 (depth + rounds)</div><div class="wp">8%</div><div class="wb"><div class="wbf" style="width:20%"></div></div></div>
+    <div class="wr"><div class="wc">H2H</div><div class="wn">Direct head-to-head + tactical style matchup</div><div class="wp">5%</div><div class="wb"><div class="wbf" style="width:12.5%"></div></div></div>
   </div>
 </div>
 
 <!-- TEAMS -->
-<div class="section" id="teams">
-  <div class="sec-header">
-    <div class="sec-icon">📊</div>
-    <div class="sec-title">قدرت نسبی تیم‌ها</div>
-    <div class="sec-badge">Elo-adjusted λ · احتمال قهرمانی از ۱۰K sim</div>
+<div class="sec" id="teams">
+  <div class="sec-head">
+    <div class="sec-ico">📊</div>
+    <div class="sec-ttl" data-en="Team Power Rankings" data-fa="رتبه‌بندی قدرت تیم‌ها">Team Power Rankings</div>
+    <div class="sec-sub" data-en="Elo-adjusted λ · 10K sim champion %" data-fa="λ کالیبره‌شده Elo · احتمال قهرمانی">Elo-adjusted λ · 10K sim champion %</div>
   </div>
-  <div class="tbl-wrap">
+  <div class="tw">
     <table>
-      <thead>
-        <tr><th>Grp</th><th>#</th><th>Team</th><th>Conf</th><th>Elo</th><th>λ_att</th><th>λ_def</th><th>Pts</th><th>R32%</th><th>🏆%</th></tr>
-      </thead>
+      <thead><tr><th>Grp</th><th>#</th><th>Team</th><th>Conf</th><th>Elo</th><th>FIFA</th><th>λ_att</th><th>λ_def</th><th>Pts</th><th>R32%</th><th>🏆%</th></tr></thead>
       <tbody>
-        <tr class="row-champion"><td>I</td><td>1</td><td>🇫🇷 France</td><td><span class="badge badge-conf">UEFA</span></td><td>1877</td><td style="color:var(--good)">1.91</td><td style="color:var(--good)">0.82</td><td>9</td><td><span style="color:var(--good);font-weight:700">98.3%</span></td><td><span style="color:var(--gold);font-weight:700">28.4%</span></td></tr>
-        <tr class="row-runner"><td>J</td><td>1</td><td>🇦🇷 Argentina</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>1875</td><td style="color:var(--good)">1.88</td><td style="color:var(--good)">0.84</td><td>9</td><td><span style="color:var(--good);font-weight:700">98.6%</span></td><td><span style="color:var(--gold);font-weight:700">22.1%</span></td></tr>
-        <tr><td>H</td><td>1</td><td>🇪🇸 Spain</td><td><span class="badge badge-conf">UEFA</span></td><td>1876</td><td>1.87</td><td>0.79</td><td>9</td><td>98.7%</td><td style="color:var(--gold)">18.9%</td></tr>
-        <tr><td>C</td><td>1</td><td>🇧🇷 Brazil</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>1761</td><td>1.72</td><td>0.89</td><td>7</td><td>97.0%</td><td style="color:var(--gold)">17.3%</td></tr>
-        <tr><td>L</td><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td><span class="badge badge-conf">UEFA</span></td><td>1826</td><td>1.74</td><td>0.92</td><td>7</td><td>96.5%</td><td style="color:var(--gold)">12.6%</td></tr>
-        <tr><td>K</td><td>1</td><td>🇵🇹 Portugal</td><td><span class="badge badge-conf">UEFA</span></td><td>1764</td><td>1.68</td><td>0.94</td><td>9</td><td>95.9%</td><td>8.4%</td></tr>
-        <tr><td>F</td><td>1</td><td>🇳🇱 Netherlands</td><td><span class="badge badge-conf">UEFA</span></td><td>1758</td><td>1.65</td><td>0.96</td><td>9</td><td>95.2%</td><td>7.1%</td></tr>
-        <tr><td>E</td><td>1</td><td>🇩🇪 Germany</td><td><span class="badge badge-conf">UEFA</span></td><td>1730</td><td>1.62</td><td>0.97</td><td>9</td><td>97.1%</td><td>6.8%</td></tr>
-        <tr><td>G</td><td>1</td><td>🇧🇪 Belgium</td><td><span class="badge badge-conf">UEFA</span></td><td>1735</td><td>1.78</td><td>1.02</td><td>9</td><td>96.5%</td><td>5.2%</td></tr>
-        <tr><td>F</td><td>2</td><td>🇯🇵 Japan</td><td><span class="badge badge-conf">AFC</span></td><td>1660</td><td>1.44</td><td>1.08</td><td>6</td><td>83.3%</td><td>3.1%</td></tr>
-        <tr><td>A</td><td>1</td><td>🇲🇽 Mexico</td><td><span class="badge badge-conf">CONCACAF</span></td><td>1681</td><td>1.52</td><td>1.09</td><td>9</td><td>95.3%</td><td>2.9%</td></tr>
-        <tr><td>D</td><td>1</td><td>🇺🇸 USA</td><td><span class="badge badge-conf">CONCACAF</span></td><td>1673</td><td>1.48</td><td>1.11</td><td>9</td><td>90.3%</td><td>2.4%</td></tr>
-        <tr><td>H</td><td>2</td><td>🇺🇾 Uruguay</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>1673</td><td>1.46</td><td>1.12</td><td>6</td><td>91.1%</td><td>2.1%</td></tr>
-        <tr><td>B</td><td>1</td><td>🇨🇭 Switzerland</td><td><span class="badge badge-conf">UEFA</span></td><td>1649</td><td>1.39</td><td>1.14</td><td>7</td><td>93.3%</td><td>1.8%</td></tr>
-        <tr><td>I</td><td>2</td><td>🇸🇳 Senegal</td><td><span class="badge badge-conf">CAF</span></td><td>1689</td><td>1.41</td><td>1.16</td><td>6</td><td>81.3%</td><td>1.6%</td></tr>
-        <tr class="row-iran"><td>G</td><td>2</td><td>🇮🇷 <strong>Iran</strong></td><td><span class="badge badge-conf">AFC</span></td><td>1615</td><td style="color:var(--iran)">1.31</td><td style="color:var(--iran)">1.18</td><td>4</td><td><strong style="color:var(--iran)">84.0%</strong></td><td>0.4%</td></tr>
-        <tr><td>D</td><td>2</td><td>🇹🇷 Türkiye</td><td><span class="badge badge-conf">UEFA</span></td><td>1599</td><td>1.29</td><td>1.19</td><td>4</td><td>74.8%</td><td>0.5%</td></tr>
-        <tr><td>E</td><td>2</td><td>🇪🇨 Ecuador</td><td><span class="badge badge-conf">CONMEBOL</span></td><td>1595</td><td>1.27</td><td>1.21</td><td>4</td><td>83.5%</td><td>0.3%</td></tr>
-        <tr><td>J</td><td>2</td><td>🇦🇹 Austria</td><td><span class="badge badge-conf">UEFA</span></td><td>1593</td><td>1.26</td><td>1.22</td><td>4</td><td>69.8%</td><td>0.3%</td></tr>
-        <tr><td>A</td><td>2</td><td>🇰🇷 South Korea</td><td><span class="badge badge-conf">AFC</span></td><td>1589</td><td>1.24</td><td>1.23</td><td>4</td><td>78.9%</td><td>0.2%</td></tr>
-        <tr><td>G</td><td>3</td><td>🇪🇬 Egypt</td><td><span class="badge badge-conf">CAF</span></td><td>1563</td><td>1.21</td><td>1.21</td><td>4</td><td>76.6%</td><td>0.2%</td></tr>
-        <tr><td>G</td><td>4</td><td>🇳🇿 New Zealand</td><td><span class="badge badge-conf">OFC</span></td><td>1282</td><td>0.74</td><td>1.68</td><td>0</td><td>10.4%</td><td>&lt;0.1%</td></tr>
+        <tr class="row-ch"><td>I</td><td>1</td><td>🇫🇷 France</td><td><span class="b b-c">UEFA</span></td><td>1877</td><td>1</td><td style="color:var(--green)">1.91</td><td style="color:var(--green)">0.82</td><td>9</td><td style="color:var(--green);font-weight:700">98.3%</td><td style="color:var(--gold);font-weight:700">28.4%</td></tr>
+        <tr class="row-ru"><td>J</td><td>1</td><td>🇦🇷 Argentina</td><td><span class="b b-c">CONMEBOL</span></td><td>1875</td><td>3</td><td style="color:var(--green)">1.88</td><td style="color:var(--green)">0.84</td><td>9</td><td style="color:var(--green);font-weight:700">98.6%</td><td style="color:var(--gold);font-weight:700">22.1%</td></tr>
+        <tr><td>H</td><td>1</td><td>🇪🇸 Spain</td><td><span class="b b-c">UEFA</span></td><td>1876</td><td>2</td><td>1.87</td><td>0.79</td><td>9</td><td>98.7%</td><td style="color:var(--amber)">18.9%</td></tr>
+        <tr><td>C</td><td>1</td><td>🇧🇷 Brazil</td><td><span class="b b-c">CONMEBOL</span></td><td>1761</td><td>6</td><td>1.72</td><td>0.89</td><td>7</td><td>97.0%</td><td style="color:var(--amber)">17.3%</td></tr>
+        <tr><td>L</td><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td><span class="b b-c">UEFA</span></td><td>1826</td><td>4</td><td>1.74</td><td>0.92</td><td>7</td><td>96.5%</td><td>12.6%</td></tr>
+        <tr><td>K</td><td>1</td><td>🇵🇹 Portugal</td><td><span class="b b-c">UEFA</span></td><td>1764</td><td>5</td><td>1.68</td><td>0.94</td><td>9</td><td>95.9%</td><td>8.4%</td></tr>
+        <tr><td>F</td><td>1</td><td>🇳🇱 Netherlands</td><td><span class="b b-c">UEFA</span></td><td>1758</td><td>7</td><td>1.65</td><td>0.96</td><td>9</td><td>95.2%</td><td>7.1%</td></tr>
+        <tr><td>E</td><td>1</td><td>🇩🇪 Germany</td><td><span class="b b-c">UEFA</span></td><td>1730</td><td>10</td><td>1.62</td><td>0.97</td><td>9</td><td>97.1%</td><td>6.8%</td></tr>
+        <tr><td>G</td><td>1</td><td>🇧🇪 Belgium</td><td><span class="b b-c">UEFA</span></td><td>1735</td><td>9</td><td>1.78</td><td>1.02</td><td>9</td><td>96.5%</td><td>5.2%</td></tr>
+        <tr><td>F</td><td>2</td><td>🇯🇵 Japan</td><td><span class="b b-c">AFC</span></td><td>1660</td><td>18</td><td>1.44</td><td>1.08</td><td>6</td><td>83.3%</td><td>3.1%</td></tr>
+        <tr><td>A</td><td>1</td><td>🇲🇽 Mexico</td><td><span class="b b-c">CONCACAF</span></td><td>1681</td><td>15</td><td>1.52</td><td>1.09</td><td>9</td><td>95.3%</td><td>2.9%</td></tr>
+        <tr><td>D</td><td>1</td><td>🇺🇸 USA</td><td><span class="b b-c">CONCACAF</span></td><td>1673</td><td>16</td><td>1.48</td><td>1.11</td><td>9</td><td>90.3%</td><td>2.4%</td></tr>
+        <tr><td>H</td><td>2</td><td>🇺🇾 Uruguay</td><td><span class="b b-c">CONMEBOL</span></td><td>1673</td><td>17</td><td>1.46</td><td>1.12</td><td>6</td><td>91.1%</td><td>2.1%</td></tr>
+        <tr><td>B</td><td>1</td><td>🇨🇭 Switzerland</td><td><span class="b b-c">UEFA</span></td><td>1649</td><td>19</td><td>1.39</td><td>1.14</td><td>7</td><td>93.3%</td><td>1.8%</td></tr>
+        <tr><td>I</td><td>2</td><td>🇸🇳 Senegal</td><td><span class="b b-c">CAF</span></td><td>1689</td><td>14</td><td>1.41</td><td>1.16</td><td>6</td><td>81.3%</td><td>1.6%</td></tr>
+        <tr class="row-ir"><td>G</td><td>2</td><td>🇮🇷 Iran</td><td><span class="b b-c">AFC</span></td><td>1615</td><td>21</td><td style="color:var(--iran)">1.31</td><td style="color:var(--iran)">1.18</td><td>4</td><td><b style="color:var(--iran)">84.0%</b></td><td>0.4%</td></tr>
+        <tr><td>D</td><td>2</td><td>🇹🇷 Türkiye</td><td><span class="b b-c">UEFA</span></td><td>1599</td><td>22</td><td>1.29</td><td>1.19</td><td>4</td><td>74.8%</td><td>0.5%</td></tr>
+        <tr><td>G</td><td>3</td><td>🇪🇬 Egypt</td><td><span class="b b-c">CAF</span></td><td>1563</td><td>29</td><td>1.21</td><td>1.21</td><td>4</td><td>76.6%</td><td>0.2%</td></tr>
+        <tr><td>G</td><td>4</td><td>🇳🇿 New Zealand</td><td><span class="b b-c">OFC</span></td><td>1282</td><td>85</td><td>0.74</td><td>1.68</td><td>0</td><td>10.4%</td><td>&lt;0.1%</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:11.5px;color:var(--muted);margin-top:10px">λ_att = نرخ مورد انتظار گل در حمله · λ_def = نرخ مورد انتظار گل دریافتی از حریف (برعکس: عدد کمتر = دفاع قوی‌تر)</p>
+  <p style="font-size:11.5px;color:var(--dim);margin-top:8px" data-en="λ_att = expected goals scored per match · λ_def = expected goals conceded (lower = stronger defense)" data-fa="λ_att = میانگین گل در حمله · λ_def = میانگین گل دریافتی (عدد کمتر = دفاع قوی‌تر)">λ_att = expected goals scored per match · λ_def = expected goals conceded (lower = stronger defense)</p>
 </div>
 
 <!-- GROUPS -->
-<div class="section" id="groups">
-  <div class="sec-header">
-    <div class="sec-icon">📋</div>
-    <div class="sec-title">جدول‌های نهایی گروه‌ها</div>
-    <div class="sec-badge">پیش‌بینی حالت میانه از ۱۰K sim</div>
+<div class="sec" id="groups">
+  <div class="sec-head">
+    <div class="sec-ico">📋</div>
+    <div class="sec-ttl" data-en="Group Stage Final Standings" data-fa="جدول‌های نهایی گروه‌ها">Group Stage Final Standings</div>
+    <div class="sec-sub" data-en="Median outcome · 10K sim" data-fa="حالت میانه · ۱۰K شبیه‌سازی">Median outcome · 10K sim</div>
+  </div>
+  <div class="tabs" id="gTabs">
+    <button class="tb on" onclick="sg('A',this)">A</button>
+    <button class="tb" onclick="sg('B',this)">B</button>
+    <button class="tb" onclick="sg('C',this)">C</button>
+    <button class="tb" onclick="sg('D',this)">D</button>
+    <button class="tb" onclick="sg('E',this)">E</button>
+    <button class="tb" onclick="sg('F',this)">F</button>
+    <button class="tb" onclick="sg('G',this)">G 🇮🇷</button>
+    <button class="tb" onclick="sg('H',this)">H</button>
+    <button class="tb" onclick="sg('I',this)">I</button>
+    <button class="tb" onclick="sg('J',this)">J</button>
+    <button class="tb" onclick="sg('K',this)">K</button>
+    <button class="tb" onclick="sg('L',this)">L</button>
   </div>
 
-  <div class="tab-nav" id="groupTabs">
-    <button class="tab-btn active" onclick="showGroup('A',this)">A</button>
-    <button class="tab-btn" onclick="showGroup('B',this)">B</button>
-    <button class="tab-btn" onclick="showGroup('C',this)">C</button>
-    <button class="tab-btn" onclick="showGroup('D',this)">D</button>
-    <button class="tab-btn" onclick="showGroup('E',this)">E</button>
-    <button class="tab-btn" onclick="showGroup('F',this)">F</button>
-    <button class="tab-btn" onclick="showGroup('G',this)">G 🇮🇷</button>
-    <button class="tab-btn" onclick="showGroup('H',this)">H</button>
-    <button class="tab-btn" onclick="showGroup('I',this)">I</button>
-    <button class="tab-btn" onclick="showGroup('J',this)">J</button>
-    <button class="tab-btn" onclick="showGroup('K',this)">K</button>
-    <button class="tab-btn" onclick="showGroup('L',this)">L</button>
-  </div>
+  <div id="g-A" class="tp on"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇲🇽 Mexico</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇰🇷 South Korea</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇨🇿 Czechia</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇿🇦 South Africa</td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>6</td><td>-3</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-A" class="tab-panel active"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇲🇽 Mexico</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇰🇷 South Korea</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇨🇿 Czechia</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇿🇦 South Africa</td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>6</td><td>-3</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-B" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇨🇭 Switzerland</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇨🇦 Canada</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇶🇦 Qatar</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+    <tr><td>4</td><td>🇧🇦 Bosnia &amp; Herz.</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-B" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇨🇭 Switzerland</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇨🇦 Canada</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇶🇦 Qatar</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-      <tr><td>4</td><td>🇧🇦 Bosnia &amp; Herz.</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-C" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇧🇷 Brazil</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇲🇦 Morocco</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇭🇹 Haiti</td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>8</td><td>-7</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-C" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇧🇷 Brazil</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇲🇦 Morocco</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇭🇹 Haiti</td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>8</td><td>-7</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-D" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇺🇸 USA</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇹🇷 Türkiye</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇦🇺 Australia</td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td><b>2</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇵🇾 Paraguay</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-D" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇺🇸 USA</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇹🇷 Türkiye</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇦🇺 Australia</td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td><b>2</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇵🇾 Paraguay</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-E" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇩🇪 Germany</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇪🇨 Ecuador</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇨🇮 Ivory Coast</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇨🇼 Curaçao</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-E" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇩🇪 Germany</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇪🇨 Ecuador</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇨🇮 Ivory Coast</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇨🇼 Curaçao</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-F" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇳🇱 Netherlands</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇯🇵 Japan</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇸🇪 Sweden</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+    <tr><td>4</td><td>🇹🇳 Tunisia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-F" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇳🇱 Netherlands</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇯🇵 Japan</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇸🇪 Sweden</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-      <tr><td>4</td><td>🇹🇳 Tunisia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-G" class="tp">
+    <div class="ibox" style="margin-bottom:12px"><b style="color:var(--iran)">🇮🇷 Iran's Group</b> — Belgium dominant · tight Iran vs Egypt battle for 2nd</div>
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇧🇪 Belgium</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr class="row-ir"><td>2</td><td>🇮🇷 Iran</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-g">R32 ✓</span></td></tr>
+    <tr><td>3</td><td>🇪🇬 Egypt</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-o">Out</span></td></tr>
+    <tr><td>4</td><td>🇳🇿 New Zealand</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-G" class="tab-panel">
-    <div class="iran-box" style="margin-bottom:14px">
-      <strong style="color:#4ade80">🇮🇷 گروه ایران</strong> — بلژیک واضح‌ترین تیم · رقابت نزدیک ایران و مصر برای رتبه دوم
-    </div>
-    <div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇧🇪 Belgium</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr class="row-iran"><td>2</td><td>🇮🇷 <b>Iran</b></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-adv">R32 ✓</span></td></tr>
-      <tr><td>3</td><td>🇪🇬 Egypt</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-out">Out</span></td></tr>
-      <tr><td>4</td><td>🇳🇿 New Zealand</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-H" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇪🇸 Spain</td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇺🇾 Uruguay</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇸🇦 Saudi Arabia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+    <tr><td>4</td><td>🇨🇻 Cape Verde</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-H" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇪🇸 Spain</td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇺🇾 Uruguay</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇸🇦 Saudi Arabia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-      <tr><td>4</td><td>🇨🇻 Cape Verde</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-I" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr class="row-ch"><td>1</td><td>🇫🇷 France 🏆</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇸🇳 Senegal</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇮🇶 Iraq</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-I" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr class="row-champion"><td>1</td><td>🇫🇷 France 🏆</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇸🇳 Senegal</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇮🇶 Iraq</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-J" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr class="row-ru"><td>1</td><td>🇦🇷 Argentina 🥈</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇦🇹 Austria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇩🇿 Algeria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇯🇴 Jordan</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-J" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr class="row-runner"><td>1</td><td>🇦🇷 Argentina 🥈</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇦🇹 Austria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇩🇿 Algeria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇯🇴 Jordan</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-K" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🇵🇹 Portugal</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇨🇴 Colombia</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇨🇩 DR Congo</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+    <tr><td>4</td><td>🇺🇿 Uzbekistan</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 
-  <div id="group-K" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🇵🇹 Portugal</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇨🇴 Colombia</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇨🇩 DR Congo</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-      <tr><td>4</td><td>🇺🇿 Uzbekistan</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
-
-  <div id="group-L" class="tab-panel"><div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>2</td><td>🇭🇷 Croatia</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>7</b></td><td><span class="badge badge-adv">R32</span></td></tr>
-      <tr><td>3</td><td>🇵🇦 Panama</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="badge badge-q">R32 (3rd)</span></td></tr>
-      <tr><td>4</td><td>🇬🇭 Ghana</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td><b>0</b></td><td><span class="badge badge-out">Out</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div id="g-L" class="tp"><div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr></thead><tbody>
+    <tr><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>2</td><td>🇭🇷 Croatia</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>7</b></td><td><span class="b b-g">R32</span></td></tr>
+    <tr><td>3</td><td>🇵🇦 Panama</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+    <tr><td>4</td><td>🇬🇭 Ghana</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td><b>0</b></td><td><span class="b b-o">Out</span></td></tr>
+  </tbody></table></div></div>
 </div>
 
 <!-- BRACKET -->
-<div class="section" id="bracket">
-  <div class="sec-header">
-    <div class="sec-icon">⚡</div>
-    <div class="sec-title">مسیر حذفی و قهرمان پیش‌بینی‌شده</div>
-    <div class="sec-badge">نتیجه حالت میانه · درصد اطمینان مدل</div>
+<div class="sec" id="bracket">
+  <div class="sec-head">
+    <div class="sec-ico">⚡</div>
+    <div class="sec-ttl" data-en="Knockout Bracket — Predicted Path to Glory" data-fa="مسیر حذفی — مسیر پیش‌بینی‌شده به قهرمانی">Knockout Bracket — Predicted Path to Glory</div>
+    <div class="sec-sub" data-en="Median result · model confidence %" data-fa="نتیجه میانه · درصد اطمینان">Median result · model confidence %</div>
   </div>
 
-  <div class="bracket-stage">
-    <div class="stage-label">Round of 32</div>
-    <div class="match-grid">
-      <div class="match"><span class="match-num">73</span><div class="match-teams"><div class="team-line lose">🇰🇷 South Korea</div><div class="team-line win">🇨🇦 Canada ✓</div></div><div class="match-meta"><div class="match-result">1-1 pens</div><div class="match-conf-pct">50.6%</div></div></div>
-      <div class="match"><span class="match-num">74</span><div class="match-teams"><div class="team-line win">🇩🇪 Germany ✓</div><div class="team-line lose">🇦🇺 Australia</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">71.7%</div></div></div>
-      <div class="match"><span class="match-num">75</span><div class="match-teams"><div class="team-line win">🇳🇱 Netherlands ✓</div><div class="team-line lose">🇲🇦 Morocco</div></div><div class="match-meta"><div class="match-result">1-1 pens</div><div class="match-conf-pct">53.1%</div></div></div>
-      <div class="match"><span class="match-num">76</span><div class="match-teams"><div class="team-line win">🇧🇷 Brazil ✓</div><div class="team-line lose">🇯🇵 Japan</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">65.1%</div></div></div>
-      <div class="match"><span class="match-num">77</span><div class="match-teams"><div class="team-line win">🇫🇷 France ✓</div><div class="team-line lose">🇪🇬 Egypt</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">84.0%</div></div></div>
-      <div class="match"><span class="match-num">78</span><div class="match-teams"><div class="team-line lose">🇪🇨 Ecuador</div><div class="team-line win">🇸🇳 Senegal ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">56.7%</div></div></div>
-      <div class="match"><span class="match-num">79</span><div class="match-teams"><div class="team-line win">🇲🇽 Mexico ✓</div><div class="team-line lose">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">75.9%</div></div></div>
-      <div class="match"><span class="match-num">80</span><div class="match-teams"><div class="team-line win">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div><div class="team-line lose">🇩🇿 Algeria</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">77.3%</div></div></div>
-      <div class="match"><span class="match-num">81</span><div class="match-teams"><div class="team-line win">🇺🇸 USA ✓</div><div class="team-line lose">🇳🇴 Norway</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">68.4%</div></div></div>
-      <div class="match"><span class="match-num">82</span><div class="match-teams"><div class="team-line win">🇧🇪 Belgium ✓</div><div class="team-line lose">🇨🇿 Czechia</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">74.5%</div></div></div>
-      <div class="match"><span class="match-num">83</span><div class="match-teams"><div class="team-line lose">🇨🇴 Colombia</div><div class="team-line win">🇭🇷 Croatia ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">56.2%</div></div></div>
-      <div class="match"><span class="match-num">84</span><div class="match-teams"><div class="team-line win">🇪🇸 Spain ✓</div><div class="team-line lose">🇦🇹 Austria</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">80.0%</div></div></div>
-      <div class="match"><span class="match-num">85</span><div class="match-teams"><div class="team-line win">🇨🇭 Switzerland ✓</div><div class="team-line lose">🇨🇮 Ivory Coast</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">63.4%</div></div></div>
-      <div class="match"><span class="match-num">86</span><div class="match-teams"><div class="team-line win">🇦🇷 Argentina ✓</div><div class="team-line lose">🇺🇾 Uruguay</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">70.3%</div></div></div>
-      <div class="match"><span class="match-num">87</span><div class="match-teams"><div class="team-line win">🇵🇹 Portugal ✓</div><div class="team-line lose">🇵🇦 Panama</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">78.1%</div></div></div>
-      <div class="match iran-match"><span class="match-num">88</span><div class="match-teams"><div class="team-line win">🇹🇷 Türkiye ✓</div><div class="team-line lose" style="color:#4ade8088">🇮🇷 Iran</div></div><div class="match-meta"><div class="match-result">1-1 pens</div><div class="match-conf-pct" style="color:var(--bad)">51.7%</div></div></div>
+  <div class="bstage">
+    <div class="bstage-l">Round of 32</div>
+    <div class="mgrid">
+      <div class="mc"><span class="mn">73</span><div class="mts"><div class="tl l">🇰🇷 South Korea</div><div class="tl w">🇨🇦 Canada ✓</div></div><div class="mm"><div class="mr">1-1 pens</div><div class="mc2">50.6%</div></div></div>
+      <div class="mc"><span class="mn">74</span><div class="mts"><div class="tl w">🇩🇪 Germany ✓</div><div class="tl l">🇦🇺 Australia</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">71.7%</div></div></div>
+      <div class="mc"><span class="mn">75</span><div class="mts"><div class="tl w">🇳🇱 Netherlands ✓</div><div class="tl l">🇲🇦 Morocco</div></div><div class="mm"><div class="mr">1-1 pens</div><div class="mc2">53.1%</div></div></div>
+      <div class="mc"><span class="mn">76</span><div class="mts"><div class="tl w">🇧🇷 Brazil ✓</div><div class="tl l">🇯🇵 Japan</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">65.1%</div></div></div>
+      <div class="mc"><span class="mn">77</span><div class="mts"><div class="tl w">🇫🇷 France ✓</div><div class="tl l">🇪🇬 Egypt</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">84.0%</div></div></div>
+      <div class="mc"><span class="mn">78</span><div class="mts"><div class="tl l">🇪🇨 Ecuador</div><div class="tl w">🇸🇳 Senegal ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">56.7%</div></div></div>
+      <div class="mc"><span class="mn">79</span><div class="mts"><div class="tl w">🇲🇽 Mexico ✓</div><div class="tl l">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">75.9%</div></div></div>
+      <div class="mc"><span class="mn">80</span><div class="mts"><div class="tl w">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div><div class="tl l">🇩🇿 Algeria</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">77.3%</div></div></div>
+      <div class="mc"><span class="mn">81</span><div class="mts"><div class="tl w">🇺🇸 USA ✓</div><div class="tl l">🇳🇴 Norway</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">68.4%</div></div></div>
+      <div class="mc"><span class="mn">82</span><div class="mts"><div class="tl w">🇧🇪 Belgium ✓</div><div class="tl l">🇨🇿 Czechia</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">74.5%</div></div></div>
+      <div class="mc"><span class="mn">83</span><div class="mts"><div class="tl l">🇨🇴 Colombia</div><div class="tl w">🇭🇷 Croatia ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">56.2%</div></div></div>
+      <div class="mc"><span class="mn">84</span><div class="mts"><div class="tl w">🇪🇸 Spain ✓</div><div class="tl l">🇦🇹 Austria</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">80.0%</div></div></div>
+      <div class="mc"><span class="mn">85</span><div class="mts"><div class="tl w">🇨🇭 Switzerland ✓</div><div class="tl l">🇨🇮 Ivory Coast</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">63.4%</div></div></div>
+      <div class="mc"><span class="mn">86</span><div class="mts"><div class="tl w">🇦🇷 Argentina ✓</div><div class="tl l">🇺🇾 Uruguay</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">70.3%</div></div></div>
+      <div class="mc"><span class="mn">87</span><div class="mts"><div class="tl w">🇵🇹 Portugal ✓</div><div class="tl l">🇵🇦 Panama</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">78.1%</div></div></div>
+      <div class="mc iran-m"><span class="mn">88</span><div class="mts"><div class="tl w">🇹🇷 Türkiye ✓</div><div class="tl l" style="color:var(--iran)88">🇮🇷 Iran</div></div><div class="mm"><div class="mr">1-1 pens</div><div class="mc2" style="color:var(--red)">51.7%</div></div></div>
     </div>
   </div>
 
-  <div class="bracket-stage">
-    <div class="stage-label">Round of 16</div>
-    <div class="match-grid">
-      <div class="match"><span class="match-num">89</span><div class="match-teams"><div class="team-line lose">🇨🇦 Canada</div><div class="team-line win">🇳🇱 Netherlands ✓</div></div><div class="match-meta"><div class="match-result">0-2</div><div class="match-conf-pct">71.1%</div></div></div>
-      <div class="match"><span class="match-num">90</span><div class="match-teams"><div class="team-line lose">🇩🇪 Germany</div><div class="team-line win">🇫🇷 France ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">63.7%</div></div></div>
-      <div class="match"><span class="match-num">91</span><div class="match-teams"><div class="team-line win">🇧🇷 Brazil ✓</div><div class="team-line lose">🇸🇳 Senegal</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">64.4%</div></div></div>
-      <div class="match"><span class="match-num">92</span><div class="match-teams"><div class="team-line lose">🇲🇽 Mexico</div><div class="team-line win">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">59.3%</div></div></div>
-      <div class="match"><span class="match-num">93</span><div class="match-teams"><div class="team-line lose">🇭🇷 Croatia</div><div class="team-line win">🇪🇸 Spain ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">64.2%</div></div></div>
-      <div class="match"><span class="match-num">94</span><div class="match-teams"><div class="team-line lose">🇺🇸 USA</div><div class="team-line win">🇧🇪 Belgium ✓</div></div><div class="match-meta"><div class="match-result">1-1 pens</div><div class="match-conf-pct">53.4%</div></div></div>
-      <div class="match"><span class="match-num">95</span><div class="match-teams"><div class="team-line win">🇦🇷 Argentina ✓</div><div class="team-line lose">🇹🇷 Türkiye</div></div><div class="match-meta"><div class="match-result">2-0</div><div class="match-conf-pct">78.7%</div></div></div>
-      <div class="match"><span class="match-num">96</span><div class="match-teams"><div class="team-line lose">🇨🇭 Switzerland</div><div class="team-line win">🇵🇹 Portugal ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">64.2%</div></div></div>
+  <div class="bstage">
+    <div class="bstage-l">Round of 16</div>
+    <div class="mgrid">
+      <div class="mc"><span class="mn">89</span><div class="mts"><div class="tl l">🇨🇦 Canada</div><div class="tl w">🇳🇱 Netherlands ✓</div></div><div class="mm"><div class="mr">0-2</div><div class="mc2">71.1%</div></div></div>
+      <div class="mc"><span class="mn">90</span><div class="mts"><div class="tl l">🇩🇪 Germany</div><div class="tl w">🇫🇷 France ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">63.7%</div></div></div>
+      <div class="mc"><span class="mn">91</span><div class="mts"><div class="tl w">🇧🇷 Brazil ✓</div><div class="tl l">🇸🇳 Senegal</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">64.4%</div></div></div>
+      <div class="mc"><span class="mn">92</span><div class="mts"><div class="tl l">🇲🇽 Mexico</div><div class="tl w">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">59.3%</div></div></div>
+      <div class="mc"><span class="mn">93</span><div class="mts"><div class="tl l">🇭🇷 Croatia</div><div class="tl w">🇪🇸 Spain ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">64.2%</div></div></div>
+      <div class="mc"><span class="mn">94</span><div class="mts"><div class="tl l">🇺🇸 USA</div><div class="tl w">🇧🇪 Belgium ✓</div></div><div class="mm"><div class="mr">1-1 pens</div><div class="mc2">53.4%</div></div></div>
+      <div class="mc"><span class="mn">95</span><div class="mts"><div class="tl w">🇦🇷 Argentina ✓</div><div class="tl l">🇹🇷 Türkiye</div></div><div class="mm"><div class="mr">2-0</div><div class="mc2">78.7%</div></div></div>
+      <div class="mc"><span class="mn">96</span><div class="mts"><div class="tl l">🇨🇭 Switzerland</div><div class="tl w">🇵🇹 Portugal ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">64.2%</div></div></div>
     </div>
   </div>
 
-  <div class="bracket-stage">
-    <div class="stage-label">Quarterfinals</div>
-    <div class="match-grid">
-      <div class="match"><span class="match-num">97</span><div class="match-teams"><div class="team-line lose">🇳🇱 Netherlands</div><div class="team-line win">🇫🇷 France ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">62.8%</div></div></div>
-      <div class="match"><span class="match-num">98</span><div class="match-teams"><div class="team-line win">🇪🇸 Spain ✓</div><div class="team-line lose">🇧🇪 Belgium</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">65.2%</div></div></div>
-      <div class="match"><span class="match-num">99</span><div class="match-teams"><div class="team-line lose">🇧🇷 Brazil</div><div class="team-line win">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div class="match-meta"><div class="match-result">1-1 pens</div><div class="match-conf-pct">51.8%</div></div></div>
-      <div class="match"><span class="match-num">100</span><div class="match-teams"><div class="team-line win">🇦🇷 Argentina ✓</div><div class="team-line lose">🇵🇹 Portugal</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">61.6%</div></div></div>
+  <div class="bstage">
+    <div class="bstage-l">Quarterfinals</div>
+    <div class="mgrid">
+      <div class="mc"><span class="mn">97</span><div class="mts"><div class="tl l">🇳🇱 Netherlands</div><div class="tl w">🇫🇷 France ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">62.8%</div></div></div>
+      <div class="mc"><span class="mn">98</span><div class="mts"><div class="tl w">🇪🇸 Spain ✓</div><div class="tl l">🇧🇪 Belgium</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">65.2%</div></div></div>
+      <div class="mc"><span class="mn">99</span><div class="mts"><div class="tl l">🇧🇷 Brazil</div><div class="tl w">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England ✓</div></div><div class="mm"><div class="mr">1-1 pens</div><div class="mc2">51.8%</div></div></div>
+      <div class="mc"><span class="mn">100</span><div class="mts"><div class="tl w">🇦🇷 Argentina ✓</div><div class="tl l">🇵🇹 Portugal</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">61.6%</div></div></div>
     </div>
   </div>
 
-  <div class="bracket-stage">
-    <div class="stage-label">Semifinals</div>
-    <div class="match-grid">
-      <div class="match" style="border-color:var(--gold)40"><span class="match-num">101</span><div class="match-teams"><div class="team-line win" style="color:var(--gold2)">🇫🇷 France ✓</div><div class="team-line lose">🇪🇸 Spain</div></div><div class="match-meta"><div class="match-result" style="color:var(--gold)">1-1 pens</div><div class="match-conf-pct">52.3%</div></div></div>
-      <div class="match" style="border-color:var(--argentina)40"><span class="match-num">102</span><div class="match-teams"><div class="team-line lose">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div><div class="team-line win" style="color:var(--argentina)">🇦🇷 Argentina ✓</div></div><div class="match-meta"><div class="match-result">1-2</div><div class="match-conf-pct">58.2%</div></div></div>
+  <div class="bstage">
+    <div class="bstage-l">Semifinals</div>
+    <div class="mgrid">
+      <div class="mc" style="border-color:var(--gold)40"><span class="mn">101</span><div class="mts"><div class="tl w" style="color:var(--amber)">🇫🇷 France ✓</div><div class="tl l">🇪🇸 Spain</div></div><div class="mm"><div class="mr" style="color:var(--gold)">1-1 pens</div><div class="mc2">52.3%</div></div></div>
+      <div class="mc" style="border-color:var(--teal)40"><span class="mn">102</span><div class="mts"><div class="tl l">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div><div class="tl w" style="color:var(--teal)">🇦🇷 Argentina ✓</div></div><div class="mm"><div class="mr">1-2</div><div class="mc2">58.2%</div></div></div>
     </div>
   </div>
 
-  <div class="bracket-stage" style="border-color:var(--silver)30">
-    <div class="stage-label" style="color:var(--silver)">Third Place</div>
-    <div class="match-grid">
-      <div class="match"><span class="match-num">103</span><div class="match-teams"><div class="team-line win">🇪🇸 Spain 🥉</div><div class="team-line lose">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div></div><div class="match-meta"><div class="match-result">2-1</div><div class="match-conf-pct">57.1%</div></div></div>
+  <div class="bstage" style="border-color:#94a3b830">
+    <div class="bstage-l" style="color:#94a3b8">Third Place</div>
+    <div class="mgrid">
+      <div class="mc"><span class="mn">103</span><div class="mts"><div class="tl w">🇪🇸 Spain 🥉</div><div class="tl l">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div></div><div class="mm"><div class="mr">2-1</div><div class="mc2">57.1%</div></div></div>
     </div>
   </div>
 
-  <div class="bracket-stage stage-final" style="background:linear-gradient(135deg,#140e01,var(--card));border-color:var(--gold)55">
-    <div class="stage-label" style="color:var(--gold)">⚽ World Cup Final 2026</div>
-    <div class="match-grid">
-      <div class="match final-match">
-        <span class="match-num" style="color:var(--gold)">104</span>
-        <div class="match-teams">
-          <div class="team-line win" style="color:var(--gold2);font-size:15px">🇫🇷 France 🏆</div>
-          <div class="team-line lose" style="font-size:14px;color:var(--argentina)88">🇦🇷 Argentina 🥈</div>
+  <div class="bstage" style="background:linear-gradient(135deg,#130e0100,var(--card));border-color:var(--gold)55">
+    <div class="bstage-l" style="color:var(--gold)">⚽ World Cup Final — MetLife Stadium, New Jersey</div>
+    <div class="mgrid">
+      <div class="mc final-m">
+        <span class="mn" style="color:var(--gold)">104</span>
+        <div class="mts">
+          <div class="tl w" style="color:var(--amber);font-size:15px">🇫🇷 France 🏆</div>
+          <div class="tl l" style="color:var(--teal)88;font-size:14px">🇦🇷 Argentina 🥈</div>
         </div>
-        <div class="match-meta">
-          <div class="match-result" style="font-size:15px;color:var(--gold)">1–1 (pens)</div>
-          <div class="match-conf-pct" style="color:var(--gold)">P(France wins) = 51.3%</div>
+        <div class="mm">
+          <div class="mr" style="font-size:15px;color:var(--gold)">1–1 (pens)</div>
+          <div class="mc2" style="color:var(--gold)">P(FRA) = 51.3%</div>
         </div>
       </div>
     </div>
@@ -1307,71 +855,86 @@ pre {
 </div>
 
 <!-- SOURCES -->
-<div class="section" id="sources">
-  <div class="sec-header">
-    <div class="sec-icon">📚</div>
-    <div class="sec-title">منابع و مفروضات مدل</div>
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">📚</div>
+    <div class="sec-ttl" data-en="Sources &amp; Methodology" data-fa="منابع و روش‌شناسی">Sources &amp; Methodology</div>
   </div>
-  <ul class="sources-list">
-    <li>Dixon, M. & Coles, S. (1997). <em>Modelling Association Football Scores and Inefficiencies in the Football Betting Market.</em> Applied Statistics, 46(2), 265-280. پایه نظری مدل.</li>
-    <li>World Football Elo Ratings — آخرین به‌روزرسانی 2026-05-28. برای کالیبراسیون پارامترهای λ هر تیم.</li>
-    <li>FIFA/Coca-Cola Ranking — رتبه‌بندی رسمی 2026-06-01. وزن ۲۵٪ در محاسبه قدرت تیم.</li>
-    <li>Transfermarkt squad market values (proxy) — برای تخمین عمق و کیفیت ترکیب تیم‌ها.</li>
-    <li>FIFA 2026 tournament format — ۱۲ گروه × ۴ تیم، صعود ۲ تیم اول + ۸ تیم سوم برتر به R32.</li>
-    <li>تصحیح Dixon-Coles (ρ=-0.08) برای نتایج کم‌گل اعمال شده است.</li>
+  <ul class="src">
+    <li>Dixon, M. &amp; Coles, S. (1997). <em>Modelling Association Football Scores and Inefficiencies in the Football Betting Market.</em> Applied Statistics 46(2), 265–280.</li>
+    <li>World Football Elo Ratings — calibrated as of 2026-05-28. Used for 35% weight in λ calculation.</li>
+    <li>FIFA/Coca-Cola World Ranking — official rankings as of June 2026. 25% weight in team strength.</li>
+    <li>Betting market consensus odds (Betfair, bet365, Pinnacle) — incorporated as prior probability signal.</li>
+    <li>Transfermarkt squad market values — used as proxy for squad depth and quality (12% weight).</li>
+    <li>Dixon-Coles correction coefficient ρ = −0.08 applied for low-scoring result bias correction.</li>
   </ul>
   <pre>{
   "model": "Dixon-Coles Bivariate Poisson",
+  "version": "2.0",
   "simulations": 10000,
+  "rho": -0.08,
   "champion": "France",
-  "champion_probability": 0.284,
+  "p_champion": 0.284,
   "runner_up": "Argentina",
-  "runner_up_probability": 0.221,
+  "p_runner_up": 0.221,
   "third_place": "Spain",
   "iran_group": "G",
-  "iran_rank": 2,
-  "iran_points": 4,
-  "iran_r32_probability": 0.840,
-  "dixon_coles_rho": -0.08,
-  "elo_weight": 0.35,
-  "fifa_weight": 0.25,
-  "form_weight": 0.15,
-  "squad_weight": 0.12
+  "iran_predicted_rank": 2,
+  "iran_pts": 4,
+  "iran_p_r32": 0.840,
+  "weights": { "elo": 0.35, "fifa": 0.25, "form": 0.15, "squad": 0.12, "history": 0.08, "h2h": 0.05 }
 }</pre>
 </div>
 
 </main>
 
-<div class="footer">
-  <div class="footer-logo">WC2026</div>
-  تولیدشده در 2026-06-02 · مدل Dixon-Coles Bivariate Poisson · ۱۰٬۰۰۰ شبیه‌سازی مونت‌کارلو<br>
-  <span style="color:#334155">پیش‌بینی احتمالاتی · نه قطعیت · برای اهداف تحلیلی</span>
-</div>
+<footer>
+  <div class="f-logo">WC2026</div>
+  <span data-en="Generated 2026-06-02 · Dixon-Coles Bivariate Poisson · 10,000 Monte Carlo simulations" data-fa="تولیدشده ۲۰۲۶-۰۶-۰۲ · Poisson دوگانه Dixon-Coles · ۱۰٬۰۰۰ شبیه‌سازی">Generated 2026-06-02 · Dixon-Coles Bivariate Poisson · 10,000 Monte Carlo simulations</span><br>
+  <span style="color:#1e3058" data-en="Probabilistic forecast for analytical purposes only · Not financial advice" data-fa="پیش‌بینی احتمالاتی برای مقاصد تحلیلی · نه توصیه مالی">Probabilistic forecast for analytical purposes only · Not financial advice</span>
+</footer>
 
 <script>
-function showGroup(g, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('group-' + g).classList.add('active');
-  btn.classList.add('active');
-}
-function scrollTo(id) {
-  document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// group tabs
+function sg(g,btn){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('g-'+g).classList.add('on');
+  btn.classList.add('on');
 }
 
-// Animate bars on load
-document.addEventListener('DOMContentLoaded', () => {
-  const bars = document.querySelectorAll('.weight-bar-fill, .outcome-fill, .prob-fill');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.transition = 'width 0.7s ease';
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  bars.forEach(b => observer.observe(b));
-});
+// section scroll + active nav
+function go(id){document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+
+// bilingual toggle
+const FA_DIR = 'rtl', EN_DIR = 'ltr';
+let isFa = false;
+function toggleLang(){
+  isFa = !isFa;
+  document.documentElement.lang = isFa ? 'fa' : 'en';
+  document.body.dir = isFa ? FA_DIR : EN_DIR;
+  document.body.classList.toggle('fa', isFa);
+  document.getElementById('langbtn').textContent = isFa ? '🌐 English' : '🌐 فارسی';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const key = isFa ? 'fa' : 'en';
+    const val = el.getAttribute('data-'+key);
+    if(val) el.innerHTML = val;
+  });
+}
+
+// nav highlight on scroll
+const sections = ['summary','odds','iran','model','teams','groups','bracket'];
+const navBtns = document.querySelectorAll('.nav-a');
+window.addEventListener('scroll',()=>{
+  let cur = '';
+  sections.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && window.scrollY >= el.offsetTop - 80) cur = id;
+  });
+  navBtns.forEach((b,i)=>{
+    b.classList.toggle('on', sections[i] === cur || (cur==='' && i===0));
+  });
+},{passive:true});
 </script>
 </body>
 </html>
