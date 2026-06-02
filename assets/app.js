@@ -1,4 +1,12 @@
-// Language toggle
+// ─── FLAGS (no emoji — use flagcdn.com) ──────────────────────────────
+function flagUrl(iso2){
+  return `https://flagcdn.com/w40/${iso2.toLowerCase()}.png`;
+}
+function fi(iso2, cls='f-img'){
+  return `<img src="${flagUrl(iso2)}" class="${cls}" alt="" onerror="this.style.opacity='.2'">`;
+}
+
+// ─── LANGUAGE TOGGLE ──────────────────────────────────────────────────
 let isFa = false;
 function toggleLang(){
   isFa = !isFa;
@@ -13,12 +21,13 @@ function toggleLang(){
   });
 }
 
-// Mobile nav
+// ─── MOBILE NAV ───────────────────────────────────────────────────────
 function toggleMobileNav(){
-  document.querySelector('.nav-links')?.classList.toggle('open');
+  const nl = document.querySelector('.nav-links');
+  if(nl) nl.classList.toggle('open');
 }
 
-// Group tabs
+// ─── GROUP TABS ───────────────────────────────────────────────────────
 function sg(g, btn){
   document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
@@ -27,27 +36,13 @@ function sg(g, btn){
   if(btn) btn.classList.add('on');
 }
 
-// Smooth scroll
+// ─── SMOOTH SCROLL ────────────────────────────────────────────────────
 function go(id){
   const el = typeof id === 'string' ? document.querySelector(id) : id;
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-// Active nav highlight (single-page sections)
-function initScrollSpy(ids){
-  const btns = document.querySelectorAll('.nav-a[data-section]');
-  if(!btns.length) return;
-  window.addEventListener('scroll',()=>{
-    let cur = ids[0];
-    ids.forEach(id=>{
-      const el = document.getElementById(id);
-      if(el && window.scrollY >= el.offsetTop - 90) cur = id;
-    });
-    btns.forEach(b=> b.classList.toggle('on', b.dataset.section === cur));
-  },{passive:true});
-}
-
-// Animate bars on intersection
+// ─── ANIMATE BARS ON LOAD ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
   const io = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -57,5 +52,5 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     });
   },{threshold:.1});
-  document.querySelectorAll('.pf,.pf2,.wbf,.odds-bar').forEach(el=>io.observe(el));
+  document.querySelectorAll('.pf,.pf2,.wbf,.o-bar').forEach(el=>io.observe(el));
 });
