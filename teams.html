@@ -21,6 +21,7 @@
 .team-card.runner{border-color:var(--teal)50;background:linear-gradient(135deg,#071609,var(--card))}
 .tc-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .tc-flag{font-size:32px;line-height:1}
+.tc-flag-img{width:56px;height:38px;border-radius:5px;object-fit:cover;box-shadow:0 2px 8px #0006;flex-shrink:0}
 .tc-info{flex:1}
 .tc-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px}
 .tc-conf{font-size:11px;color:var(--dim)}
@@ -110,68 +111,77 @@
 
 <script src="assets/app.js"></script>
 <script>
+function fi(iso2){return`<img src="https://flagcdn.com/w40/${iso2}.png" class="tc-flag-img" alt="" onerror="this.style.opacity=0.2">`;}
+function fi2(iso2){return`<img src="https://flagcdn.com/w40/${iso2}.png" class="f-img" alt="" onerror="this.style.opacity=0.2">`;}
+
 const TEAMS = [
-  {grp:'I',pos:1,flag:'🇫🇷',name:'France',conf:'UEFA',elo:1877,fifa:1,att:1.91,def:0.82,pts:9,r32:98.3,champ:28.4,cls:'champ'},
-  {grp:'J',pos:1,flag:'🇦🇷',name:'Argentina',conf:'CONMEBOL',elo:1875,fifa:3,att:1.88,def:0.84,pts:9,r32:98.6,champ:22.1,cls:'runner'},
-  {grp:'H',pos:1,flag:'🇪🇸',name:'Spain',conf:'UEFA',elo:1876,fifa:2,att:1.87,def:0.79,pts:9,r32:98.7,champ:18.9},
-  {grp:'C',pos:1,flag:'🇧🇷',name:'Brazil',conf:'CONMEBOL',elo:1761,fifa:6,att:1.72,def:0.89,pts:7,r32:97.0,champ:17.3},
-  {grp:'L',pos:1,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England',conf:'UEFA',elo:1826,fifa:4,att:1.74,def:0.92,pts:7,r32:96.5,champ:12.6},
-  {grp:'K',pos:1,flag:'🇵🇹',name:'Portugal',conf:'UEFA',elo:1764,fifa:5,att:1.68,def:0.94,pts:9,r32:95.9,champ:8.4},
-  {grp:'F',pos:1,flag:'🇳🇱',name:'Netherlands',conf:'UEFA',elo:1758,fifa:7,att:1.65,def:0.96,pts:9,r32:95.2,champ:7.1},
-  {grp:'E',pos:1,flag:'🇩🇪',name:'Germany',conf:'UEFA',elo:1730,fifa:10,att:1.62,def:0.97,pts:9,r32:97.1,champ:6.8},
-  {grp:'G',pos:1,flag:'🇧🇪',name:'Belgium',conf:'UEFA',elo:1735,fifa:9,att:1.78,def:1.02,pts:9,r32:96.5,champ:5.2},
-  {grp:'F',pos:2,flag:'🇯🇵',name:'Japan',conf:'AFC',elo:1660,fifa:18,att:1.44,def:1.08,pts:6,r32:83.3,champ:3.1},
-  {grp:'A',pos:1,flag:'🇲🇽',name:'Mexico',conf:'CONCACAF',elo:1681,fifa:15,att:1.52,def:1.09,pts:9,r32:95.3,champ:2.9},
-  {grp:'D',pos:1,flag:'🇺🇸',name:'USA',conf:'CONCACAF',elo:1673,fifa:16,att:1.48,def:1.11,pts:9,r32:90.3,champ:2.4},
-  {grp:'H',pos:2,flag:'🇺🇾',name:'Uruguay',conf:'CONMEBOL',elo:1673,fifa:17,att:1.46,def:1.12,pts:6,r32:91.1,champ:2.1},
-  {grp:'B',pos:1,flag:'🇨🇭',name:'Switzerland',conf:'UEFA',elo:1649,fifa:19,att:1.39,def:1.14,pts:7,r32:93.3,champ:1.8},
-  {grp:'I',pos:2,flag:'🇸🇳',name:'Senegal',conf:'CAF',elo:1689,fifa:14,att:1.41,def:1.16,pts:6,r32:81.3,champ:1.6},
-  {grp:'C',pos:2,flag:'🇲🇦',name:'Morocco',conf:'CAF',elo:1660,fifa:12,att:1.44,def:1.15,pts:7,r32:85.0,champ:1.4},
-  {grp:'B',pos:2,flag:'🇨🇦',name:'Canada',conf:'CONCACAF',elo:1556,fifa:30,att:1.32,def:1.17,pts:7,r32:86.8,champ:0.8},
-  {grp:'D',pos:2,flag:'🇹🇷',name:'Türkiye',conf:'UEFA',elo:1599,fifa:22,att:1.29,def:1.19,pts:4,r32:74.8,champ:0.5},
-  {grp:'E',pos:2,flag:'🇪🇨',name:'Ecuador',conf:'CONMEBOL',elo:1595,fifa:23,att:1.27,def:1.21,pts:4,r32:83.5,champ:0.3},
-  {grp:'J',pos:2,flag:'🇦🇹',name:'Austria',conf:'UEFA',elo:1593,fifa:24,att:1.26,def:1.22,pts:4,r32:69.8,champ:0.3},
-  {grp:'A',pos:2,flag:'🇰🇷',name:'South Korea',conf:'AFC',elo:1589,fifa:25,att:1.24,def:1.23,pts:4,r32:78.9,champ:0.2},
-  {grp:'K',pos:2,flag:'🇨🇴',name:'Colombia',conf:'CONMEBOL',elo:1570,fifa:26,att:1.28,def:1.18,pts:6,r32:80.0,champ:0.4},
-  {grp:'D',pos:3,flag:'🇦🇺',name:'Australia',conf:'AFC',elo:1581,fifa:27,att:1.18,def:1.26,pts:2,r32:66.2,champ:0.1},
-  {grp:'J',pos:3,flag:'🇩🇿',name:'Algeria',conf:'CAF',elo:1564,fifa:28,att:1.19,def:1.24,pts:4,r32:61.7,champ:0.1},
-  {grp:'G',pos:3,flag:'🇪🇬',name:'Egypt',conf:'CAF',elo:1563,fifa:29,att:1.21,def:1.21,pts:4,r32:76.6,champ:0.2},
-  {grp:'G',pos:2,flag:'🇮🇷',name:'Iran',conf:'AFC',elo:1615,fifa:21,att:1.31,def:1.18,pts:4,r32:84.0,champ:0.4,cls:'iran'},
-  {grp:'I',pos:3,flag:'🇳🇴',name:'Norway',conf:'UEFA',elo:1551,fifa:31,att:1.22,def:1.22,pts:3,r32:52.0,champ:0.1},
-  {grp:'L',pos:3,flag:'🇵🇦',name:'Panama',conf:'CONCACAF',elo:1541,fifa:33,att:1.10,def:1.29,pts:3,r32:52.0,champ:0.1},
-  {grp:'E',pos:3,flag:'🇨🇮',name:'Ivory Coast',conf:'CAF',elo:1533,fifa:34,att:1.18,def:1.24,pts:4,r32:68.4,champ:0.1},
-  {grp:'F',pos:3,flag:'🇸🇪',name:'Sweden',conf:'UEFA',elo:1515,fifa:38,att:1.10,def:1.28,pts:1,r32:47.1,champ:0.1},
-  {grp:'D',pos:4,flag:'🇵🇾',name:'Paraguay',conf:'CONMEBOL',elo:1504,fifa:40,att:1.08,def:1.31,pts:1,r32:50.1,champ:0.1},
-  {grp:'A',pos:3,flag:'🇨🇿',name:'Czechia',conf:'UEFA',elo:1501,fifa:41,att:1.12,def:1.27,pts:4,r32:61.7,champ:0.1},
-  {grp:'C',pos:3,flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland',conf:'UEFA',elo:1498,fifa:43,att:1.06,def:1.33,pts:3,r32:52.0,champ:0.1},
-  {grp:'L',pos:2,flag:'🇭🇷',name:'Croatia',conf:'UEFA',elo:1540,fifa:35,att:1.31,def:1.14,pts:7,r32:88.0,champ:0.5},
-  {grp:'F',pos:4,flag:'🇹🇳',name:'Tunisia',conf:'CAF',elo:1483,fifa:44,att:1.02,def:1.36,pts:1,r32:38.4,champ:0.1},
-  {grp:'K',pos:3,flag:'🇨🇩',name:'DR Congo',conf:'CAF',elo:1478,fifa:46,att:1.00,def:1.38,pts:1,r32:37.7,champ:0.1},
+  {grp:'I',pos:1,iso2:'fr',name:'France',conf:'UEFA',elo:1877,fifa:1,att:1.91,def:0.82,pts:9,r32:98.3,champ:28.4,cls:'champ'},
+  {grp:'J',pos:1,iso2:'ar',name:'Argentina',conf:'CONMEBOL',elo:1875,fifa:3,att:1.88,def:0.84,pts:9,r32:98.6,champ:22.1,cls:'runner'},
+  {grp:'H',pos:1,iso2:'es',name:'Spain',conf:'UEFA',elo:1876,fifa:2,att:1.87,def:0.79,pts:9,r32:98.7,champ:18.9},
+  {grp:'C',pos:1,iso2:'br',name:'Brazil',conf:'CONMEBOL',elo:1761,fifa:6,att:1.72,def:0.89,pts:7,r32:97.0,champ:17.3},
+  {grp:'L',pos:1,iso2:'gb-eng',name:'England',conf:'UEFA',elo:1826,fifa:4,att:1.74,def:0.92,pts:7,r32:96.5,champ:12.6},
+  {grp:'K',pos:1,iso2:'pt',name:'Portugal',conf:'UEFA',elo:1764,fifa:5,att:1.68,def:0.94,pts:9,r32:95.9,champ:8.4},
+  {grp:'F',pos:1,iso2:'nl',name:'Netherlands',conf:'UEFA',elo:1758,fifa:7,att:1.65,def:0.96,pts:9,r32:95.2,champ:7.1},
+  {grp:'E',pos:1,iso2:'de',name:'Germany',conf:'UEFA',elo:1730,fifa:10,att:1.62,def:0.97,pts:9,r32:97.1,champ:6.8},
+  {grp:'G',pos:1,iso2:'be',name:'Belgium',conf:'UEFA',elo:1735,fifa:9,att:1.78,def:1.02,pts:9,r32:96.5,champ:5.2},
+  {grp:'F',pos:2,iso2:'jp',name:'Japan',conf:'AFC',elo:1660,fifa:18,att:1.44,def:1.08,pts:6,r32:83.3,champ:3.1},
+  {grp:'A',pos:1,iso2:'mx',name:'Mexico',conf:'CONCACAF',elo:1681,fifa:15,att:1.52,def:1.09,pts:9,r32:95.3,champ:2.9},
+  {grp:'D',pos:1,iso2:'us',name:'USA',conf:'CONCACAF',elo:1673,fifa:16,att:1.48,def:1.11,pts:9,r32:90.3,champ:2.4},
+  {grp:'H',pos:2,iso2:'uy',name:'Uruguay',conf:'CONMEBOL',elo:1673,fifa:17,att:1.46,def:1.12,pts:6,r32:91.1,champ:2.1},
+  {grp:'B',pos:1,iso2:'ch',name:'Switzerland',conf:'UEFA',elo:1649,fifa:19,att:1.39,def:1.14,pts:7,r32:93.3,champ:1.8},
+  {grp:'I',pos:2,iso2:'sn',name:'Senegal',conf:'CAF',elo:1689,fifa:14,att:1.41,def:1.16,pts:6,r32:81.3,champ:1.6},
+  {grp:'C',pos:2,iso2:'ma',name:'Morocco',conf:'CAF',elo:1660,fifa:12,att:1.44,def:1.15,pts:7,r32:85.0,champ:1.4},
+  {grp:'B',pos:2,iso2:'ca',name:'Canada',conf:'CONCACAF',elo:1556,fifa:30,att:1.32,def:1.17,pts:7,r32:86.8,champ:0.8},
+  {grp:'D',pos:2,iso2:'tr',name:'Türkiye',conf:'UEFA',elo:1599,fifa:22,att:1.29,def:1.19,pts:4,r32:74.8,champ:0.5},
+  {grp:'E',pos:2,iso2:'ec',name:'Ecuador',conf:'CONMEBOL',elo:1595,fifa:23,att:1.27,def:1.21,pts:4,r32:83.5,champ:0.3},
+  {grp:'J',pos:2,iso2:'at',name:'Austria',conf:'UEFA',elo:1593,fifa:24,att:1.26,def:1.22,pts:4,r32:69.8,champ:0.3},
+  {grp:'A',pos:2,iso2:'kr',name:'South Korea',conf:'AFC',elo:1589,fifa:25,att:1.24,def:1.23,pts:4,r32:78.9,champ:0.2},
+  {grp:'K',pos:2,iso2:'co',name:'Colombia',conf:'CONMEBOL',elo:1570,fifa:26,att:1.28,def:1.18,pts:6,r32:80.0,champ:0.4},
+  {grp:'D',pos:3,iso2:'au',name:'Australia',conf:'AFC',elo:1581,fifa:27,att:1.18,def:1.26,pts:2,r32:66.2,champ:0.1},
+  {grp:'J',pos:3,iso2:'dz',name:'Algeria',conf:'CAF',elo:1564,fifa:28,att:1.19,def:1.24,pts:4,r32:61.7,champ:0.1},
+  {grp:'G',pos:3,iso2:'eg',name:'Egypt',conf:'CAF',elo:1563,fifa:29,att:1.21,def:1.21,pts:4,r32:76.6,champ:0.2},
+  {grp:'G',pos:2,iso2:'ir',name:'Iran',conf:'AFC',elo:1615,fifa:21,att:1.31,def:1.18,pts:4,r32:84.0,champ:0.4,cls:'iran'},
+  {grp:'I',pos:3,iso2:'no',name:'Norway',conf:'UEFA',elo:1551,fifa:31,att:1.22,def:1.22,pts:3,r32:52.0,champ:0.1},
+  {grp:'L',pos:3,iso2:'pa',name:'Panama',conf:'CONCACAF',elo:1541,fifa:33,att:1.10,def:1.29,pts:3,r32:52.0,champ:0.1},
+  {grp:'E',pos:3,iso2:'ci',name:'Ivory Coast',conf:'CAF',elo:1533,fifa:34,att:1.18,def:1.24,pts:4,r32:68.4,champ:0.1},
+  {grp:'F',pos:3,iso2:'se',name:'Sweden',conf:'UEFA',elo:1515,fifa:38,att:1.10,def:1.28,pts:1,r32:47.1,champ:0.1},
+  {grp:'D',pos:4,iso2:'py',name:'Paraguay',conf:'CONMEBOL',elo:1504,fifa:40,att:1.08,def:1.31,pts:1,r32:50.1,champ:0.1},
+  {grp:'A',pos:3,iso2:'cz',name:'Czechia',conf:'UEFA',elo:1501,fifa:41,att:1.12,def:1.27,pts:4,r32:61.7,champ:0.1},
+  {grp:'C',pos:3,iso2:'gb-sct',name:'Scotland',conf:'UEFA',elo:1498,fifa:43,att:1.06,def:1.33,pts:3,r32:52.0,champ:0.1},
+  {grp:'L',pos:2,iso2:'hr',name:'Croatia',conf:'UEFA',elo:1540,fifa:35,att:1.31,def:1.14,pts:7,r32:88.0,champ:0.5},
+  {grp:'F',pos:4,iso2:'tn',name:'Tunisia',conf:'CAF',elo:1483,fifa:44,att:1.02,def:1.36,pts:1,r32:38.4,champ:0.1},
+  {grp:'K',pos:3,iso2:'cd',name:'DR Congo',conf:'CAF',elo:1478,fifa:46,att:1.00,def:1.38,pts:1,r32:37.7,champ:0.1},
   {grp:'K',pos:4,flag:'🇺🇿',name:'Uzbekistan',conf:'AFC',elo:1465,fifa:50,att:0.95,def:1.44,pts:1,r32:30.8,champ:0.1},
   {grp:'B',pos:3,flag:'🇶🇦',name:'Qatar',conf:'AFC',elo:1441,fifa:55,att:0.90,def:1.52,pts:1,r32:48.2,champ:0.1},
   {grp:'I',pos:4,flag:'🇮🇶',name:'Iraq',conf:'AFC',elo:1432,fifa:57,att:0.86,def:1.58,pts:0,r32:17.2,champ:0.0},
   {grp:'A',pos:4,flag:'🇿🇦',name:'South Africa',conf:'CAF',elo:1417,fifa:60,att:0.84,def:1.62,pts:0,r32:31.1,champ:0.1},
   {grp:'H',pos:3,flag:'🇸🇦',name:'Saudi Arabia',conf:'AFC',elo:1412,fifa:61,att:0.88,def:1.56,pts:1,r32:26.0,champ:0.1},
-  {grp:'J',pos:4,flag:'🇯🇴',name:'Jordan',conf:'AFC',elo:1402,fifa:63,att:0.82,def:1.66,pts:0,r32:16.8,champ:0.0},
-  {grp:'B',pos:4,flag:'🇧🇦',name:'Bosnia & Herz.',conf:'UEFA',elo:1391,fifa:65,att:0.86,def:1.58,pts:1,r32:39.0,champ:0.1},
-  {grp:'H',pos:4,flag:'🇨🇻',name:'Cape Verde',conf:'CAF',elo:1371,fifa:69,att:0.80,def:1.72,pts:1,r32:16.3,champ:0.0},
-  {grp:'L',pos:4,flag:'🇬🇭',name:'Ghana',conf:'CAF',elo:1344,fifa:74,att:0.84,def:1.66,pts:0,r32:14.4,champ:0.0},
-  {grp:'E',pos:4,flag:'🇨🇼',name:'Curaçao',conf:'CONCACAF',elo:1300,fifa:82,att:0.72,def:1.82,pts:0,r32:13.0,champ:0.0},
-  {grp:'G',pos:4,flag:'🇳🇿',name:'New Zealand',conf:'OFC',elo:1282,fifa:85,att:0.74,def:1.68,pts:0,r32:10.4,champ:0.0},
-  {grp:'C',pos:4,flag:'🇭🇹',name:'Haiti',conf:'CONCACAF',elo:1294,fifa:83,att:0.70,def:1.90,pts:0,r32:8.9,champ:0.0},
+  {grp:'J',pos:4,iso2:'jo',name:'Jordan',conf:'AFC',elo:1402,fifa:63,att:0.82,def:1.66,pts:0,r32:16.8,champ:0.0},
+  {grp:'B',pos:4,iso2:'ba',name:'Bosnia & Herz.',conf:'UEFA',elo:1391,fifa:65,att:0.86,def:1.58,pts:1,r32:39.0,champ:0.1},
+  {grp:'H',pos:4,iso2:'cv',name:'Cape Verde',conf:'CAF',elo:1371,fifa:69,att:0.80,def:1.72,pts:1,r32:16.3,champ:0.0},
+  {grp:'L',pos:4,iso2:'gh',name:'Ghana',conf:'CAF',elo:1344,fifa:74,att:0.84,def:1.66,pts:0,r32:14.4,champ:0.0},
+  {grp:'E',pos:4,iso2:'cw',name:'Curaçao',conf:'CONCACAF',elo:1300,fifa:82,att:0.72,def:1.82,pts:0,r32:13.0,champ:0.0},
+  {grp:'G',pos:4,iso2:'nz',name:'New Zealand',conf:'OFC',elo:1282,fifa:85,att:0.74,def:1.68,pts:0,r32:10.4,champ:0.0},
+  {grp:'C',pos:4,iso2:'ht',name:'Haiti',conf:'CONCACAF',elo:1294,fifa:83,att:0.70,def:1.90,pts:0,r32:8.9,champ:0.0},
+  {grp:'H',pos:3,iso2:'sa',name:'Saudi Arabia',conf:'AFC',elo:1412,fifa:61,att:0.88,def:1.56,pts:1,r32:26.0,champ:0.1},
+  {grp:'I',pos:4,iso2:'iq',name:'Iraq',conf:'AFC',elo:1432,fifa:57,att:0.86,def:1.58,pts:0,r32:17.2,champ:0.0},
+  {grp:'J',pos:3,iso2:'dz',name:'Algeria (J)',conf:'CAF',elo:1564,fifa:28,att:1.19,def:1.24,pts:4,r32:61.7,champ:0.1},
+  {grp:'K',pos:4,iso2:'uz',name:'Uzbekistan',conf:'AFC',elo:1465,fifa:50,att:0.95,def:1.44,pts:1,r32:30.8,champ:0.1},
+  {grp:'B',pos:3,iso2:'qa',name:'Qatar',conf:'AFC',elo:1441,fifa:55,att:0.90,def:1.52,pts:1,r32:48.2,champ:0.1},
+  {grp:'A',pos:4,iso2:'za',name:'South Africa',conf:'CAF',elo:1417,fifa:60,att:0.84,def:1.62,pts:0,r32:31.1,champ:0.1},
 ];
 
 let activeConf = 'ALL';
 
 function renderCards(list){
   const grid = document.getElementById('teamGrid');
-  grid.innerHTML = list.map((t,i)=>`
+  grid.innerHTML = list.map(t=>`
     <div class="team-card ${t.cls||''}" data-conf="${t.conf}" data-name="${t.name.toLowerCase()}">
       <div class="tc-head">
-        <div class="tc-flag">${t.flag}</div>
+        <img src="https://flagcdn.com/w80/${t.iso2}.png" class="tc-flag-img" alt="${t.name}" onerror="this.style.opacity=0.15">
         <div class="tc-info">
           <div class="tc-name">${t.name}</div>
-          <div class="tc-conf"><span class="b b-c">${t.conf}</span> · Group ${t.grp}</div>
+          <div class="tc-conf"><span class="b b-c">${t.conf}</span> · <span data-en="Group" data-fa="گروه">Group</span> ${t.grp}</div>
         </div>
         <div class="tc-rank">#${t.fifa}</div>
       </div>
@@ -182,7 +192,7 @@ function renderCards(list){
         <div class="ts"><div class="ts-l">R32%</div><div class="ts-v" style="color:var(--blue)">${t.r32}%</div></div>
       </div>
       <div class="tc-prob">
-        <span class="tcp-l">🏆 Championship</span>
+        <span class="tcp-l">🏆 <span data-en="Championship" data-fa="قهرمانی">Championship</span></span>
         <span class="tcp-v">${t.champ}%</span>
       </div>
       <div class="tc-bar-wrap"><div class="tc-bar" style="width:${Math.min(t.champ/30*100,100)}%"></div></div>
@@ -194,7 +204,7 @@ function renderTable(list){
   document.getElementById('teamTbody').innerHTML = list.map(t=>`
     <tr class="${t.name==='Iran'?'row-ir':t.cls==='champ'?'row-ch':t.cls==='runner'?'row-ru':''}">
       <td>${t.grp}</td><td>${t.pos}</td>
-      <td>${t.flag} ${t.name}</td>
+      <td><img src="https://flagcdn.com/w40/${t.iso2}.png" class="f-img" alt="" onerror="this.style.opacity=0.15"> ${t.name}</td>
       <td><span class="b b-c">${t.conf}</span></td>
       <td>${t.elo}</td><td>${t.fifa}</td>
       <td style="color:var(--green)">${t.att.toFixed(2)}</td>
