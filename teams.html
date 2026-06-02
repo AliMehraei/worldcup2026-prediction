@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Team Rankings — WC2026 Predictor</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<style>
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filt-btn{background:var(--card);border:1px solid var(--b1);border-radius:7px;font:600 12px 'Inter',sans-serif;color:var(--sub);padding:5px 14px;cursor:pointer;transition:.15s}
+.filt-btn:hover{border-color:var(--b2);color:var(--text)}
+.filt-btn.on{background:var(--blue)18;border-color:var(--blue)60;color:var(--blue)}
+.search-wrap{margin-right:auto;position:relative}
+#search{background:var(--card);border:1px solid var(--b1);border-radius:7px;font:400 13px 'Inter',sans-serif;color:var(--text);padding:6px 12px 6px 32px;width:200px;outline:none;transition:.15s}
+#search:focus{border-color:var(--blue)60}
+.search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px;pointer-events:none}
+.team-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px;transition:.15s}
+.team-card:hover{border-color:var(--b2);transform:translateY(-2px);box-shadow:0 8px 32px #00000040}
+.team-card.iran{border-color:var(--iran)40;background:linear-gradient(135deg,#071a0e,var(--card))}
+.team-card.champ{border-color:var(--gold)50;background:linear-gradient(135deg,#130e00,var(--card))}
+.team-card.runner{border-color:var(--teal)50;background:linear-gradient(135deg,#071609,var(--card))}
+.tc-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.tc-flag{font-size:32px;line-height:1}
+.tc-info{flex:1}
+.tc-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px}
+.tc-conf{font-size:11px;color:var(--dim)}
+.tc-rank{font-size:22px;font-weight:800;color:var(--blue)}
+.tc-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ts{background:var(--card2);border-radius:6px;padding:7px 10px}
+.ts-l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.ts-v{font-size:14px;font-weight:700;color:var(--text)}
+.tc-prob{margin-top:10px;display:flex;justify-content:space-between;align-items:center;background:var(--s1);border-radius:6px;padding:7px 10px}
+.tcp-l{font-size:11px;color:var(--dim)}
+.tcp-v{font-size:16px;font-weight:800;color:var(--gold)}
+.tc-bar-wrap{height:4px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:6px}
+.tc-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--indigo))}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-links">
+    <a class="nav-a" href="index.html"><span class="ico">🏠</span><span data-en="Home" data-fa="خانه">Home</span></a>
+    <a class="nav-a on" href="teams.html"><span class="ico">📊</span><span data-en="Teams" data-fa="تیم‌ها">Teams</span></a>
+    <a class="nav-a" href="groups.html"><span class="ico">📋</span><span data-en="Groups" data-fa="گروه‌ها">Groups</span></a>
+    <a class="nav-a" href="bracket.html"><span class="ico">⚡</span><span data-en="Bracket" data-fa="مسیر حذفی">Bracket</span></a>
+    <a class="nav-a" href="iran.html"><span class="ico">🇮🇷</span><span data-en="Iran" data-fa="ایران">Iran</span></a>
+    <a class="nav-a" href="model.html"><span class="ico">⚗</span><span data-en="Model" data-fa="مدل">Model</span></a>
+  </div>
+  <button class="mob-menu" onclick="toggleMobileNav()">☰</button>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <a class="nav-brand" href="index.html">WC<span>2026</span></a>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Teams" data-fa="تیم‌ها">Teams</span></div>
+  <h1 data-en="Team Power Rankings" data-fa="رتبه‌بندی قدرت تیم‌ها">Team Power Rankings</h1>
+  <p data-en="All 48 teams ranked by Elo-adjusted λ parameters and 10K simulation championship probability." data-fa="همه ۴۸ تیم رتبه‌بندی‌شده بر اساس پارامترهای λ کالیبره‌شده با Elo و احتمال قهرمانی از ۱۰K شبیه‌سازی.">All 48 teams ranked by Elo-adjusted λ parameters and 10K simulation championship probability.</p>
+</div>
+
+<main>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">🗂️</div>
+    <div class="sec-ttl" data-en="All Teams — Detailed View" data-fa="همه تیم‌ها — نمای جزئی">All Teams — Detailed View</div>
+    <div class="sec-sub" data-en="Elo · λ · Win %" data-fa="Elo · λ · احتمال قهرمانی">Elo · λ · Win %</div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input id="search" type="text" placeholder="Search team..." oninput="filterTeams()"/>
+    </div>
+    <button class="filt-btn on" onclick="setConf('ALL',this)" data-en="All" data-fa="همه">All</button>
+    <button class="filt-btn" onclick="setConf('UEFA',this)">UEFA</button>
+    <button class="filt-btn" onclick="setConf('CONMEBOL',this)">CONMEBOL</button>
+    <button class="filt-btn" onclick="setConf('AFC',this)">AFC</button>
+    <button class="filt-btn" onclick="setConf('CAF',this)">CAF</button>
+    <button class="filt-btn" onclick="setConf('CONCACAF',this)">CONCACAF</button>
+  </div>
+
+  <div class="teams-grid" id="teamGrid">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">📋</div>
+    <div class="sec-ttl" data-en="Full Table" data-fa="جدول کامل">Full Table</div>
+  </div>
+  <div class="tw">
+    <table id="teamTable">
+      <thead><tr><th>Grp</th><th>#</th><th>Team</th><th>Conf</th><th>Elo</th><th>FIFA</th><th>λ_att</th><th>λ_def</th><th>Pts</th><th>R32%</th><th>🏆%</th></tr></thead>
+      <tbody id="teamTbody"></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="f-logo">WC2026</div>
+  <div class="f-links">
+    <a href="index.html">Home</a><a href="groups.html">Groups</a><a href="bracket.html">Bracket</a><a href="iran.html">Iran</a><a href="model.html">Model</a>
+  </div>
+  <div>Generated 2026-06-03 · Dixon-Coles Bivariate Poisson · 10,000 simulations</div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+const TEAMS = [
+  {grp:'I',pos:1,flag:'🇫🇷',name:'France',conf:'UEFA',elo:1877,fifa:1,att:1.91,def:0.82,pts:9,r32:98.3,champ:28.4,cls:'champ'},
+  {grp:'J',pos:1,flag:'🇦🇷',name:'Argentina',conf:'CONMEBOL',elo:1875,fifa:3,att:1.88,def:0.84,pts:9,r32:98.6,champ:22.1,cls:'runner'},
+  {grp:'H',pos:1,flag:'🇪🇸',name:'Spain',conf:'UEFA',elo:1876,fifa:2,att:1.87,def:0.79,pts:9,r32:98.7,champ:18.9},
+  {grp:'C',pos:1,flag:'🇧🇷',name:'Brazil',conf:'CONMEBOL',elo:1761,fifa:6,att:1.72,def:0.89,pts:7,r32:97.0,champ:17.3},
+  {grp:'L',pos:1,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England',conf:'UEFA',elo:1826,fifa:4,att:1.74,def:0.92,pts:7,r32:96.5,champ:12.6},
+  {grp:'K',pos:1,flag:'🇵🇹',name:'Portugal',conf:'UEFA',elo:1764,fifa:5,att:1.68,def:0.94,pts:9,r32:95.9,champ:8.4},
+  {grp:'F',pos:1,flag:'🇳🇱',name:'Netherlands',conf:'UEFA',elo:1758,fifa:7,att:1.65,def:0.96,pts:9,r32:95.2,champ:7.1},
+  {grp:'E',pos:1,flag:'🇩🇪',name:'Germany',conf:'UEFA',elo:1730,fifa:10,att:1.62,def:0.97,pts:9,r32:97.1,champ:6.8},
+  {grp:'G',pos:1,flag:'🇧🇪',name:'Belgium',conf:'UEFA',elo:1735,fifa:9,att:1.78,def:1.02,pts:9,r32:96.5,champ:5.2},
+  {grp:'F',pos:2,flag:'🇯🇵',name:'Japan',conf:'AFC',elo:1660,fifa:18,att:1.44,def:1.08,pts:6,r32:83.3,champ:3.1},
+  {grp:'A',pos:1,flag:'🇲🇽',name:'Mexico',conf:'CONCACAF',elo:1681,fifa:15,att:1.52,def:1.09,pts:9,r32:95.3,champ:2.9},
+  {grp:'D',pos:1,flag:'🇺🇸',name:'USA',conf:'CONCACAF',elo:1673,fifa:16,att:1.48,def:1.11,pts:9,r32:90.3,champ:2.4},
+  {grp:'H',pos:2,flag:'🇺🇾',name:'Uruguay',conf:'CONMEBOL',elo:1673,fifa:17,att:1.46,def:1.12,pts:6,r32:91.1,champ:2.1},
+  {grp:'B',pos:1,flag:'🇨🇭',name:'Switzerland',conf:'UEFA',elo:1649,fifa:19,att:1.39,def:1.14,pts:7,r32:93.3,champ:1.8},
+  {grp:'I',pos:2,flag:'🇸🇳',name:'Senegal',conf:'CAF',elo:1689,fifa:14,att:1.41,def:1.16,pts:6,r32:81.3,champ:1.6},
+  {grp:'C',pos:2,flag:'🇲🇦',name:'Morocco',conf:'CAF',elo:1660,fifa:12,att:1.44,def:1.15,pts:7,r32:85.0,champ:1.4},
+  {grp:'B',pos:2,flag:'🇨🇦',name:'Canada',conf:'CONCACAF',elo:1556,fifa:30,att:1.32,def:1.17,pts:7,r32:86.8,champ:0.8},
+  {grp:'D',pos:2,flag:'🇹🇷',name:'Türkiye',conf:'UEFA',elo:1599,fifa:22,att:1.29,def:1.19,pts:4,r32:74.8,champ:0.5},
+  {grp:'E',pos:2,flag:'🇪🇨',name:'Ecuador',conf:'CONMEBOL',elo:1595,fifa:23,att:1.27,def:1.21,pts:4,r32:83.5,champ:0.3},
+  {grp:'J',pos:2,flag:'🇦🇹',name:'Austria',conf:'UEFA',elo:1593,fifa:24,att:1.26,def:1.22,pts:4,r32:69.8,champ:0.3},
+  {grp:'A',pos:2,flag:'🇰🇷',name:'South Korea',conf:'AFC',elo:1589,fifa:25,att:1.24,def:1.23,pts:4,r32:78.9,champ:0.2},
+  {grp:'K',pos:2,flag:'🇨🇴',name:'Colombia',conf:'CONMEBOL',elo:1570,fifa:26,att:1.28,def:1.18,pts:6,r32:80.0,champ:0.4},
+  {grp:'D',pos:3,flag:'🇦🇺',name:'Australia',conf:'AFC',elo:1581,fifa:27,att:1.18,def:1.26,pts:2,r32:66.2,champ:0.1},
+  {grp:'J',pos:3,flag:'🇩🇿',name:'Algeria',conf:'CAF',elo:1564,fifa:28,att:1.19,def:1.24,pts:4,r32:61.7,champ:0.1},
+  {grp:'G',pos:3,flag:'🇪🇬',name:'Egypt',conf:'CAF',elo:1563,fifa:29,att:1.21,def:1.21,pts:4,r32:76.6,champ:0.2},
+  {grp:'G',pos:2,flag:'🇮🇷',name:'Iran',conf:'AFC',elo:1615,fifa:21,att:1.31,def:1.18,pts:4,r32:84.0,champ:0.4,cls:'iran'},
+  {grp:'I',pos:3,flag:'🇳🇴',name:'Norway',conf:'UEFA',elo:1551,fifa:31,att:1.22,def:1.22,pts:3,r32:52.0,champ:0.1},
+  {grp:'L',pos:3,flag:'🇵🇦',name:'Panama',conf:'CONCACAF',elo:1541,fifa:33,att:1.10,def:1.29,pts:3,r32:52.0,champ:0.1},
+  {grp:'E',pos:3,flag:'🇨🇮',name:'Ivory Coast',conf:'CAF',elo:1533,fifa:34,att:1.18,def:1.24,pts:4,r32:68.4,champ:0.1},
+  {grp:'F',pos:3,flag:'🇸🇪',name:'Sweden',conf:'UEFA',elo:1515,fifa:38,att:1.10,def:1.28,pts:1,r32:47.1,champ:0.1},
+  {grp:'D',pos:4,flag:'🇵🇾',name:'Paraguay',conf:'CONMEBOL',elo:1504,fifa:40,att:1.08,def:1.31,pts:1,r32:50.1,champ:0.1},
+  {grp:'A',pos:3,flag:'🇨🇿',name:'Czechia',conf:'UEFA',elo:1501,fifa:41,att:1.12,def:1.27,pts:4,r32:61.7,champ:0.1},
+  {grp:'C',pos:3,flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland',conf:'UEFA',elo:1498,fifa:43,att:1.06,def:1.33,pts:3,r32:52.0,champ:0.1},
+  {grp:'L',pos:2,flag:'🇭🇷',name:'Croatia',conf:'UEFA',elo:1540,fifa:35,att:1.31,def:1.14,pts:7,r32:88.0,champ:0.5},
+  {grp:'F',pos:4,flag:'🇹🇳',name:'Tunisia',conf:'CAF',elo:1483,fifa:44,att:1.02,def:1.36,pts:1,r32:38.4,champ:0.1},
+  {grp:'K',pos:3,flag:'🇨🇩',name:'DR Congo',conf:'CAF',elo:1478,fifa:46,att:1.00,def:1.38,pts:1,r32:37.7,champ:0.1},
+  {grp:'K',pos:4,flag:'🇺🇿',name:'Uzbekistan',conf:'AFC',elo:1465,fifa:50,att:0.95,def:1.44,pts:1,r32:30.8,champ:0.1},
+  {grp:'B',pos:3,flag:'🇶🇦',name:'Qatar',conf:'AFC',elo:1441,fifa:55,att:0.90,def:1.52,pts:1,r32:48.2,champ:0.1},
+  {grp:'I',pos:4,flag:'🇮🇶',name:'Iraq',conf:'AFC',elo:1432,fifa:57,att:0.86,def:1.58,pts:0,r32:17.2,champ:0.0},
+  {grp:'A',pos:4,flag:'🇿🇦',name:'South Africa',conf:'CAF',elo:1417,fifa:60,att:0.84,def:1.62,pts:0,r32:31.1,champ:0.1},
+  {grp:'H',pos:3,flag:'🇸🇦',name:'Saudi Arabia',conf:'AFC',elo:1412,fifa:61,att:0.88,def:1.56,pts:1,r32:26.0,champ:0.1},
+  {grp:'J',pos:4,flag:'🇯🇴',name:'Jordan',conf:'AFC',elo:1402,fifa:63,att:0.82,def:1.66,pts:0,r32:16.8,champ:0.0},
+  {grp:'B',pos:4,flag:'🇧🇦',name:'Bosnia & Herz.',conf:'UEFA',elo:1391,fifa:65,att:0.86,def:1.58,pts:1,r32:39.0,champ:0.1},
+  {grp:'H',pos:4,flag:'🇨🇻',name:'Cape Verde',conf:'CAF',elo:1371,fifa:69,att:0.80,def:1.72,pts:1,r32:16.3,champ:0.0},
+  {grp:'L',pos:4,flag:'🇬🇭',name:'Ghana',conf:'CAF',elo:1344,fifa:74,att:0.84,def:1.66,pts:0,r32:14.4,champ:0.0},
+  {grp:'E',pos:4,flag:'🇨🇼',name:'Curaçao',conf:'CONCACAF',elo:1300,fifa:82,att:0.72,def:1.82,pts:0,r32:13.0,champ:0.0},
+  {grp:'G',pos:4,flag:'🇳🇿',name:'New Zealand',conf:'OFC',elo:1282,fifa:85,att:0.74,def:1.68,pts:0,r32:10.4,champ:0.0},
+  {grp:'C',pos:4,flag:'🇭🇹',name:'Haiti',conf:'CONCACAF',elo:1294,fifa:83,att:0.70,def:1.90,pts:0,r32:8.9,champ:0.0},
+];
+
+let activeConf = 'ALL';
+
+function renderCards(list){
+  const grid = document.getElementById('teamGrid');
+  grid.innerHTML = list.map((t,i)=>`
+    <div class="team-card ${t.cls||''}" data-conf="${t.conf}" data-name="${t.name.toLowerCase()}">
+      <div class="tc-head">
+        <div class="tc-flag">${t.flag}</div>
+        <div class="tc-info">
+          <div class="tc-name">${t.name}</div>
+          <div class="tc-conf"><span class="b b-c">${t.conf}</span> · Group ${t.grp}</div>
+        </div>
+        <div class="tc-rank">#${t.fifa}</div>
+      </div>
+      <div class="tc-stats">
+        <div class="ts"><div class="ts-l">Elo</div><div class="ts-v">${t.elo}</div></div>
+        <div class="ts"><div class="ts-l">λ att</div><div class="ts-v" style="color:var(--green)">${t.att.toFixed(2)}</div></div>
+        <div class="ts"><div class="ts-l">λ def</div><div class="ts-v">${t.def.toFixed(2)}</div></div>
+        <div class="ts"><div class="ts-l">R32%</div><div class="ts-v" style="color:var(--blue)">${t.r32}%</div></div>
+      </div>
+      <div class="tc-prob">
+        <span class="tcp-l">🏆 Championship</span>
+        <span class="tcp-v">${t.champ}%</span>
+      </div>
+      <div class="tc-bar-wrap"><div class="tc-bar" style="width:${Math.min(t.champ/30*100,100)}%"></div></div>
+    </div>
+  `).join('');
+}
+
+function renderTable(list){
+  document.getElementById('teamTbody').innerHTML = list.map(t=>`
+    <tr class="${t.name==='Iran'?'row-ir':t.cls==='champ'?'row-ch':t.cls==='runner'?'row-ru':''}">
+      <td>${t.grp}</td><td>${t.pos}</td>
+      <td>${t.flag} ${t.name}</td>
+      <td><span class="b b-c">${t.conf}</span></td>
+      <td>${t.elo}</td><td>${t.fifa}</td>
+      <td style="color:var(--green)">${t.att.toFixed(2)}</td>
+      <td>${t.def.toFixed(2)}</td>
+      <td>${t.pts}</td>
+      <td>${t.r32}%</td>
+      <td style="color:var(--gold);font-weight:700">${t.champ}%</td>
+    </tr>
+  `).join('');
+}
+
+function getFiltered(){
+  const q = document.getElementById('search').value.toLowerCase();
+  return TEAMS.filter(t=>{
+    const confMatch = activeConf==='ALL' || t.conf===activeConf;
+    const nameMatch = !q || t.name.toLowerCase().includes(q);
+    return confMatch && nameMatch;
+  });
+}
+
+function filterTeams(){
+  const list = getFiltered();
+  renderCards(list);
+  renderTable(list);
+}
+
+function setConf(c, btn){
+  activeConf = c;
+  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  filterTeams();
+}
+
+renderCards(TEAMS);
+renderTable(TEAMS);
+</script>
+</body>
+</html>

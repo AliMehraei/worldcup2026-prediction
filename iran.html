@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Iran — WC2026 Predictor</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<style>
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.stat-box{background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);padding:14px 16px;text-align:center}
+.stat-box.iran{border-color:var(--iran)40;background:linear-gradient(135deg,#071a0e,var(--card))}
+.stat-n{font-size:26px;font-weight:800;color:var(--blue);line-height:1;margin-bottom:4px}
+.stat-n.g{color:var(--green)}
+.stat-n.ir{color:var(--iran)}
+.stat-l{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.scenario{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:16px 18px}
+.scenario.good{border-color:var(--green)40;background:linear-gradient(135deg,#06180e,var(--card))}
+.scenario.bad{border-color:var(--red)40;background:linear-gradient(135deg,#1a0606,var(--card))}
+.sc-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+.sc-desc{font-size:12px;color:var(--sub);line-height:1.6}
+.sc-prob{font-size:18px;font-weight:800;margin-top:8px}
+.sc-prob.g{color:var(--green)}
+.sc-prob.r{color:var(--red)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-links">
+    <a class="nav-a" href="index.html"><span class="ico">🏠</span>Home</a>
+    <a class="nav-a" href="teams.html"><span class="ico">📊</span>Teams</a>
+    <a class="nav-a" href="groups.html"><span class="ico">📋</span>Groups</a>
+    <a class="nav-a" href="bracket.html"><span class="ico">⚡</span>Bracket</a>
+    <a class="nav-a on" href="iran.html"><span class="ico">🇮🇷</span>Iran</a>
+    <a class="nav-a" href="model.html"><span class="ico">⚗</span>Model</a>
+  </div>
+  <button class="mob-menu" onclick="toggleMobileNav()">☰</button>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <a class="nav-brand" href="index.html">WC<span>2026</span></a>
+</nav>
+
+<div class="page-hero" style="background:linear-gradient(180deg,#071a0e 0%,var(--bg) 100%)">
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Iran</span></div>
+  <h1 data-en="🇮🇷 Iran — World Cup 2026" data-fa="🇮🇷 ایران — جام جهانی ۲۰۲۶">🇮🇷 Iran — World Cup 2026</h1>
+  <p data-en="Complete Poisson analysis of Iran's Group G campaign — match predictions, scenarios, and knockout path." data-fa="تحلیل کامل Poisson از مسیر ایران در گروه G — پیش‌بینی بازی‌ها، سناریوها، و مسیر حذفی.">Complete Poisson analysis of Iran's Group G campaign — match predictions, scenarios, and knockout path.</p>
+</div>
+
+<main>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico" style="background:var(--iran)15;border-color:var(--iran)30">📊</div>
+    <div class="sec-ttl" data-en="Iran at a Glance" data-fa="ایران در یک نگاه">Iran at a Glance</div>
+    <div class="sec-sub" data-en="Elo 1615 · FIFA #21 · AFC" data-fa="Elo 1615 · رتبه ۲۱ فیفا · AFC">Elo 1615 · FIFA #21 · AFC</div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box iran"><div class="stat-n ir">84%</div><div class="stat-l" data-en="R32 probability" data-fa="احتمال صعود R32">R32 probability</div></div>
+    <div class="stat-box"><div class="stat-n">4</div><div class="stat-l" data-en="Predicted points" data-fa="امتیاز پیش‌بینی‌شده">Predicted points</div></div>
+    <div class="stat-box"><div class="stat-n g">1.31</div><div class="stat-l">λ attack</div></div>
+    <div class="stat-box"><div class="stat-n">1.18</div><div class="stat-l">λ defense</div></div>
+    <div class="stat-box"><div class="stat-n">1615</div><div class="stat-l">Elo rating</div></div>
+    <div class="stat-box"><div class="stat-n">#21</div><div class="stat-l">FIFA rank</div></div>
+    <div class="stat-box"><div class="stat-n">0.4%</div><div class="stat-l" data-en="Champion prob" data-fa="احتمال قهرمانی">Champion prob</div></div>
+  </div>
+
+  <div class="ibox">
+    <div class="ibox-t" data-en="Group G Prediction: Iran finishes 2nd · 4 points · R32 qualified" data-fa="پیش‌بینی گروه G: ایران دوم می‌شود · ۴ امتیاز · صعود به R32">Group G Prediction: Iran finishes 2nd · 4 points · R32 qualified</div>
+    <p style="color:var(--sub);font-size:13px;line-height:1.7" data-en="Belgium (Elo 1735, λ_att=1.78) is the clear group leader — Iran has a less than 23% chance of defeating them. The decisive match is Iran vs Egypt: model gives Iran a 40.4% win probability. Iran's key advantage is Mehdi Taremi (Inter Milan) providing genuine European-level finishing. Defensive weakness against high-press systems is the primary risk factor vs Belgium and in R32. In R32, Iran most likely faces Türkiye (Elo 1599) — a very close match at 51.7% vs Iran." data-fa="بلژیک (Elo 1735، λ_att=1.78) واضح‌ترین تیم گروه است — ایران کمتر از ۲۳٪ شانس برد مقابل آن‌ها دارد. بازی تعیین‌کننده ایران–مصر است: مدل به ایران ۴۰.۴٪ احتمال برد می‌دهد. مزیت کلیدی ایران مهدی طارمی (اینتر میلان) است که فینیشینگ اروپایی واقعی می‌آورد. ضعف دفاعی در برابر پرس بالا ریسک اصلی در مقابل بلژیک و در R32 است.">Belgium (Elo 1735, λ_att=1.78) is the clear group leader — Iran has less than 23% chance of defeating them. The decisive match is Iran vs Egypt: model gives Iran a 40.4% win probability. Iran's key asset is Mehdi Taremi (Inter Milan) providing genuine European-level finishing. In R32, Iran most likely faces Türkiye — a very close match at 51.7% vs Iran.</p>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⚗</div>
+    <div class="sec-ttl" data-en="Group G — Match Poisson Analysis" data-fa="گروه G — تحلیل Poisson بازی‌ها">Group G — Match Poisson Analysis</div>
+  </div>
+  <div class="pgrid">
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇧🇪 Belgium vs 🇮🇷 Iran</div><div class="pc-l">λ_BEL=1.78 · λ_IRI=1.12 · Expected: 2–1</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Belgium win</div><div class="pt2"><div class="pf2 blue" style="width:51.1%"></div></div><div class="pr-v">51.1%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:25.5%"></div></div><div class="pr-v">25.5%</div></div>
+        <div class="pr"><div class="pr-l">Iran win</div><div class="pt2"><div class="pf2 green" style="width:23.4%"></div></div><div class="pr-v">23.4%</div></div>
+      </div>
+    </div>
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇪🇬 Egypt vs 🇮🇷 Iran</div><div class="pc-l">λ_EGY=1.21 · λ_IRI=1.31 · Expected: 1–1</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Egypt win</div><div class="pt2"><div class="pf2 blue" style="width:32.4%"></div></div><div class="pr-v">32.4%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:27.2%"></div></div><div class="pr-v">27.2%</div></div>
+        <div class="pr"><div class="pr-l">Iran win</div><div class="pt2"><div class="pf2 green" style="width:40.4%"></div></div><div class="pr-v">40.4%</div></div>
+      </div>
+    </div>
+    <div class="pc">
+      <div class="pc-head"><div><div class="pc-m">🇮🇷 Iran vs 🇳🇿 New Zealand</div><div class="pc-l">λ_IRI=1.61 · λ_NZL=0.74 · Expected: 2–1</div></div></div>
+      <div class="pc-rows">
+        <div class="pr"><div class="pr-l">Iran win</div><div class="pt2"><div class="pf2 green" style="width:70.3%"></div></div><div class="pr-v">70.3%</div></div>
+        <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:18.7%"></div></div><div class="pr-v">18.7%</div></div>
+        <div class="pr"><div class="pr-l">NZ win</div><div class="pt2"><div class="pf2 blue" style="width:11.0%"></div></div><div class="pr-v">11.0%</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Match</th><th>Team A</th><th>Team B</th><th>Predicted</th><th>P(A)</th><th>P(D)</th><th>P(B)</th><th>λ(A)</th><th>λ(B)</th></tr></thead>
+    <tbody>
+      <tr><td>G1</td><td>🇧🇪 Belgium</td><td>🇮🇷 Iran</td><td>2–1</td><td><div class="pb"><div class="pt"><div class="pf" style="width:51%"></div></div>51.1%</div></td><td>25.5%</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:23%"></div></div>23.4%</div></td><td>1.78</td><td>1.12</td></tr>
+      <tr><td>G2</td><td>🇪🇬 Egypt</td><td>🇮🇷 Iran</td><td>1–1</td><td><div class="pb"><div class="pt"><div class="pf" style="width:32%"></div></div>32.4%</div></td><td>27.2%</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:40%"></div></div>40.4%</div></td><td>1.21</td><td>1.31</td></tr>
+      <tr class="row-ir"><td>G3</td><td>🇮🇷 Iran</td><td>🇳🇿 NZ</td><td>2–1</td><td><div class="pb"><div class="pt"><div class="pf g" style="width:70%"></div></div><b>70.3%</b></div></td><td>18.7%</td><td>11.0%</td><td>1.61</td><td>0.74</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">🔀</div>
+    <div class="sec-ttl" data-en="Group G Scenarios" data-fa="سناریوهای گروه G">Group G Scenarios</div>
+  </div>
+  <div class="scenario-grid">
+    <div class="scenario good">
+      <div class="sc-title" data-en="Best case — R32 comfortable" data-fa="بهترین حالت — صعود آسان">Best case — R32 comfortable</div>
+      <div class="sc-desc" data-en="Iran beats Egypt + beats NZ. Finish 2nd with 6+ pts regardless of Belgium result." data-fa="ایران مصر و نیوزیلند را می‌برد. دوم می‌شود با ۶+ امتیاز.">Iran beats Egypt + beats NZ. Finish 2nd with 6+ pts regardless of Belgium result.</div>
+      <div class="sc-prob g">~32%</div>
+    </div>
+    <div class="scenario good">
+      <div class="sc-title" data-en="Base case — 2nd place, 4 pts" data-fa="حالت پایه — رتبه دوم، ۴ امتیاز">Base case — 2nd place, 4 pts</div>
+      <div class="sc-desc" data-en="Draw vs Egypt + beat NZ + lose to Belgium. Qualify as group runner-up." data-fa="مساوی با مصر + برد برابر نیوزیلند + باخت به بلژیک. صعود به عنوان دوم گروه.">Draw vs Egypt + beat NZ + lose to Belgium. Qualify as group runner-up.</div>
+      <div class="sc-prob g">~28%</div>
+    </div>
+    <div class="scenario">
+      <div class="sc-title" data-en="3rd place route — needs best-3rd" data-fa="مسیر سوم — نیاز به بهترین سوم">3rd place route — needs best-3rd</div>
+      <div class="sc-desc" data-en="Iran finishes 3rd with 3–4 pts. Qualification depends on other group results." data-fa="ایران سوم می‌شود با ۳–۴ امتیاز. صعود به نتایج گروه‌های دیگر بستگی دارد.">Iran finishes 3rd with 3–4 pts. Qualification depends on other group results.</div>
+      <div class="sc-prob" style="color:var(--amber)">~16%</div>
+    </div>
+    <div class="scenario bad">
+      <div class="sc-title" data-en="Worst case — group exit" data-fa="بدترین حالت — حذف در گروه">Worst case — group exit</div>
+      <div class="sc-desc" data-en="Lose to Egypt AND lose/draw vs NZ. Iran finishes bottom 2 and does not qualify." data-fa="باخت به مصر و باخت/مساوی با نیوزیلند. ایران در ۲ تیم پایین قرار می‌گیرد.">Lose to Egypt AND lose/draw vs NZ. Iran finishes 3rd–4th and does not make best-8 thirds.</div>
+      <div class="sc-prob r">~16%</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⚡</div>
+    <div class="sec-ttl" data-en="If Iran Qualifies — R32 Path" data-fa="اگر ایران صعود کند — مسیر R32">If Iran Qualifies — R32 Path</div>
+  </div>
+  <div class="ibox">
+    <div class="ibox-t" data-en="R32 most likely opponent: Türkiye (Group D 2nd)" data-fa="محتمل‌ترین حریف R32: ترکیه (دوم گروه D)">R32 most likely opponent: Türkiye (Group D 2nd)</div>
+    <p style="color:var(--sub);font-size:13px" data-en="Türkiye Elo 1599 vs Iran Elo 1615. Nearly equal — model gives Türkiye 51.7% win. If Iran had drawn Argentina's half of the bracket, exit probability would be 88%+. The Türkiye matchup is Iran's most winnable R32 scenario." data-fa="Elo ترکیه ۱۵۹۹ در مقابل ایران ۱۶۱۵. تقریباً برابر — مدل به ترکیه ۵۱.۷٪ برد می‌دهد. اگر ایران در سمت آرژانتین بود، احتمال حذف ۸۸٪+ بود. بازی با ترکیه بهترین سناریو R32 برای ایران است.">Türkiye Elo 1599 vs Iran Elo 1615. Nearly equal — model gives Türkiye 51.7% win. The Türkiye matchup is Iran's most winnable R32 scenario.</p>
+  </div>
+  <div class="mgrid" style="margin-top:14px">
+    <div class="mc iran-m" style="padding:14px">
+      <span class="mn">88</span>
+      <div class="mts">
+        <div class="tl w">🇹🇷 Türkiye ✓</div>
+        <div class="tl l" style="color:var(--iran)88">🇮🇷 Iran</div>
+      </div>
+      <div class="mm">
+        <div class="mr">1-1 pens</div>
+        <div class="mc2" style="color:var(--red)">Iran win: 48.3%</div>
+      </div>
+    </div>
+  </div>
+  <div class="notice">
+    <span>📊</span>
+    <span data-en="If Iran wins R32 (48.3% chance), they'd face Argentina in R16 — where their win probability drops to ~18%. Iran reaching the quarterfinals would require beating 2 top-10 Elo teams consecutively." data-fa="اگر ایران R32 را ببرد (۴۸.۳٪ شانس)، در R16 با آرژانتین روبرو می‌شود — جایی که احتمال برد به ۱۸٪ کاهش می‌یابد.">If Iran wins R32 (48.3% chance), they'd face Argentina in R16 — where their win probability drops to ~18%.</span>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⭐</div>
+    <div class="sec-ttl" data-en="Iran Squad Highlights" data-fa="برجستگی‌های ترکیب ایران">Iran Squad Highlights</div>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Player</th><th>Position</th><th>Club</th><th>Role</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr class="row-ir"><td>🇮🇷 Mehdi Taremi</td><td>CF</td><td>Inter Milan 🇮🇹</td><td>Striker / Captain</td><td><span class="b b-g">Key threat</span></td></tr>
+      <tr><td>🇮🇷 Sardar Azmoun</td><td>CF/SS</td><td>Bayer Leverkusen 🇩🇪</td><td>Second striker</td><td><span class="b b-g">European experience</span></td></tr>
+      <tr><td>🇮🇷 Alireza Jahanbakhsh</td><td>RM/LM</td><td>Feyenoord 🇳🇱</td><td>Winger</td><td><span class="b b-model">Creative</span></td></tr>
+      <tr><td>🇮🇷 Ali Golizadeh</td><td>LM</td><td>Club Brugge 🇧🇪</td><td>Winger</td><td><span class="b b-model">Pace</span></td></tr>
+      <tr><td>🇮🇷 Majid Hosseini</td><td>CB</td><td>Kasımpaşa 🇹🇷</td><td>Centre-back</td><td><span class="b b-c">Defensive core</span></td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:12px;color:var(--dim);margin-top:8px" data-en="Iran has one of the strongest European club presences of any AFC team — Taremi at Inter Milan is a genuine Serie A regular and international quality striker." data-fa="ایران یکی از قوی‌ترین حضورهای باشگاه اروپایی در بین تیم‌های AFC را دارد — طارمی در اینتر میلان یک مهاجم با کیفیت بین‌المللی واقعی است.">Iran has one of the strongest European club presences of any AFC team — Taremi at Inter Milan is a genuine Serie A regular.</p>
+</div>
+
+</main>
+
+<footer>
+  <div class="f-logo">WC2026</div>
+  <div class="f-links">
+    <a href="index.html">Home</a><a href="teams.html">Teams</a><a href="groups.html">Groups</a><a href="bracket.html">Bracket</a><a href="model.html">Model</a>
+  </div>
+  <div>Generated 2026-06-03 · Dixon-Coles Bivariate Poisson · 10,000 simulations</div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

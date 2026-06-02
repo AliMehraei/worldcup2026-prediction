@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Model & Methodology — WC2026 Predictor</title>
+<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+<nav>
+  <div class="nav-links">
+    <a class="nav-a" href="index.html"><span class="ico">🏠</span>Home</a>
+    <a class="nav-a" href="teams.html"><span class="ico">📊</span>Teams</a>
+    <a class="nav-a" href="groups.html"><span class="ico">📋</span>Groups</a>
+    <a class="nav-a" href="bracket.html"><span class="ico">⚡</span>Bracket</a>
+    <a class="nav-a" href="iran.html"><span class="ico">🇮🇷</span>Iran</a>
+    <a class="nav-a on" href="model.html"><span class="ico">⚗</span>Model</a>
+  </div>
+  <button class="mob-menu" onclick="toggleMobileNav()">☰</button>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <a class="nav-brand" href="index.html">WC<span>2026</span></a>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Model</span></div>
+  <h1 data-en="Model & Methodology" data-fa="مدل و روش‌شناسی">Model &amp; Methodology</h1>
+  <p data-en="Dixon-Coles bivariate Poisson explained — the same academic approach used by Opta, FiveThirtyEight, and professional club analytics teams." data-fa="توضیح Poisson دوگانه Dixon-Coles — همان رویکرد علمی که توسط Opta، FiveThirtyEight، و تیم‌های تحلیل باشگاه‌های حرفه‌ای استفاده می‌شود.">Dixon-Coles bivariate Poisson — the same academic approach used by Opta, FiveThirtyEight, and professional club analytics teams.</p>
+</div>
+
+<main>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">📖</div>
+    <div class="sec-ttl" data-en="Why Dixon-Coles?" data-fa="چرا Dixon-Coles؟">Why Dixon-Coles?</div>
+  </div>
+  <p style="color:var(--sub);font-size:14px;line-height:1.8;margin-bottom:20px" data-en="Mark Dixon and Stuart Coles published their landmark paper in 1997 establishing the bivariate Poisson framework as the most accurate method for modelling football match outcomes. Unlike simple Elo-based systems that produce a single win probability, Dixon-Coles generates a full probability distribution over every possible scoreline (0-0, 1-0, 0-1, 2-1... etc.), enabling precise expected goal calculations, accurate draw predictions, and tournament path simulation." data-fa="مارک دیکسون و استوارت کولز در ۱۹۹۷ مقاله مهم خود را منتشر کردند که چارچوب Poisson دوگانه را به عنوان دقیق‌ترین روش مدل‌سازی نتایج فوتبال تثبیت کرد. برخلاف سیستم‌های ساده مبتنی بر Elo که یک احتمال برد تنها تولید می‌کنند، Dixon-Coles توزیع کامل احتمال روی هر نتیجه ممکن تولید می‌کند.">Mark Dixon and Stuart Coles published their landmark 1997 paper establishing the bivariate Poisson framework as the most accurate method for modelling football match outcomes. Unlike simple Elo-based systems, Dixon-Coles generates a full probability distribution over every possible scoreline, enabling precise expected goal calculations and tournament simulation.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">Step 1 · Strength Parameters</div>
+      <div class="step-t">Attack &amp; Defense Ratings</div>
+      <div class="step-d">Each team gets α (attack strength) and β (defensive weakness) calibrated from Elo + FIFA ranking + recent form. Higher α = more goals expected. Lower β = fewer goals conceded.</div>
+      <div class="step-f">α_i = exp(attack_i)
+β_j = exp(defense_j)
+γ = venue_advantage_factor</div>
+    </div>
+    <div class="step">
+      <div class="step-n">Step 2 · Expected Goals λ</div>
+      <div class="step-t">Per-match λ Calculation</div>
+      <div class="step-d">Expected goal rate λ (Poisson mean) computed for each team in each specific fixture. λ represents the average number of goals a team will score in this exact matchup.</div>
+      <div class="step-f">λ_home = α_home × β_away × γ
+λ_away = α_away × β_home
+(neutral: γ = 1.0)</div>
+    </div>
+    <div class="step">
+      <div class="step-n">Step 3 · Score Probabilities</div>
+      <div class="step-t">Poisson Distribution</div>
+      <div class="step-d">Each scoreline (x–y) probability computed from independent Poisson distributions. Sum across all (x,y) gives P(home win), P(draw), P(away win).</div>
+      <div class="step-f">P(X=x) = (e^-λ × λ^x) / x!
+P(score=x,y) =
+  Pois(x, λ_h) × Pois(y, λ_a)</div>
+    </div>
+    <div class="step">
+      <div class="step-n">Step 4 · Dixon-Coles Fix</div>
+      <div class="step-t">ρ Correction for Low Scores</div>
+      <div class="step-d">Standard Poisson over-predicts 0-0, 1-0, 0-1, and 1-1 outcomes. The τ(ρ) correction factor adjusts these four scorelines to match empirical football data. ρ = −0.08.</div>
+      <div class="step-f">τ(x,y,λ_h,λ_a,ρ):
+  (0,0): 1 - λ_h×λ_a×ρ
+  (1,0): 1 + λ_a×ρ
+  (0,1): 1 + λ_h×ρ
+  (1,1): 1 - ρ
+  else:  1</div>
+    </div>
+    <div class="step">
+      <div class="step-n">Step 5 · Tournament Sim</div>
+      <div class="step-t">10,000 Monte Carlo Runs</div>
+      <div class="step-d">The entire WC2026 tournament — all 104 matches from group stage to final — is simulated 10,000 times independently. Each run draws from the Poisson distributions.</div>
+      <div class="step-f">for sim in range(10000):
+  run_group_stage()
+  run_r32_through_final()
+  record_outcomes()</div>
+    </div>
+    <div class="step">
+      <div class="step-n">Step 6 · Aggregation</div>
+      <div class="step-t">Probability Estimates</div>
+      <div class="step-d">Championship probability = fraction of simulations a team wins. R32 probability = fraction where they qualify from groups. All tournament-path probabilities computed the same way.</div>
+      <div class="step-f">P(champion=T) =
+  count(sim: winner==T) / 10000
+
+P(R32=T) =
+  count(sim: T qualifies) / 10000</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⚖️</div>
+    <div class="sec-ttl" data-en="Input Weights" data-fa="وزن‌های ورودی">Input Weights</div>
+    <div class="sec-sub" data-en="How λ is calibrated" data-fa="نحوه کالیبراسیون λ">How λ is calibrated</div>
+  </div>
+  <p style="color:var(--sub);font-size:13.5px;margin-bottom:18px" data-en="The λ parameters are not computed from Elo alone. Multiple signals are blended with the following weights:" data-fa="پارامترهای λ فقط از Elo محاسبه نمی‌شوند. چندین سیگنال با وزن‌های زیر ترکیب می‌شوند:">The λ parameters are not computed from Elo alone. Multiple signals are blended with the following weights:</p>
+  <div class="wrows">
+    <div class="wr"><div class="wc">ELO</div><div class="wn">World Football Elo Rating (historically calibrated, back to 1990)</div><div class="wp">35%</div><div class="wb"><div class="wbf hi" style="width:87.5%"></div></div></div>
+    <div class="wr"><div class="wc">FIFA</div><div class="wn">Official FIFA/Coca-Cola World Ranking</div><div class="wp">25%</div><div class="wb"><div class="wbf hi" style="width:62.5%"></div></div></div>
+    <div class="wr"><div class="wc">FORM</div><div class="wn">Last 12 months results with time-decay weighting (recent matches weighted more)</div><div class="wp">15%</div><div class="wb"><div class="wbf" style="width:37.5%"></div></div></div>
+    <div class="wr"><div class="wc">SQUAD</div><div class="wn">Squad quality proxy — Transfermarkt total market value</div><div class="wp">12%</div><div class="wb"><div class="wbf" style="width:30%"></div></div></div>
+    <div class="wr"><div class="wc">HIST</div><div class="wn">World Cup tournament history 2006–2022 (rounds reached, xG performance)</div><div class="wp">8%</div><div class="wb"><div class="wbf" style="width:20%"></div></div></div>
+    <div class="wr"><div class="wc">H2H</div><div class="wn">Direct head-to-head record + tactical style matchup adjustment</div><div class="wp">5%</div><div class="wb"><div class="wbf" style="width:12.5%"></div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">⚠️</div>
+    <div class="sec-ttl" data-en="Model Limitations" data-fa="محدودیت‌های مدل">Model Limitations</div>
+  </div>
+  <div class="steps">
+    <div class="step" style="border-color:var(--red)30">
+      <div class="step-n" style="color:var(--red)">Limitation 1</div>
+      <div class="step-t">Injury &amp; Squad Availability</div>
+      <div class="step-d">The model cannot account for last-minute injuries to key players. Losing Mbappé or Messi to injury would significantly alter France/Argentina's probabilities.</div>
+    </div>
+    <div class="step" style="border-color:var(--red)30">
+      <div class="step-n" style="color:var(--red)">Limitation 2</div>
+      <div class="step-t">In-Tournament Form</div>
+      <div class="step-d">λ values are static — they don't update as the tournament progresses. A team that dominates the group stage doesn't get a λ boost for the knockouts.</div>
+    </div>
+    <div class="step" style="border-color:var(--red)30">
+      <div class="step-n" style="color:var(--red)">Limitation 3</div>
+      <div class="step-t">Penalty Shootout</div>
+      <div class="step-d">Penalties are modelled as a 50/50 tiebreak with slight Elo adjustment, but real penalty performance (dedicated practice, specialist kickers) is not captured.</div>
+    </div>
+    <div class="step" style="border-color:var(--red)30">
+      <div class="step-n" style="color:var(--red)">Limitation 4</div>
+      <div class="step-t">Proxy Data</div>
+      <div class="step-d">Some lower-ranked teams (FIFA 50–85) use estimated Elo values marked with *. Direct data availability is limited for these teams.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">📚</div>
+    <div class="sec-ttl" data-en="Sources" data-fa="منابع">Sources</div>
+  </div>
+  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>Dixon, M. &amp; Coles, S. (1997). <em>Modelling Association Football Scores and Inefficiencies in the Football Betting Market.</em> Applied Statistics, 46(2), 265–280. — Foundation of the model.</li>
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>World Football Elo Ratings (eloratings.net) — calibrated to 2026-05-28. Primary λ input at 35% weight.</li>
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>FIFA/Coca-Cola World Ranking — official June 2026 release. 25% weight.</li>
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>Betting market consensus (Betfair, bet365, Pinnacle average) — used as external prior probability validation, not direct model input.</li>
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>Transfermarkt squad market values — squad quality proxy (12% weight).</li>
+    <li style="display:flex;gap:9px;font-size:13px;color:var(--sub);line-height:1.5"><span style="color:var(--blue)">↗</span>FIFA 2026 format: 12 groups × 4 teams · 2 qualify automatically · 8 best 3rd-place teams qualify · 104 total matches.</li>
+  </ul>
+
+  <pre>{
+  "model": "Dixon-Coles Bivariate Poisson v2.0",
+  "simulations": 10000,
+  "rho": -0.08,
+  "weights": {
+    "elo": 0.35,
+    "fifa": 0.25,
+    "form_12m": 0.15,
+    "squad_value": 0.12,
+    "wc_history": 0.08,
+    "h2h": 0.05
+  },
+  "champion": "France",
+  "p_champion": 0.284,
+  "runner_up": "Argentina",
+  "p_runner_up": 0.221,
+  "third": "Spain",
+  "iran_p_r32": 0.840,
+  "iran_predicted_rank": 2,
+  "iran_pts": 4
+}</pre>
+</div>
+
+</main>
+
+<footer>
+  <div class="f-logo">WC2026</div>
+  <div class="f-links">
+    <a href="index.html">Home</a><a href="teams.html">Teams</a><a href="groups.html">Groups</a><a href="bracket.html">Bracket</a><a href="iran.html">Iran</a>
+  </div>
+  <div>Generated 2026-06-03 · Dixon-Coles Bivariate Poisson · 10,000 simulations</div>
+  <div style="color:#1e3058;margin-top:4px">Probabilistic forecast for analytical purposes only</div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

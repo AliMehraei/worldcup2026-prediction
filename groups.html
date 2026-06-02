@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Group Standings — WC2026 Predictor</title>
+<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+<nav>
+  <div class="nav-links">
+    <a class="nav-a" href="index.html"><span class="ico">🏠</span>Home</a>
+    <a class="nav-a" href="teams.html"><span class="ico">📊</span>Teams</a>
+    <a class="nav-a on" href="groups.html"><span class="ico">📋</span>Groups</a>
+    <a class="nav-a" href="bracket.html"><span class="ico">⚡</span>Bracket</a>
+    <a class="nav-a" href="iran.html"><span class="ico">🇮🇷</span>Iran</a>
+    <a class="nav-a" href="model.html"><span class="ico">⚗</span>Model</a>
+  </div>
+  <button class="mob-menu" onclick="toggleMobileNav()">☰</button>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <a class="nav-brand" href="index.html">WC<span>2026</span></a>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Groups" data-fa="گروه‌ها">Groups</span></div>
+  <h1 data-en="Group Stage Standings" data-fa="جدول‌های مرحله گروهی">Group Stage Standings</h1>
+  <p data-en="Predicted final standings for all 12 groups — median outcome from 10,000 simulations." data-fa="جدول نهایی پیش‌بینی‌شده ۱۲ گروه — حالت میانه از ۱۰٬۰۰۰ شبیه‌سازی.">Predicted final standings for all 12 groups — median outcome from 10,000 simulations.</p>
+</div>
+
+<main>
+
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">📋</div>
+    <div class="sec-ttl" data-en="Select a Group" data-fa="انتخاب گروه">Select a Group</div>
+    <div class="sec-sub" data-en="12 groups · 48 teams" data-fa="۱۲ گروه · ۴۸ تیم">12 groups · 48 teams</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tb on" onclick="sg('A',this)">A</button>
+    <button class="tb" onclick="sg('B',this)">B</button>
+    <button class="tb" onclick="sg('C',this)">C</button>
+    <button class="tb" onclick="sg('D',this)">D</button>
+    <button class="tb" onclick="sg('E',this)">E</button>
+    <button class="tb" onclick="sg('F',this)">F</button>
+    <button class="tb" onclick="sg('G',this)">G 🇮🇷</button>
+    <button class="tb" onclick="sg('H',this)">H</button>
+    <button class="tb" onclick="sg('I',this)">I</button>
+    <button class="tb" onclick="sg('J',this)">J</button>
+    <button class="tb" onclick="sg('K',this)">K</button>
+    <button class="tb" onclick="sg('L',this)">L</button>
+  </div>
+
+  <div id="g-A" class="tp on">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇲🇽 Mexico</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td>95.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇰🇷 South Korea</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>78.9%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇨🇿 Czechia</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>61.7%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇿🇦 South Africa</td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>6</td><td>-3</td><td><b>0</b></td><td>31.1%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-B" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇨🇭 Switzerland</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td>93.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇨🇦 Canada</td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>3</td><td>+2</td><td><b>7</b></td><td>86.8%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇶🇦 Qatar</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>48.2%</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>4</td><td>🇧🇦 Bosnia &amp; Herz.</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>39.0%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-C" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇧🇷 Brazil</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td>97.0%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇲🇦 Morocco</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td>85.0%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td>52.0%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇭🇹 Haiti</td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>8</td><td>-7</td><td><b>0</b></td><td>8.9%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-D" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇺🇸 USA</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td>90.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇹🇷 Türkiye</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>74.8%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇦🇺 Australia</td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td><b>2</b></td><td>66.2%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇵🇾 Paraguay</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>50.1%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-E" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇩🇪 Germany</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td>97.1%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇪🇨 Ecuador</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>83.5%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇨🇮 Ivory Coast</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>68.4%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇨🇼 Curaçao</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td>13.0%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-F" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇳🇱 Netherlands</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td>95.2%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇯🇵 Japan</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td>83.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇸🇪 Sweden</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>47.1%</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>4</td><td>🇹🇳 Tunisia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>38.4%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-G" class="tp">
+    <div class="ibox">
+      <div class="ibox-t" data-en="🇮🇷 Iran's Group — Belgium dominant, tight Iran vs Egypt race for 2nd place" data-fa="🇮🇷 گروه ایران — بلژیک قوی‌تر، رقابت نزدیک ایران و مصر برای رتبه دوم">🇮🇷 Iran's Group — Belgium dominant, tight Iran vs Egypt race for 2nd place</div>
+      <p style="font-size:13px;color:var(--sub)" data-en="Iran finishes 2nd in 52% of simulations vs Egypt's 44%. Key match: Iran vs Egypt is a near-coin-flip." data-fa="ایران در ۵۲٪ شبیه‌سازی‌ها دوم می‌شود در مقابل ۴۴٪ مصر. بازی کلیدی: ایران–مصر تقریباً برابر است.">Iran finishes 2nd in 52% of simulations vs Egypt's 44%. Key match: Iran vs Egypt is a near-coin-flip.</p>
+    </div>
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇧🇪 Belgium</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td>96.5%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr class="row-ir"><td>2</td><td>🇮🇷 Iran</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td><b style="color:var(--iran)">84.0%</b></td><td><span class="b b-g">R32 ✓</span></td></tr>
+      <tr><td>3</td><td>🇪🇬 Egypt</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>76.6%</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>4</td><td>🇳🇿 New Zealand</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td>10.4%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-H" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇪🇸 Spain</td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td><b>9</b></td><td>98.7%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇺🇾 Uruguay</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td>91.1%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇸🇦 Saudi Arabia</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td>26.0%</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>4</td><td>🇨🇻 Cape Verde</td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td><b>1</b></td><td>16.3%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-I" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr class="row-ch"><td>1</td><td>🇫🇷 France 🏆</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td>98.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇸🇳 Senegal</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td>81.3%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td>52.0%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇮🇶 Iraq</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td>17.2%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-J" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr class="row-ru"><td>1</td><td>🇦🇷 Argentina 🥈</td><td>3</td><td>3</td><td>0</td><td>0</td><td>7</td><td>2</td><td>+5</td><td><b>9</b></td><td>98.6%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇦🇹 Austria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>69.8%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇩🇿 Algeria</td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>0</td><td><b>4</b></td><td>61.7%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇯🇴 Jordan</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>7</td><td>-5</td><td><b>0</b></td><td>16.8%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-K" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🇵🇹 Portugal</td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>9</b></td><td>95.9%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇨🇴 Colombia</td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>4</td><td>+1</td><td><b>6</b></td><td>80.0%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇨🇩 DR Congo</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>37.7%</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>4</td><td>🇺🇿 Uzbekistan</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>-2</td><td><b>1</b></td><td>30.8%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div id="g-L" class="tp">
+    <div class="tw"><table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>R32%</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td><b>7</b></td><td>96.5%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>2</td><td>🇭🇷 Croatia</td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td><b>7</b></td><td>88.0%</td><td><span class="b b-g">R32</span></td></tr>
+      <tr><td>3</td><td>🇵🇦 Panama</td><td>3</td><td>1</td><td>0</td><td>2</td><td>4</td><td>5</td><td>-1</td><td><b>3</b></td><td>52.0%</td><td><span class="b b-q">R32 (3rd)</span></td></tr>
+      <tr><td>4</td><td>🇬🇭 Ghana</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td><b>0</b></td><td>14.4%</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+</div>
+
+<!-- BEST 3RD PLACE -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-ico">🥉</div>
+    <div class="sec-ttl" data-en="Best 3rd Place Teams — Qualification" data-fa="بهترین تیم‌های سوم — صعود">Best 3rd Place Teams — Qualification</div>
+    <div class="sec-sub" data-en="Top 8 of 12 third-place teams advance" data-fa="۸ تیم از ۱۲ تیم سوم صعود می‌کنند">Top 8 of 12 third-place teams advance</div>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Rank</th><th>Group</th><th>Team</th><th>Pts</th><th>GD</th><th>GF</th><th>Model Score</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>G</td><td>🇪🇬 Egypt</td><td>4</td><td>0</td><td>4</td><td>57.56</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>2</td><td>J</td><td>🇩🇿 Algeria</td><td>4</td><td>0</td><td>4</td><td>57.52</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>3</td><td>E</td><td>🇨🇮 Ivory Coast</td><td>4</td><td>0</td><td>4</td><td>55.80</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>4</td><td>A</td><td>🇨🇿 Czechia</td><td>4</td><td>0</td><td>4</td><td>53.54</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>5</td><td>I</td><td>🇳🇴 Norway</td><td>3</td><td>-1</td><td>4</td><td>56.50</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>6</td><td>L</td><td>🇵🇦 Panama</td><td>3</td><td>-1</td><td>4</td><td>53.81</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>7</td><td>C</td><td>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</td><td>3</td><td>-1</td><td>4</td><td>51.34</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>8</td><td>D</td><td>🇦🇺 Australia</td><td>2</td><td>-1</td><td>3</td><td>59.31</td><td><span class="b b-g">Qualified</span></td></tr>
+      <tr><td>9</td><td>F</td><td>🇸🇪 Sweden</td><td>1</td><td>-2</td><td>3</td><td>53.69</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>10</td><td>K</td><td>🇨🇩 DR Congo</td><td>1</td><td>-2</td><td>3</td><td>49.23</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>11</td><td>B</td><td>🇶🇦 Qatar</td><td>1</td><td>-2</td><td>3</td><td>45.10</td><td><span class="b b-o">Out</span></td></tr>
+      <tr><td>12</td><td>H</td><td>🇸🇦 Saudi Arabia</td><td>1</td><td>-4</td><td>2</td><td>43.89</td><td><span class="b b-o">Out</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+</main>
+
+<footer>
+  <div class="f-logo">WC2026</div>
+  <div class="f-links">
+    <a href="index.html">Home</a><a href="teams.html">Teams</a><a href="bracket.html">Bracket</a><a href="iran.html">Iran</a><a href="model.html">Model</a>
+  </div>
+  <div>Generated 2026-06-03 · Dixon-Coles Bivariate Poisson · 10,000 simulations</div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
