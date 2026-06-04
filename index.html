@@ -376,65 +376,65 @@ function bigFlagImg(iso2){
 // Higher att = more goals scored | Lower def = fewer goals conceded
 const TEAMS = [
   // Group A
-  {id:'MEX',name:'Mexico',       iso2:'mx',conf:'CONCACAF',grp:'A',elo:1681,att:1.52,def:1.09},
-  {id:'KOR',name:'South Korea',  iso2:'kr',conf:'AFC',      grp:'A',elo:1589,att:1.24,def:1.23},
-  {id:'CZE',name:'Czechia',      iso2:'cz',conf:'UEFA',     grp:'A',elo:1501,att:1.12,def:1.27},
-  {id:'ZAF',name:'South Africa', iso2:'za',conf:'CAF',      grp:'A',elo:1417,att:0.84,def:1.62},
+  {id:'MEX',name:'Mexico',       nameFa:'مکزیک',      iso2:'mx',conf:'CONCACAF',grp:'A',elo:1681,att:1.52,def:1.09},
+  {id:'KOR',name:'South Korea',  nameFa:'کره جنوبی',  iso2:'kr',conf:'AFC',      grp:'A',elo:1589,att:1.24,def:1.23},
+  {id:'CZE',name:'Czechia',      nameFa:'چک',          iso2:'cz',conf:'UEFA',     grp:'A',elo:1501,att:1.12,def:1.27},
+  {id:'ZAF',name:'South Africa', nameFa:'آفریقای جنوبی',iso2:'za',conf:'CAF',   grp:'A',elo:1417,att:0.84,def:1.62},
   // Group B
-  {id:'CHE',name:'Switzerland',  iso2:'ch',conf:'UEFA',     grp:'B',elo:1649,att:1.39,def:1.14},
-  {id:'CAN',name:'Canada',       iso2:'ca',conf:'CONCACAF', grp:'B',elo:1556,att:1.32,def:1.17},
-  {id:'QAT',name:'Qatar',        iso2:'qa',conf:'AFC',      grp:'B',elo:1441,att:0.90,def:1.52},
-  {id:'BIH',name:'Bosnia & Herz.',iso2:'ba',conf:'UEFA',    grp:'B',elo:1391,att:0.86,def:1.58},
+  {id:'CHE',name:'Switzerland',  nameFa:'سوئیس',      iso2:'ch',conf:'UEFA',     grp:'B',elo:1649,att:1.39,def:1.14},
+  {id:'CAN',name:'Canada',       nameFa:'کانادا',     iso2:'ca',conf:'CONCACAF', grp:'B',elo:1556,att:1.32,def:1.17},
+  {id:'QAT',name:'Qatar',        nameFa:'قطر',        iso2:'qa',conf:'AFC',      grp:'B',elo:1441,att:0.90,def:1.52},
+  {id:'BIH',name:'Bosnia & Herz.',nameFa:'بوسنی',     iso2:'ba',conf:'UEFA',     grp:'B',elo:1391,att:0.86,def:1.58},
   // Group C
-  {id:'BRA',name:'Brazil',       iso2:'br',conf:'CONMEBOL', grp:'C',elo:1761,att:1.72,def:0.89},
-  {id:'MAR',name:'Morocco',      iso2:'ma',conf:'CAF',      grp:'C',elo:1660,att:1.44,def:1.15},
-  {id:'SCO',name:'Scotland',     iso2:'gb-sct',conf:'UEFA', grp:'C',elo:1498,att:1.06,def:1.33},
-  {id:'HTI',name:'Haiti',        iso2:'ht',conf:'CONCACAF', grp:'C',elo:1294,att:0.70,def:1.90},
+  {id:'BRA',name:'Brazil',       nameFa:'برزیل',      iso2:'br',conf:'CONMEBOL', grp:'C',elo:1761,att:1.72,def:0.89},
+  {id:'MAR',name:'Morocco',      nameFa:'مراکش',      iso2:'ma',conf:'CAF',      grp:'C',elo:1660,att:1.44,def:1.15},
+  {id:'SCO',name:'Scotland',     nameFa:'اسکاتلند',   iso2:'gb-sct',conf:'UEFA', grp:'C',elo:1498,att:1.06,def:1.33},
+  {id:'HTI',name:'Haiti',        nameFa:'هائیتی',     iso2:'ht',conf:'CONCACAF', grp:'C',elo:1294,att:0.70,def:1.90},
   // Group D
-  {id:'USA',name:'USA',          iso2:'us',conf:'CONCACAF', grp:'D',elo:1673,att:1.48,def:1.11},
-  {id:'TUR',name:'Türkiye',      iso2:'tr',conf:'UEFA',     grp:'D',elo:1599,att:1.29,def:1.19},
-  {id:'AUS',name:'Australia',    iso2:'au',conf:'AFC',      grp:'D',elo:1581,att:1.18,def:1.26},
-  {id:'PRY',name:'Paraguay',     iso2:'py',conf:'CONMEBOL', grp:'D',elo:1504,att:1.08,def:1.31},
+  {id:'USA',name:'USA',          nameFa:'آمریکا',     iso2:'us',conf:'CONCACAF', grp:'D',elo:1673,att:1.48,def:1.11},
+  {id:'TUR',name:'Türkiye',      nameFa:'ترکیه',      iso2:'tr',conf:'UEFA',     grp:'D',elo:1599,att:1.29,def:1.19},
+  {id:'AUS',name:'Australia',    nameFa:'استرالیا',   iso2:'au',conf:'AFC',      grp:'D',elo:1581,att:1.18,def:1.26},
+  {id:'PRY',name:'Paraguay',     nameFa:'پاراگوئه',   iso2:'py',conf:'CONMEBOL', grp:'D',elo:1504,att:1.08,def:1.31},
   // Group E
-  {id:'GER',name:'Germany',      iso2:'de',conf:'UEFA',     grp:'E',elo:1730,att:1.62,def:0.97},
-  {id:'ECU',name:'Ecuador',      iso2:'ec',conf:'CONMEBOL', grp:'E',elo:1595,att:1.27,def:1.21},
-  {id:'CIV',name:'Ivory Coast',  iso2:'ci',conf:'CAF',      grp:'E',elo:1533,att:1.18,def:1.24},
-  {id:'CUW',name:'Curaçao',      iso2:'cw',conf:'CONCACAF', grp:'E',elo:1300,att:0.72,def:1.82},
+  {id:'GER',name:'Germany',      nameFa:'آلمان',      iso2:'de',conf:'UEFA',     grp:'E',elo:1730,att:1.62,def:0.97},
+  {id:'ECU',name:'Ecuador',      nameFa:'اکوادور',    iso2:'ec',conf:'CONMEBOL', grp:'E',elo:1595,att:1.27,def:1.21},
+  {id:'CIV',name:'Ivory Coast',  nameFa:'ساحل عاج',  iso2:'ci',conf:'CAF',      grp:'E',elo:1533,att:1.18,def:1.24},
+  {id:'CUW',name:'Curaçao',      nameFa:'کوراسائو',   iso2:'cw',conf:'CONCACAF', grp:'E',elo:1300,att:0.72,def:1.82},
   // Group F
-  {id:'NLD',name:'Netherlands',  iso2:'nl',conf:'UEFA',     grp:'F',elo:1758,att:1.65,def:0.96},
-  {id:'JPN',name:'Japan',        iso2:'jp',conf:'AFC',      grp:'F',elo:1660,att:1.44,def:1.08},
-  {id:'SWE',name:'Sweden',       iso2:'se',conf:'UEFA',     grp:'F',elo:1515,att:1.10,def:1.28},
-  {id:'TUN',name:'Tunisia',      iso2:'tn',conf:'CAF',      grp:'F',elo:1483,att:1.02,def:1.36},
+  {id:'NLD',name:'Netherlands',  nameFa:'هلند',       iso2:'nl',conf:'UEFA',     grp:'F',elo:1758,att:1.65,def:0.96},
+  {id:'JPN',name:'Japan',        nameFa:'ژاپن',       iso2:'jp',conf:'AFC',      grp:'F',elo:1660,att:1.44,def:1.08},
+  {id:'SWE',name:'Sweden',       nameFa:'سوئد',       iso2:'se',conf:'UEFA',     grp:'F',elo:1515,att:1.10,def:1.28},
+  {id:'TUN',name:'Tunisia',      nameFa:'تونس',       iso2:'tn',conf:'CAF',      grp:'F',elo:1483,att:1.02,def:1.36},
   // Group G  ← IRAN
-  {id:'BEL',name:'Belgium',      iso2:'be',conf:'UEFA',     grp:'G',elo:1735,att:1.78,def:1.02},
-  {id:'IRN',name:'Iran',         iso2:'ir',conf:'AFC',      grp:'G',elo:1615,att:1.31,def:1.18},
-  {id:'EGY',name:'Egypt',        iso2:'eg',conf:'CAF',      grp:'G',elo:1563,att:1.21,def:1.21},
-  {id:'NZL',name:'New Zealand',  iso2:'nz',conf:'OFC',      grp:'G',elo:1282,att:0.74,def:1.68},
+  {id:'BEL',name:'Belgium',      nameFa:'بلژیک',      iso2:'be',conf:'UEFA',     grp:'G',elo:1735,att:1.78,def:1.02},
+  {id:'IRN',name:'Iran',         nameFa:'ایران',      iso2:'ir',conf:'AFC',      grp:'G',elo:1615,att:1.31,def:1.18},
+  {id:'EGY',name:'Egypt',        nameFa:'مصر',        iso2:'eg',conf:'CAF',      grp:'G',elo:1563,att:1.21,def:1.21},
+  {id:'NZL',name:'New Zealand',  nameFa:'نیوزیلند',   iso2:'nz',conf:'OFC',      grp:'G',elo:1282,att:0.74,def:1.68},
   // Group H
-  {id:'ESP',name:'Spain',        iso2:'es',conf:'UEFA',     grp:'H',elo:1876,att:1.87,def:0.79},
-  {id:'URY',name:'Uruguay',      iso2:'uy',conf:'CONMEBOL', grp:'H',elo:1673,att:1.46,def:1.12},
-  {id:'SAU',name:'Saudi Arabia', iso2:'sa',conf:'AFC',      grp:'H',elo:1412,att:0.88,def:1.56},
-  {id:'CPV',name:'Cape Verde',   iso2:'cv',conf:'CAF',      grp:'H',elo:1371,att:0.80,def:1.72},
+  {id:'ESP',name:'Spain',        nameFa:'اسپانیا',    iso2:'es',conf:'UEFA',     grp:'H',elo:1876,att:1.87,def:0.79},
+  {id:'URY',name:'Uruguay',      nameFa:'اروگوئه',    iso2:'uy',conf:'CONMEBOL', grp:'H',elo:1673,att:1.46,def:1.12},
+  {id:'SAU',name:'Saudi Arabia', nameFa:'عربستان',    iso2:'sa',conf:'AFC',      grp:'H',elo:1412,att:0.88,def:1.56},
+  {id:'CPV',name:'Cape Verde',   nameFa:'کاپ ورد',   iso2:'cv',conf:'CAF',      grp:'H',elo:1371,att:0.80,def:1.72},
   // Group I
-  {id:'FRA',name:'France',       iso2:'fr',conf:'UEFA',     grp:'I',elo:1877,att:1.91,def:0.82},
-  {id:'SEN',name:'Senegal',      iso2:'sn',conf:'CAF',      grp:'I',elo:1689,att:1.41,def:1.16},
-  {id:'NOR',name:'Norway',       iso2:'no',conf:'UEFA',     grp:'I',elo:1551,att:1.22,def:1.22},
-  {id:'IRQ',name:'Iraq',         iso2:'iq',conf:'AFC',      grp:'I',elo:1432,att:0.86,def:1.58},
+  {id:'FRA',name:'France',       nameFa:'فرانسه',     iso2:'fr',conf:'UEFA',     grp:'I',elo:1877,att:1.91,def:0.82},
+  {id:'SEN',name:'Senegal',      nameFa:'سنگال',      iso2:'sn',conf:'CAF',      grp:'I',elo:1689,att:1.41,def:1.16},
+  {id:'NOR',name:'Norway',       nameFa:'نروژ',       iso2:'no',conf:'UEFA',     grp:'I',elo:1551,att:1.22,def:1.22},
+  {id:'IRQ',name:'Iraq',         nameFa:'عراق',       iso2:'iq',conf:'AFC',      grp:'I',elo:1432,att:0.86,def:1.58},
   // Group J
-  {id:'ARG',name:'Argentina',    iso2:'ar',conf:'CONMEBOL', grp:'J',elo:1875,att:1.88,def:0.84},
-  {id:'AUT',name:'Austria',      iso2:'at',conf:'UEFA',     grp:'J',elo:1593,att:1.26,def:1.22},
-  {id:'DZA',name:'Algeria',      iso2:'dz',conf:'CAF',      grp:'J',elo:1564,att:1.19,def:1.24},
-  {id:'JOR',name:'Jordan',       iso2:'jo',conf:'AFC',      grp:'J',elo:1402,att:0.82,def:1.66},
+  {id:'ARG',name:'Argentina',    nameFa:'آرژانتین',   iso2:'ar',conf:'CONMEBOL', grp:'J',elo:1875,att:1.88,def:0.84},
+  {id:'AUT',name:'Austria',      nameFa:'اتریش',      iso2:'at',conf:'UEFA',     grp:'J',elo:1593,att:1.26,def:1.22},
+  {id:'DZA',name:'Algeria',      nameFa:'الجزایر',    iso2:'dz',conf:'CAF',      grp:'J',elo:1564,att:1.19,def:1.24},
+  {id:'JOR',name:'Jordan',       nameFa:'اردن',       iso2:'jo',conf:'AFC',      grp:'J',elo:1402,att:0.82,def:1.66},
   // Group K
-  {id:'PRT',name:'Portugal',     iso2:'pt',conf:'UEFA',     grp:'K',elo:1764,att:1.68,def:0.94},
-  {id:'COL',name:'Colombia',     iso2:'co',conf:'CONMEBOL', grp:'K',elo:1570,att:1.28,def:1.18},
-  {id:'COD',name:'DR Congo',     iso2:'cd',conf:'CAF',      grp:'K',elo:1478,att:1.00,def:1.38},
-  {id:'UZB',name:'Uzbekistan',   iso2:'uz',conf:'AFC',      grp:'K',elo:1465,att:0.95,def:1.44},
+  {id:'PRT',name:'Portugal',     nameFa:'پرتغال',     iso2:'pt',conf:'UEFA',     grp:'K',elo:1764,att:1.68,def:0.94},
+  {id:'COL',name:'Colombia',     nameFa:'کلمبیا',     iso2:'co',conf:'CONMEBOL', grp:'K',elo:1570,att:1.28,def:1.18},
+  {id:'COD',name:'DR Congo',     nameFa:'کنگو',       iso2:'cd',conf:'CAF',      grp:'K',elo:1478,att:1.00,def:1.38},
+  {id:'UZB',name:'Uzbekistan',   nameFa:'ازبکستان',   iso2:'uz',conf:'AFC',      grp:'K',elo:1465,att:0.95,def:1.44},
   // Group L
-  {id:'ENG',name:'England',      iso2:'gb-eng',conf:'UEFA', grp:'L',elo:1826,att:1.74,def:0.92},
-  {id:'HRV',name:'Croatia',      iso2:'hr',conf:'UEFA',     grp:'L',elo:1540,att:1.31,def:1.14},
-  {id:'PAN',name:'Panama',       iso2:'pa',conf:'CONCACAF', grp:'L',elo:1541,att:1.10,def:1.29},
-  {id:'GHA',name:'Ghana',        iso2:'gh',conf:'CAF',      grp:'L',elo:1344,att:0.84,def:1.66},
+  {id:'ENG',name:'England',      nameFa:'انگلیس',     iso2:'gb-eng',conf:'UEFA', grp:'L',elo:1826,att:1.74,def:0.92},
+  {id:'HRV',name:'Croatia',      nameFa:'کرواسی',     iso2:'hr',conf:'UEFA',     grp:'L',elo:1540,att:1.31,def:1.14},
+  {id:'PAN',name:'Panama',       nameFa:'پاناما',     iso2:'pa',conf:'CONCACAF', grp:'L',elo:1541,att:1.10,def:1.29},
+  {id:'GHA',name:'Ghana',        nameFa:'غنا',        iso2:'gh',conf:'CAF',      grp:'L',elo:1344,att:0.84,def:1.66},
 ];
 const TEAM = {};
 TEAMS.forEach(t=>TEAM[t.id]=t);
@@ -663,25 +663,25 @@ function renderResults(){
   document.getElementById('duelBox').innerHTML = `
     <div class="duel-card champ">
       ${bigFlagImg(top1.iso2)}
-      <div class="d-name">${top1.name}</div>
+      <div class="d-name" data-en="${top1.name}" data-fa="${top1.nameFa||top1.name}">${top1.name}</div>
       <div class="d-elo">Elo ${top1.elo} · ${top1.conf} · λ_att ${top1.att}</div>
       <div class="d-prob">${pct(champCount[top1.id])}</div>
-      <div class="d-prob-l">Championship probability</div>
+      <div class="d-prob-l" data-en="Championship probability" data-fa="احتمال قهرمانی">Championship probability</div>
     </div>
     <div class="duel-mid">
       <span class="duel-trophy">🏆</span>
       <div class="score-box">
-        <div class="score-v">Final</div>
-        <div class="score-n">Predicted</div>
+        <div class="score-v" data-en="Final" data-fa="فینال">Final</div>
+        <div class="score-n" data-en="Predicted" data-fa="پیش‌بینی">Predicted</div>
         <div class="score-l">WC2026</div>
       </div>
     </div>
     <div class="duel-card runner">
       ${bigFlagImg(top2.iso2)}
-      <div class="d-name">${top2.name}</div>
+      <div class="d-name" data-en="${top2.name}" data-fa="${top2.nameFa||top2.name}">${top2.name}</div>
       <div class="d-elo">Elo ${top2.elo} · ${top2.conf} · λ_att ${top2.att}</div>
       <div class="d-prob">${pct(champCount[top2.id])}</div>
-      <div class="d-prob-l">Championship probability</div>
+      <div class="d-prob-l" data-en="Championship probability" data-fa="احتمال قهرمانی">Championship probability</div>
     </div>`;
 
   // CHIPS
@@ -696,18 +696,18 @@ function renderResults(){
     </div>
     <div class="chip">
       <div class="chip-l">Runner-up</div>
-      <div class="chip-v">${flagImg(top2.iso2)} ${top2.name}</div>
-      <div class="chip-s">${pct(runnerCount[top2.id])} final appearances</div>
+      <div class="chip-v">${flagImg(top2.iso2)} <span data-en="${top2.name}" data-fa="${top2.nameFa||top2.name}">${top2.name}</span></div>
+      <div class="chip-s">${pct(runnerCount[top2.id])} <span data-en="final appearances" data-fa="حضور در فینال">final appearances</span></div>
     </div>
     <div class="chip">
-      <div class="chip-l">3rd contender</div>
-      <div class="chip-v">${flagImg(sorted[2].iso2)} ${sorted[2].name}</div>
-      <div class="chip-s">${pct(champCount[sorted[2].id])} to win</div>
+      <div class="chip-l" data-en="3rd contender" data-fa="مدعی سوم">3rd contender</div>
+      <div class="chip-v">${flagImg(sorted[2].iso2)} <span data-en="${sorted[2].name}" data-fa="${sorted[2].nameFa||sorted[2].name}">${sorted[2].name}</span></div>
+      <div class="chip-s">${pct(champCount[sorted[2].id])} <span data-en="to win" data-fa="برای قهرمانی">to win</span></div>
     </div>
     ${darkHorse?`<div class="chip">
-      <div class="chip-l">Dark horse</div>
-      <div class="chip-v">${flagImg(darkHorse.iso2)} ${darkHorse.name}</div>
-      <div class="chip-s">${pct(champCount[darkHorse.id])} to win</div>
+      <div class="chip-l" data-en="Dark horse" data-fa="تیم غافلگیر کننده">Dark horse</div>
+      <div class="chip-v">${flagImg(darkHorse.iso2)} <span data-en="${darkHorse.name}" data-fa="${darkHorse.nameFa||darkHorse.name}">${darkHorse.name}</span></div>
+      <div class="chip-s">${pct(champCount[darkHorse.id])} <span data-en="to win" data-fa="برای قهرمانی">to win</span></div>
     </div>`:''}`;
 
   // ODDS GRID — top 10
@@ -717,7 +717,7 @@ function renderResults(){
     return `<div class="odds-card">
       <img src="${flagUrl(t.iso2)}" class="o-flag" alt="" onerror="this.style.opacity='.3'">
       <div class="o-info">
-        <div class="o-name">${t.name}</div>
+        <div class="o-name" data-en="${t.name}" data-fa="${t.nameFa||t.name}">${t.name}</div>
         <div class="o-detail">${t.conf} · Elo ${t.elo} · λ ${t.att}/${t.def}</div>
         <div class="o-bar-w"><div class="o-bar" style="width:${(cp/maxPct*100).toFixed(0)}%"></div></div>
       </div>
@@ -745,11 +745,11 @@ function renderResults(){
     const {pHome,pDraw,pAway}=matchProbs(tA,tB);
     const pH=(pHome*100).toFixed(1), pD=(pDraw*100).toFixed(1), pA=(pAway*100).toFixed(1);
     return `<div class="pc">
-      <div class="pc-m">${flagImg(tA.iso2)} ${tA.name} vs ${flagImg(tB.iso2)} ${tB.name}</div>
+      <div class="pc-m">${flagImg(tA.iso2)} <span data-en="${tA.name}" data-fa="${tA.nameFa||tA.name}">${tA.name}</span> <span data-en="vs" data-fa="برابر">vs</span> ${flagImg(tB.iso2)} <span data-en="${tB.name}" data-fa="${tB.nameFa||tB.name}">${tB.name}</span></div>
       <div class="pc-l">λ_${a}=${tA.att.toFixed(2)} · λ_${b}=${tB.att.toFixed(2)}</div>
-      <div class="pr"><div class="pr-l">${tA.name}</div><div class="pt2"><div class="pf2 blue" style="width:${pH}%"></div></div><div class="pr-v">${pH}%</div></div>
-      <div class="pr"><div class="pr-l">Draw</div><div class="pt2"><div class="pf2 grey" style="width:${pD}%"></div></div><div class="pr-v">${pD}%</div></div>
-      <div class="pr"><div class="pr-l">${tB.name}</div><div class="pt2"><div class="pf2 green" style="width:${pA}%"></div></div><div class="pr-v">${pA}%</div></div>
+      <div class="pr"><div class="pr-l" data-en="${tA.name}" data-fa="${tA.nameFa||tA.name}">${tA.name}</div><div class="pt2"><div class="pf2 blue" style="width:${pH}%"></div></div><div class="pr-v">${pH}%</div></div>
+      <div class="pr"><div class="pr-l" data-en="Draw" data-fa="مساوی">Draw</div><div class="pt2"><div class="pf2 grey" style="width:${pD}%"></div></div><div class="pr-v">${pD}%</div></div>
+      <div class="pr"><div class="pr-l" data-en="${tB.name}" data-fa="${tB.nameFa||tB.name}">${tB.name}</div><div class="pt2"><div class="pf2 green" style="width:${pA}%"></div></div><div class="pr-v">${pA}%</div></div>
     </div>`;
   }).join('');
 
@@ -764,15 +764,15 @@ function renderResults(){
   }).sort((a,b)=>parseFloat(b.avgPts)-parseFloat(a.avgPts));
 
   document.getElementById('groupGTable').innerHTML = `<table>
-    <thead><tr><th>#</th><th>Team</th><th>Avg Pts</th><th>Avg GD</th><th>R32%</th><th>Status</th></tr></thead>
+    <thead><tr><th>#</th><th data-en="Team" data-fa="تیم">Team</th><th data-en="Avg Pts" data-fa="میانگین امتیاز">Avg Pts</th><th>Avg GD</th><th>R32%</th><th data-en="Status" data-fa="وضعیت">Status</th></tr></thead>
     <tbody>${gRows.map((r,i)=>`
       <tr class="${r.t.id==='IRN'?'row-ir':''}">
         <td>${i+1}</td>
-        <td>${flagImg(r.t.iso2)} ${r.t.name}</td>
+        <td>${flagImg(r.t.iso2)} <span data-en="${r.t.name}" data-fa="${r.t.nameFa||r.t.name}">${r.t.name}</span></td>
         <td><b>${r.avgPts}</b></td>
         <td>${r.avgGD}</td>
         <td style="color:var(--blue);font-weight:700">${r.r32p}%</td>
-        <td><span class="b ${r.r32p>50?'b-g':'b-o'}">${r.r32p>50?'R32':'Out'}</span></td>
+        <td><span class="b ${r.r32p>50?'b-g':'b-o'}" data-en="${r.r32p>50?'R32':'Out'}" data-fa="${r.r32p>50?'مرحله ۳۲':'حذف'}">${r.r32p>50?'R32':'Out'}</span></td>
       </tr>`).join('')}
     </tbody></table>`;
 
@@ -780,18 +780,18 @@ function renderResults(){
   const champ = sorted[0];
   document.getElementById('bracketBox').innerHTML = `
     <div class="bstage">
-      <div class="bstage-l">Most likely champion path — ${champ.name}</div>
+      <div class="bstage-l" data-en="Most likely champion path — ${champ.name}" data-fa="محتمل‌ترین مسیر قهرمان — ${champ.nameFa||champ.name}">Most likely champion path — ${champ.name}</div>
       <div style="color:var(--sub);font-size:13px;line-height:1.7">
-        ${flagImg(champ.iso2)} <b style="color:#fff">${champ.name}</b> wins the championship in <b style="color:var(--blue)">${pct(champCount[champ.id])}</b> of simulations.
-        Runner-up most likely: ${flagImg(sorted[1].iso2)} <b>${sorted[1].name}</b> (${pct(champCount[sorted[1].id])}).
-        Third most likely: ${flagImg(sorted[2].iso2)} <b>${sorted[2].name}</b> (${pct(champCount[sorted[2].id])}).
+        ${flagImg(champ.iso2)} <b style="color:#fff" data-en="${champ.name}" data-fa="${champ.nameFa||champ.name}">${champ.name}</b> <span data-en="wins the championship in" data-fa="در">wins the championship in</span> <b style="color:var(--blue)">${pct(champCount[champ.id])}</b> <span data-en="of simulations." data-fa="شبیه‌سازی قهرمان می‌شود.">of simulations.</span>
+        <br><span data-en="Runner-up most likely:" data-fa="نایب‌قهرمان:">Runner-up most likely:</span> ${flagImg(sorted[1].iso2)} <b data-en="${sorted[1].name}" data-fa="${sorted[1].nameFa||sorted[1].name}">${sorted[1].name}</b> (${pct(champCount[sorted[1].id])}).
+        <br><span data-en="Third most likely:" data-fa="سوم:">Third most likely:</span> ${flagImg(sorted[2].iso2)} <b data-en="${sorted[2].name}" data-fa="${sorted[2].nameFa||sorted[2].name}">${sorted[2].name}</b> (${pct(champCount[sorted[2].id])}).
         <br><br>
-        Top 5 championship probabilities from this run:
+        <span data-en="Top 5 championship probabilities from this run:" data-fa="۵ تیم برتر از این شبیه‌سازی:">Top 5 championship probabilities from this run:</span>
         ${sorted.slice(0,5).map((t,i)=>`
           <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--b1)">
             <span style="color:var(--dim);min-width:16px">${i+1}.</span>
             ${flagImg(t.iso2)}
-            <span style="flex:1;font-weight:600">${t.name}</span>
+            <span style="flex:1;font-weight:600" data-en="${t.name}" data-fa="${t.nameFa||t.name}">${t.name}</span>
             <span style="color:var(--gold);font-weight:800">${pct(champCount[t.id])}</span>
           </div>`).join('')}
       </div>
