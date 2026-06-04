@@ -79,7 +79,9 @@ tr:hover td{background:#0d1e3080}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px}
 .pc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px}
 .pc-m{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:3px}
-.pc-l{font-size:11px;color:var(--dim);margin-bottom:12px}
+.pc-l{font-size:11px;color:var(--dim);margin-bottom:8px}
+.pc-score{font-size:20px;font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:12px;display:inline-flex;align-items:center;gap:8px}
+.pc-score-label{font-size:10px;font-weight:600;color:var(--blue);background:var(--blue)18;border:1px solid var(--blue)30;border-radius:4px;padding:1px 6px;text-transform:uppercase;letter-spacing:.5px}
 .pc-rows{display:flex;flex-direction:column;gap:7px}
 .pr{display:grid;grid-template-columns:70px 1fr 44px;align-items:center;gap:8px}
 .pr-l{font-size:12px;color:var(--sub)}
@@ -105,8 +107,9 @@ tr:hover td{background:#0d1e3080}
 .tl.w{font-weight:700;color:#fff}
 .tl.l{color:var(--dim)}
 .mm{text-align:right;flex-shrink:0}
-.mr{font-size:12px;color:var(--sub);font-weight:600}
-.mc2{font-size:10px;color:var(--blue);margin-top:1px}
+.mr{font-size:15px;color:#fff;font-weight:800;letter-spacing:.5px;line-height:1.2}
+.mr-pens{font-size:10px;color:var(--gold);font-weight:700;display:block}
+.mc2{font-size:10px;color:var(--blue);margin-top:3px}
 
 /* TABS */
 .tabs{display:flex;gap:3px;flex-wrap:wrap;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);padding:4px;margin-bottom:18px}
@@ -115,6 +118,10 @@ tr:hover td{background:#0d1e3080}
 .tb.on{background:var(--blue);color:#fff}
 .tp{display:none}
 .tp.on{display:block}
+
+/* MATCH GROUP HEADER */
+.match-group-header{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+.match-group-header::after{content:'';flex:1;height:1px;background:var(--b1)}
 
 /* IRAN BOX */
 .ibox{background:linear-gradient(135deg,#06140a,var(--s1));border:1px solid var(--iran)30;border-radius:var(--r);padding:18px 20px;margin-bottom:18px}
