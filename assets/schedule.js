@@ -1,188 +1,185 @@
 // ─── WC2026 FULL SCHEDULE — all 104 matches ──────────────────────────────────
-// Times are US Eastern (ET). All dates are official FIFA WC2026 schedule.
+// Times are US Eastern (ET). Source: Official FIFA WC2026 schedule.
 // Venues: full name + city + abbreviation for display.
 
 const VENUES = {
-  ATL: { name: 'Mercedes-Benz Stadium',    city: 'Atlanta, GA',       short: 'Atlanta' },
-  BOS: { name: 'Gillette Stadium',          city: 'Boston/Foxborough, MA', short: 'Boston' },
-  DAL: { name: 'AT&T Stadium',              city: 'Dallas, TX',        short: 'Dallas' },
-  HOU: { name: 'NRG Stadium',               city: 'Houston, TX',       short: 'Houston' },
-  KC:  { name: 'Arrowhead Stadium',         city: 'Kansas City, MO',   short: 'Kansas City' },
-  LAR: { name: 'SoFi Stadium',              city: 'Los Angeles, CA',   short: 'LA (SoFi)' },
-  LAC: { name: 'Rose Bowl Stadium',         city: 'Pasadena, CA',      short: 'LA (Rose Bowl)' },
-  MIA: { name: 'Hard Rock Stadium',         city: 'Miami, FL',         short: 'Miami' },
-  MTL: { name: 'Stade Olympique',           city: 'Montréal, Canada',  short: 'Montréal' },
-  NYC: { name: 'MetLife Stadium',           city: 'East Rutherford, NJ', short: 'New York/NJ' },
-  PHI: { name: 'Lincoln Financial Field',   city: 'Philadelphia, PA',  short: 'Philadelphia' },
-  SEA: { name: 'Lumen Field',               city: 'Seattle, WA',       short: 'Seattle' },
-  SF:  { name: 'Levi\'s Stadium',           city: 'Santa Clara, CA',   short: 'San Francisco' },
-  TOR: { name: 'BMO Field',                 city: 'Toronto, Canada',   short: 'Toronto' },
-  VAN: { name: 'BC Place',                  city: 'Vancouver, Canada', short: 'Vancouver' },
-  GDL: { name: 'Estadio Akron',             city: 'Guadalajara, Mexico', short: 'Guadalajara' },
-  MEX: { name: 'Estadio Azteca',            city: 'Mexico City, Mexico', short: 'Mexico City' },
-  MTY: { name: 'Estadio BBVA',              city: 'Monterrey, Mexico', short: 'Monterrey' },
+  ATL: { name: 'Mercedes-Benz Stadium',    city: 'Atlanta, GA',           short: 'Atlanta' },
+  BOS: { name: 'Gillette Stadium',          city: 'Foxborough, MA',        short: 'Boston' },
+  DAL: { name: 'AT&T Stadium',              city: 'Arlington, TX',         short: 'Dallas' },
+  HOU: { name: 'NRG Stadium',               city: 'Houston, TX',           short: 'Houston' },
+  KC:  { name: 'Arrowhead Stadium',         city: 'Kansas City, MO',       short: 'Kansas City' },
+  LAR: { name: 'SoFi Stadium',              city: 'Inglewood, CA',         short: 'Los Angeles' },
+  MIA: { name: 'Hard Rock Stadium',         city: 'Miami Gardens, FL',     short: 'Miami' },
+  NYC: { name: 'MetLife Stadium',           city: 'East Rutherford, NJ',   short: 'New York/NJ' },
+  PHI: { name: 'Lincoln Financial Field',   city: 'Philadelphia, PA',      short: 'Philadelphia' },
+  SEA: { name: 'Lumen Field',               city: 'Seattle, WA',           short: 'Seattle' },
+  SF:  { name: "Levi's Stadium",            city: 'Santa Clara, CA',       short: 'San Francisco' },
+  TOR: { name: 'BMO Field',                 city: 'Toronto, Canada',       short: 'Toronto' },
+  VAN: { name: 'BC Place',                  city: 'Vancouver, Canada',     short: 'Vancouver' },
+  GDL: { name: 'Estadio Akron',             city: 'Guadalajara, Mexico',   short: 'Guadalajara' },
+  MEX: { name: 'Estadio Azteca',            city: 'Mexico City, Mexico',   short: 'Mexico City' },
+  MTY: { name: 'Estadio BBVA',              city: 'Monterrey, Mexico',     short: 'Monterrey' },
 };
 
-// Each match: { m, date, time, tz, venue, grp, round, teams }
-// date: 'YYYY-MM-DD', time: 'HH:MM' (24h ET), teams: [iso2A, nameA, iso2B, nameB]
-// For knockout matches where teams TBD: teams: null
+// Each match: { m, date, time, venue, grp, round, teams }
+// date: 'YYYY-MM-DD', time: 'HH:MM' (24h ET)
+// teams: [iso2A, nameA, iso2B, nameB] — null for knockout TBD matches
 const SCHEDULE = [
-  // ── GROUP STAGE ─────────────────────────────────────────────────────────────
-  // Group A — Mexico, South Korea, Czechia, South Africa
-  { m:1,  date:'2026-06-11', time:'18:00', venue:'LAC', grp:'A', round:'Group A', teams:['mx','Mexico','za','South Africa'] },
-  { m:2,  date:'2026-06-11', time:'21:00', venue:'GDL', grp:'A', round:'Group A', teams:['kr','South Korea','cz','Czechia'] },
-  { m:3,  date:'2026-06-15', time:'15:00', venue:'MEX', grp:'A', round:'Group A', teams:['mx','Mexico','cz','Czechia'] },
-  { m:4,  date:'2026-06-15', time:'18:00', venue:'MTY', grp:'A', round:'Group A', teams:['kr','South Korea','za','South Africa'] },
-  { m:5,  date:'2026-06-19', time:'15:00', venue:'LAC', grp:'A', round:'Group A', teams:['mx','Mexico','kr','South Korea'] },
-  { m:6,  date:'2026-06-19', time:'15:00', venue:'GDL', grp:'A', round:'Group A', teams:['cz','Czechia','za','South Africa'] },
 
-  // Group B — Switzerland, Canada, Qatar, Bosnia & Herzegovina
-  { m:7,  date:'2026-06-12', time:'15:00', venue:'TOR', grp:'B', round:'Group B', teams:['ch','Switzerland','ba','Bosnia & Herz.'] },
-  { m:8,  date:'2026-06-12', time:'18:00', venue:'VAN', grp:'B', round:'Group B', teams:['ca','Canada','qa','Qatar'] },
-  { m:9,  date:'2026-06-16', time:'15:00', venue:'TOR', grp:'B', round:'Group B', teams:['ch','Switzerland','qa','Qatar'] },
-  { m:10, date:'2026-06-16', time:'18:00', venue:'MTL', grp:'B', round:'Group B', teams:['ch','Switzerland','ca','Canada'] },
-  { m:11, date:'2026-06-20', time:'15:00', venue:'VAN', grp:'B', round:'Group B', teams:['ca','Canada','ba','Bosnia & Herz.'] },
-  { m:12, date:'2026-06-20', time:'15:00', venue:'MTL', grp:'B', round:'Group B', teams:['ba','Bosnia & Herz.','qa','Qatar'] },
+  // ── GROUP A — Mexico, South Korea, Czechia, South Africa ─────────────────
+  { m:1,  date:'2026-06-11', time:'14:00', venue:'MEX', grp:'A', round:'Group A', teams:['mx','Mexico','za','South Africa'] },
+  { m:2,  date:'2026-06-11', time:'22:00', venue:'GDL', grp:'A', round:'Group A', teams:['kr','South Korea','cz','Czechia'] },
+  { m:3,  date:'2026-06-18', time:'12:00', venue:'ATL', grp:'A', round:'Group A', teams:['cz','Czechia','za','South Africa'] },
+  { m:4,  date:'2026-06-18', time:'23:00', venue:'GDL', grp:'A', round:'Group A', teams:['mx','Mexico','kr','South Korea'] },
+  { m:5,  date:'2026-06-24', time:'21:00', venue:'MEX', grp:'A', round:'Group A', teams:['cz','Czechia','mx','Mexico'] },
+  { m:6,  date:'2026-06-24', time:'21:00', venue:'MTY', grp:'A', round:'Group A', teams:['za','South Africa','kr','South Korea'] },
 
-  // Group C — Brazil, Morocco, Scotland, Haiti
-  { m:13, date:'2026-06-12', time:'15:00', venue:'SF',  grp:'C', round:'Group C', teams:['br','Brazil','ht','Haiti'] },
-  { m:14, date:'2026-06-12', time:'21:00', venue:'PHI', grp:'C', round:'Group C', teams:['ma','Morocco','gb-sct','Scotland'] },
-  { m:15, date:'2026-06-16', time:'12:00', venue:'ATL', grp:'C', round:'Group C', teams:['br','Brazil','gb-sct','Scotland'] },
-  { m:16, date:'2026-06-16', time:'21:00', venue:'MIA', grp:'C', round:'Group C', teams:['br','Brazil','ma','Morocco'] },
-  { m:17, date:'2026-06-20', time:'18:00', venue:'SF',  grp:'C', round:'Group C', teams:['ma','Morocco','ht','Haiti'] },
-  { m:18, date:'2026-06-20', time:'18:00', venue:'ATL', grp:'C', round:'Group C', teams:['gb-sct','Scotland','ht','Haiti'] },
+  // ── GROUP B — Canada, Bosnia & Herzegovina, Qatar, Switzerland ───────────
+  { m:7,  date:'2026-06-12', time:'15:00', venue:'TOR', grp:'B', round:'Group B', teams:['ca','Canada','ba','Bosnia & Herz.'] },
+  { m:8,  date:'2026-06-13', time:'15:00', venue:'SF',  grp:'B', round:'Group B', teams:['qa','Qatar','ch','Switzerland'] },
+  { m:9,  date:'2026-06-18', time:'15:00', venue:'LAR', grp:'B', round:'Group B', teams:['ch','Switzerland','ba','Bosnia & Herz.'] },
+  { m:10, date:'2026-06-18', time:'18:00', venue:'VAN', grp:'B', round:'Group B', teams:['ca','Canada','qa','Qatar'] },
+  { m:11, date:'2026-06-24', time:'15:00', venue:'VAN', grp:'B', round:'Group B', teams:['ch','Switzerland','ca','Canada'] },
+  { m:12, date:'2026-06-24', time:'15:00', venue:'SEA', grp:'B', round:'Group B', teams:['ba','Bosnia & Herz.','qa','Qatar'] },
 
-  // Group D — USA, Türkiye, Australia, Paraguay
-  { m:19, date:'2026-06-12', time:'17:00', venue:'DAL', grp:'D', round:'Group D', teams:['us','USA','py','Paraguay'] },
-  { m:20, date:'2026-06-13', time:'12:00', venue:'SEA', grp:'D', round:'Group D', teams:['tr','Türkiye','au','Australia'] },
-  { m:21, date:'2026-06-17', time:'15:00', venue:'NYC', grp:'D', round:'Group D', teams:['us','USA','au','Australia'] },
-  { m:22, date:'2026-06-17', time:'18:00', venue:'KC',  grp:'D', round:'Group D', teams:['tr','Türkiye','py','Paraguay'] },
-  { m:23, date:'2026-06-21', time:'18:00', venue:'DAL', grp:'D', round:'Group D', teams:['us','USA','tr','Türkiye'] },
-  { m:24, date:'2026-06-21', time:'18:00', venue:'SEA', grp:'D', round:'Group D', teams:['au','Australia','py','Paraguay'] },
+  // ── GROUP C — Brazil, Morocco, Haiti, Scotland ───────────────────────────
+  { m:13, date:'2026-06-13', time:'18:00', venue:'NYC', grp:'C', round:'Group C', teams:['br','Brazil','ma','Morocco'] },
+  { m:14, date:'2026-06-13', time:'21:00', venue:'BOS', grp:'C', round:'Group C', teams:['ht','Haiti','gb-sct','Scotland'] },
+  { m:15, date:'2026-06-19', time:'18:00', venue:'BOS', grp:'C', round:'Group C', teams:['gb-sct','Scotland','ma','Morocco'] },
+  { m:16, date:'2026-06-19', time:'21:00', venue:'PHI', grp:'C', round:'Group C', teams:['br','Brazil','ht','Haiti'] },
+  { m:17, date:'2026-06-24', time:'18:00', venue:'MIA', grp:'C', round:'Group C', teams:['gb-sct','Scotland','br','Brazil'] },
+  { m:18, date:'2026-06-24', time:'18:00', venue:'ATL', grp:'C', round:'Group C', teams:['ma','Morocco','ht','Haiti'] },
 
-  // Group E — Germany, Ecuador, Ivory Coast, Curaçao
-  { m:25, date:'2026-06-13', time:'15:00', venue:'PHI', grp:'E', round:'Group E', teams:['de','Germany','cw','Curaçao'] },
-  { m:26, date:'2026-06-13', time:'18:00', venue:'BOS', grp:'E', round:'Group E', teams:['ec','Ecuador','ci','Ivory Coast'] },
-  { m:27, date:'2026-06-17', time:'12:00', venue:'MIA', grp:'E', round:'Group E', teams:['de','Germany','ci','Ivory Coast'] },
-  { m:28, date:'2026-06-17', time:'21:00', venue:'BOS', grp:'E', round:'Group E', teams:['de','Germany','ec','Ecuador'] },
-  { m:29, date:'2026-06-21', time:'15:00', venue:'PHI', grp:'E', round:'Group E', teams:['ec','Ecuador','cw','Curaçao'] },
-  { m:30, date:'2026-06-21', time:'15:00', venue:'MIA', grp:'E', round:'Group E', teams:['ci','Ivory Coast','cw','Curaçao'] },
+  // ── GROUP D — USA, Paraguay, Australia, Türkiye ──────────────────────────
+  { m:19, date:'2026-06-12', time:'21:00', venue:'LAR', grp:'D', round:'Group D', teams:['us','USA','py','Paraguay'] },
+  { m:20, date:'2026-06-13', time:'00:00', venue:'VAN', grp:'D', round:'Group D', teams:['au','Australia','tr','Türkiye'] },
+  { m:21, date:'2026-06-19', time:'15:00', venue:'SEA', grp:'D', round:'Group D', teams:['us','USA','au','Australia'] },
+  { m:22, date:'2026-06-19', time:'00:00', venue:'SF',  grp:'D', round:'Group D', teams:['tr','Türkiye','py','Paraguay'] },
+  { m:23, date:'2026-06-25', time:'22:00', venue:'LAR', grp:'D', round:'Group D', teams:['tr','Türkiye','us','USA'] },
+  { m:24, date:'2026-06-25', time:'22:00', venue:'SF',  grp:'D', round:'Group D', teams:['py','Paraguay','au','Australia'] },
 
-  // Group F — Netherlands, Japan, Sweden, Tunisia
-  { m:31, date:'2026-06-13', time:'21:00', venue:'NYC', grp:'F', round:'Group F', teams:['nl','Netherlands','tn','Tunisia'] },
-  { m:32, date:'2026-06-14', time:'15:00', venue:'KC',  grp:'F', round:'Group F', teams:['jp','Japan','se','Sweden'] },
-  { m:33, date:'2026-06-18', time:'15:00', venue:'NYC', grp:'F', round:'Group F', teams:['nl','Netherlands','se','Sweden'] },
-  { m:34, date:'2026-06-18', time:'18:00', venue:'DAL', grp:'F', round:'Group F', teams:['nl','Netherlands','jp','Japan'] },
-  { m:35, date:'2026-06-22', time:'15:00', venue:'KC',  grp:'F', round:'Group F', teams:['jp','Japan','tn','Tunisia'] },
-  { m:36, date:'2026-06-22', time:'15:00', venue:'HOU', grp:'F', round:'Group F', teams:['tn','Tunisia','se','Sweden'] },
+  // ── GROUP E — Germany, Curaçao, Ivory Coast, Ecuador ─────────────────────
+  { m:25, date:'2026-06-14', time:'13:00', venue:'HOU', grp:'E', round:'Group E', teams:['de','Germany','cw','Curaçao'] },
+  { m:26, date:'2026-06-14', time:'19:00', venue:'PHI', grp:'E', round:'Group E', teams:['ci','Ivory Coast','ec','Ecuador'] },
+  { m:27, date:'2026-06-20', time:'16:00', venue:'TOR', grp:'E', round:'Group E', teams:['de','Germany','ci','Ivory Coast'] },
+  { m:28, date:'2026-06-20', time:'20:00', venue:'KC',  grp:'E', round:'Group E', teams:['ec','Ecuador','cw','Curaçao'] },
+  { m:29, date:'2026-06-25', time:'16:00', venue:'NYC', grp:'E', round:'Group E', teams:['ec','Ecuador','de','Germany'] },
+  { m:30, date:'2026-06-25', time:'16:00', venue:'PHI', grp:'E', round:'Group E', teams:['cw','Curaçao','ci','Ivory Coast'] },
 
-  // Group G — Belgium, Iran, Egypt, New Zealand
-  { m:37, date:'2026-06-14', time:'12:00', venue:'ATL', grp:'G', round:'Group G', teams:['be','Belgium','nz','New Zealand'] },
-  { m:38, date:'2026-06-14', time:'18:00', venue:'HOU', grp:'G', round:'Group G', teams:['eg','Egypt','ir','Iran'] },
-  { m:39, date:'2026-06-18', time:'12:00', venue:'HOU', grp:'G', round:'Group G', teams:['be','Belgium','ir','Iran'] },
-  { m:40, date:'2026-06-18', time:'21:00', venue:'ATL', grp:'G', round:'Group G', teams:['eg','Egypt','nz','New Zealand'] },
-  { m:41, date:'2026-06-22', time:'18:00', venue:'HOU', grp:'G', round:'Group G', teams:['ir','Iran','nz','New Zealand'] },
-  { m:42, date:'2026-06-22', time:'18:00', venue:'ATL', grp:'G', round:'Group G', teams:['be','Belgium','eg','Egypt'] },
+  // ── GROUP F — Netherlands, Japan, Sweden, Tunisia ────────────────────────
+  { m:31, date:'2026-06-14', time:'16:00', venue:'DAL', grp:'F', round:'Group F', teams:['nl','Netherlands','jp','Japan'] },
+  { m:32, date:'2026-06-14', time:'22:00', venue:'MTY', grp:'F', round:'Group F', teams:['se','Sweden','tn','Tunisia'] },
+  { m:33, date:'2026-06-20', time:'13:00', venue:'HOU', grp:'F', round:'Group F', teams:['nl','Netherlands','se','Sweden'] },
+  { m:34, date:'2026-06-20', time:'00:00', venue:'MTY', grp:'F', round:'Group F', teams:['tn','Tunisia','jp','Japan'] },
+  { m:35, date:'2026-06-25', time:'19:00', venue:'DAL', grp:'F', round:'Group F', teams:['jp','Japan','se','Sweden'] },
+  { m:36, date:'2026-06-25', time:'19:00', venue:'KC',  grp:'F', round:'Group F', teams:['tn','Tunisia','nl','Netherlands'] },
 
-  // Group H — Spain, Uruguay, Saudi Arabia, Cape Verde
-  { m:43, date:'2026-06-14', time:'15:00', venue:'MIA', grp:'H', round:'Group H', teams:['es','Spain','cv','Cape Verde'] },
-  { m:44, date:'2026-06-14', time:'21:00', venue:'BOS', grp:'H', round:'Group H', teams:['uy','Uruguay','sa','Saudi Arabia'] },
-  { m:45, date:'2026-06-18', time:'21:00', venue:'MIA', grp:'H', round:'Group H', teams:['es','Spain','sa','Saudi Arabia'] },
-  { m:46, date:'2026-06-19', time:'12:00', venue:'BOS', grp:'H', round:'Group H', teams:['es','Spain','uy','Uruguay'] },
-  { m:47, date:'2026-06-23', time:'15:00', venue:'MIA', grp:'H', round:'Group H', teams:['uy','Uruguay','cv','Cape Verde'] },
-  { m:48, date:'2026-06-23', time:'15:00', venue:'BOS', grp:'H', round:'Group H', teams:['cv','Cape Verde','sa','Saudi Arabia'] },
+  // ── GROUP G — Iran, New Zealand, Belgium, Egypt ───────────────────────────
+  { m:37, date:'2026-06-15', time:'21:00', venue:'LAR', grp:'G', round:'Group G', teams:['ir','Iran','nz','New Zealand'] },
+  { m:38, date:'2026-06-15', time:'15:00', venue:'SEA', grp:'G', round:'Group G', teams:['be','Belgium','eg','Egypt'] },
+  { m:39, date:'2026-06-21', time:'15:00', venue:'LAR', grp:'G', round:'Group G', teams:['be','Belgium','ir','Iran'] },
+  { m:40, date:'2026-06-21', time:'21:00', venue:'VAN', grp:'G', round:'Group G', teams:['nz','New Zealand','eg','Egypt'] },
+  { m:41, date:'2026-06-26', time:'23:00', venue:'SEA', grp:'G', round:'Group G', teams:['eg','Egypt','ir','Iran'] },
+  { m:42, date:'2026-06-26', time:'23:00', venue:'VAN', grp:'G', round:'Group G', teams:['nz','New Zealand','be','Belgium'] },
 
-  // Group I — France, Senegal, Norway, Iraq
-  { m:49, date:'2026-06-15', time:'12:00', venue:'NYC', grp:'I', round:'Group I', teams:['fr','France','iq','Iraq'] },
-  { m:50, date:'2026-06-15', time:'21:00', venue:'SEA', grp:'I', round:'Group I', teams:['sn','Senegal','no','Norway'] },
-  { m:51, date:'2026-06-19', time:'18:00', venue:'NYC', grp:'I', round:'Group I', teams:['fr','France','no','Norway'] },
-  { m:52, date:'2026-06-19', time:'21:00', venue:'SEA', grp:'I', round:'Group I', teams:['fr','France','sn','Senegal'] },
-  { m:53, date:'2026-06-23', time:'18:00', venue:'NYC', grp:'I', round:'Group I', teams:['sn','Senegal','iq','Iraq'] },
-  { m:54, date:'2026-06-23', time:'18:00', venue:'SEA', grp:'I', round:'Group I', teams:['no','Norway','iq','Iraq'] },
+  // ── GROUP H — Spain, Cape Verde, Saudi Arabia, Uruguay ───────────────────
+  { m:43, date:'2026-06-15', time:'12:00', venue:'ATL', grp:'H', round:'Group H', teams:['es','Spain','cv','Cape Verde'] },
+  { m:44, date:'2026-06-15', time:'18:00', venue:'MIA', grp:'H', round:'Group H', teams:['sa','Saudi Arabia','uy','Uruguay'] },
+  { m:45, date:'2026-06-21', time:'12:00', venue:'ATL', grp:'H', round:'Group H', teams:['es','Spain','sa','Saudi Arabia'] },
+  { m:46, date:'2026-06-21', time:'18:00', venue:'MIA', grp:'H', round:'Group H', teams:['uy','Uruguay','cv','Cape Verde'] },
+  { m:47, date:'2026-06-26', time:'20:00', venue:'HOU', grp:'H', round:'Group H', teams:['cv','Cape Verde','sa','Saudi Arabia'] },
+  { m:48, date:'2026-06-26', time:'20:00', venue:'GDL', grp:'H', round:'Group H', teams:['uy','Uruguay','es','Spain'] },
 
-  // Group J — Argentina, Austria, Algeria, Jordan
-  { m:55, date:'2026-06-15', time:'15:00', venue:'LAR', grp:'J', round:'Group J', teams:['ar','Argentina','jo','Jordan'] },
-  { m:56, date:'2026-06-15', time:'18:00', venue:'SF',  grp:'J', round:'Group J', teams:['dz','Algeria','at','Austria'] },
-  { m:57, date:'2026-06-19', time:'12:00', venue:'LAR', grp:'J', round:'Group J', teams:['ar','Argentina','at','Austria'] },
-  { m:58, date:'2026-06-19', time:'15:00', venue:'SF',  grp:'J', round:'Group J', teams:['ar','Argentina','dz','Algeria'] },
-  { m:59, date:'2026-06-23', time:'21:00', venue:'LAR', grp:'J', round:'Group J', teams:['at','Austria','jo','Jordan'] },
-  { m:60, date:'2026-06-23', time:'21:00', venue:'SF',  grp:'J', round:'Group J', teams:['dz','Algeria','jo','Jordan'] },
+  // ── GROUP I — France, Senegal, Iraq, Norway ───────────────────────────────
+  { m:49, date:'2026-06-16', time:'15:00', venue:'NYC', grp:'I', round:'Group I', teams:['fr','France','sn','Senegal'] },
+  { m:50, date:'2026-06-16', time:'18:00', venue:'BOS', grp:'I', round:'Group I', teams:['iq','Iraq','no','Norway'] },
+  { m:51, date:'2026-06-22', time:'17:00', venue:'PHI', grp:'I', round:'Group I', teams:['fr','France','iq','Iraq'] },
+  { m:52, date:'2026-06-22', time:'20:00', venue:'NYC', grp:'I', round:'Group I', teams:['no','Norway','sn','Senegal'] },
+  { m:53, date:'2026-06-26', time:'15:00', venue:'BOS', grp:'I', round:'Group I', teams:['no','Norway','fr','France'] },
+  { m:54, date:'2026-06-26', time:'15:00', venue:'TOR', grp:'I', round:'Group I', teams:['sn','Senegal','iq','Iraq'] },
 
-  // Group K — Portugal, Colombia, DR Congo, Uzbekistan
-  { m:61, date:'2026-06-16', time:'12:00', venue:'KC',  grp:'K', round:'Group K', teams:['pt','Portugal','uz','Uzbekistan'] },
-  { m:62, date:'2026-06-16', time:'21:00', venue:'ATL', grp:'K', round:'Group K', teams:['cd','DR Congo','co','Colombia'] },
-  { m:63, date:'2026-06-20', time:'12:00', venue:'KC',  grp:'K', round:'Group K', teams:['pt','Portugal','cd','DR Congo'] },
-  { m:64, date:'2026-06-20', time:'21:00', venue:'DAL', grp:'K', round:'Group K', teams:['pt','Portugal','co','Colombia'] },
-  { m:65, date:'2026-06-24', time:'18:00', venue:'KC',  grp:'K', round:'Group K', teams:['co','Colombia','uz','Uzbekistan'] },
-  { m:66, date:'2026-06-24', time:'18:00', venue:'ATL', grp:'K', round:'Group K', teams:['uz','Uzbekistan','cd','DR Congo'] },
+  // ── GROUP J — Argentina, Algeria, Austria, Jordan ────────────────────────
+  { m:55, date:'2026-06-16', time:'21:00', venue:'KC',  grp:'J', round:'Group J', teams:['ar','Argentina','dz','Algeria'] },
+  { m:56, date:'2026-06-16', time:'00:00', venue:'SF',  grp:'J', round:'Group J', teams:['at','Austria','jo','Jordan'] },
+  { m:57, date:'2026-06-22', time:'13:00', venue:'DAL', grp:'J', round:'Group J', teams:['ar','Argentina','at','Austria'] },
+  { m:58, date:'2026-06-22', time:'23:00', venue:'SF',  grp:'J', round:'Group J', teams:['jo','Jordan','dz','Algeria'] },
+  { m:59, date:'2026-06-27', time:'22:00', venue:'KC',  grp:'J', round:'Group J', teams:['dz','Algeria','at','Austria'] },
+  { m:60, date:'2026-06-27', time:'22:00', venue:'DAL', grp:'J', round:'Group J', teams:['jo','Jordan','ar','Argentina'] },
 
-  // Group L — England, Croatia, Panama, Ghana
-  { m:67, date:'2026-06-16', time:'18:00', venue:'NYC', grp:'L', round:'Group L', teams:['gb-eng','England','gh','Ghana'] },
-  { m:68, date:'2026-06-16', time:'21:00', venue:'SEA', grp:'L', round:'Group L', teams:['hr','Croatia','pa','Panama'] },
-  { m:69, date:'2026-06-20', time:'15:00', venue:'NYC', grp:'L', round:'Group L', teams:['gb-eng','England','pa','Panama'] },
-  { m:70, date:'2026-06-20', time:'18:00', venue:'BOS', grp:'L', round:'Group L', teams:['gb-eng','England','hr','Croatia'] },
-  { m:71, date:'2026-06-24', time:'15:00', venue:'NYC', grp:'L', round:'Group L', teams:['hr','Croatia','gh','Ghana'] },
-  { m:72, date:'2026-06-24', time:'15:00', venue:'SEA', grp:'L', round:'Group L', teams:['pa','Panama','gh','Ghana'] },
+  // ── GROUP K — Portugal, DR Congo, Uzbekistan, Colombia ───────────────────
+  { m:61, date:'2026-06-17', time:'13:00', venue:'HOU', grp:'K', round:'Group K', teams:['pt','Portugal','cd','DR Congo'] },
+  { m:62, date:'2026-06-17', time:'22:00', venue:'MEX', grp:'K', round:'Group K', teams:['uz','Uzbekistan','co','Colombia'] },
+  { m:63, date:'2026-06-23', time:'13:00', venue:'HOU', grp:'K', round:'Group K', teams:['pt','Portugal','uz','Uzbekistan'] },
+  { m:64, date:'2026-06-23', time:'22:00', venue:'GDL', grp:'K', round:'Group K', teams:['co','Colombia','cd','DR Congo'] },
+  { m:65, date:'2026-06-27', time:'19:30', venue:'MIA', grp:'K', round:'Group K', teams:['co','Colombia','pt','Portugal'] },
+  { m:66, date:'2026-06-27', time:'19:30', venue:'ATL', grp:'K', round:'Group K', teams:['cd','DR Congo','uz','Uzbekistan'] },
 
-  // ── ROUND OF 32 ─────────────────────────────────────────────────────────────
-  { m:73,  date:'2026-06-27', time:'15:00', venue:'SF',  grp:null, round:'Round of 32', teams:null },
-  { m:74,  date:'2026-06-27', time:'18:00', venue:'TOR', grp:null, round:'Round of 32', teams:null },
-  { m:75,  date:'2026-06-27', time:'15:00', venue:'DAL', grp:null, round:'Round of 32', teams:null },
-  { m:76,  date:'2026-06-27', time:'21:00', venue:'LAR', grp:null, round:'Round of 32', teams:null },
-  { m:77,  date:'2026-06-28', time:'15:00', venue:'NYC', grp:null, round:'Round of 32', teams:null },
-  { m:78,  date:'2026-06-28', time:'18:00', venue:'HOU', grp:null, round:'Round of 32', teams:null },
-  { m:79,  date:'2026-06-28', time:'15:00', venue:'KC',  grp:null, round:'Round of 32', teams:null },
-  { m:80,  date:'2026-06-28', time:'21:00', venue:'PHI', grp:null, round:'Round of 32', teams:null },
-  { m:81,  date:'2026-06-29', time:'15:00', venue:'ATL', grp:null, round:'Round of 32', teams:null },
-  { m:82,  date:'2026-06-29', time:'18:00', venue:'DAL', grp:null, round:'Round of 32', teams:null },
-  { m:83,  date:'2026-06-29', time:'15:00', venue:'MIA', grp:null, round:'Round of 32', teams:null },
-  { m:84,  date:'2026-06-29', time:'21:00', venue:'SEA', grp:null, round:'Round of 32', teams:null },
-  { m:85,  date:'2026-06-30', time:'15:00', venue:'BOS', grp:null, round:'Round of 32', teams:null },
-  { m:86,  date:'2026-06-30', time:'18:00', venue:'NYC', grp:null, round:'Round of 32', teams:null },
-  { m:87,  date:'2026-06-30', time:'15:00', venue:'LAR', grp:null, round:'Round of 32', teams:null },
-  { m:88,  date:'2026-06-30', time:'21:00', venue:'MTY', grp:null, round:'Round of 32', teams:null },
+  // ── GROUP L — England, Croatia, Ghana, Panama ────────────────────────────
+  { m:67, date:'2026-06-17', time:'16:00', venue:'DAL', grp:'L', round:'Group L', teams:['gb-eng','England','hr','Croatia'] },
+  { m:68, date:'2026-06-17', time:'19:00', venue:'TOR', grp:'L', round:'Group L', teams:['gh','Ghana','pa','Panama'] },
+  { m:69, date:'2026-06-23', time:'16:00', venue:'BOS', grp:'L', round:'Group L', teams:['gb-eng','England','gh','Ghana'] },
+  { m:70, date:'2026-06-23', time:'19:00', venue:'TOR', grp:'L', round:'Group L', teams:['pa','Panama','hr','Croatia'] },
+  { m:71, date:'2026-06-27', time:'17:00', venue:'NYC', grp:'L', round:'Group L', teams:['pa','Panama','gb-eng','England'] },
+  { m:72, date:'2026-06-27', time:'17:00', venue:'PHI', grp:'L', round:'Group L', teams:['hr','Croatia','gh','Ghana'] },
 
-  // ── ROUND OF 16 ─────────────────────────────────────────────────────────────
-  { m:89,  date:'2026-07-04', time:'15:00', venue:'DAL', grp:null, round:'Round of 16', teams:null },
-  { m:90,  date:'2026-07-04', time:'18:00', venue:'ATL', grp:null, round:'Round of 16', teams:null },
-  { m:91,  date:'2026-07-04', time:'21:00', venue:'LAR', grp:null, round:'Round of 16', teams:null },
-  { m:92,  date:'2026-07-05', time:'15:00', venue:'NYC', grp:null, round:'Round of 16', teams:null },
-  { m:93,  date:'2026-07-05', time:'18:00', venue:'HOU', grp:null, round:'Round of 16', teams:null },
-  { m:94,  date:'2026-07-05', time:'21:00', venue:'BOS', grp:null, round:'Round of 16', teams:null },
-  { m:95,  date:'2026-07-06', time:'15:00', venue:'MIA', grp:null, round:'Round of 16', teams:null },
-  { m:96,  date:'2026-07-06', time:'18:00', venue:'SF',  grp:null, round:'Round of 16', teams:null },
+  // ── ROUND OF 32 ──────────────────────────────────────────────────────────
+  { m:73,  date:'2026-06-28', time:'15:00', venue:'LAR', grp:null, round:'Round of 32', teams:null },
+  { m:74,  date:'2026-06-29', time:'16:30', venue:'BOS', grp:null, round:'Round of 32', teams:null },
+  { m:75,  date:'2026-06-29', time:'21:00', venue:'MTY', grp:null, round:'Round of 32', teams:null },
+  { m:76,  date:'2026-06-29', time:'13:00', venue:'HOU', grp:null, round:'Round of 32', teams:null },
+  { m:77,  date:'2026-06-30', time:'17:00', venue:'NYC', grp:null, round:'Round of 32', teams:null },
+  { m:78,  date:'2026-06-30', time:'13:00', venue:'DAL', grp:null, round:'Round of 32', teams:null },
+  { m:79,  date:'2026-06-30', time:'21:00', venue:'MEX', grp:null, round:'Round of 32', teams:null },
+  { m:80,  date:'2026-07-01', time:'12:00', venue:'ATL', grp:null, round:'Round of 32', teams:null },
+  { m:81,  date:'2026-07-01', time:'20:00', venue:'SF',  grp:null, round:'Round of 32', teams:null },
+  { m:82,  date:'2026-07-01', time:'16:00', venue:'SEA', grp:null, round:'Round of 32', teams:null },
+  { m:83,  date:'2026-07-02', time:'19:00', venue:'TOR', grp:null, round:'Round of 32', teams:null },
+  { m:84,  date:'2026-07-02', time:'15:00', venue:'LAR', grp:null, round:'Round of 32', teams:null },
+  { m:85,  date:'2026-07-02', time:'23:00', venue:'VAN', grp:null, round:'Round of 32', teams:null },
+  { m:86,  date:'2026-07-03', time:'18:00', venue:'MIA', grp:null, round:'Round of 32', teams:null },
+  { m:87,  date:'2026-07-03', time:'21:30', venue:'KC',  grp:null, round:'Round of 32', teams:null },
+  { m:88,  date:'2026-07-03', time:'14:00', venue:'DAL', grp:null, round:'Round of 32', teams:null },
 
-  // ── QUARTERFINALS ───────────────────────────────────────────────────────────
-  { m:97,  date:'2026-07-10', time:'15:00', venue:'LAR', grp:null, round:'Quarterfinals', teams:null },
-  { m:98,  date:'2026-07-10', time:'18:00', venue:'NYC', grp:null, round:'Quarterfinals', teams:null },
-  { m:99,  date:'2026-07-11', time:'15:00', venue:'DAL', grp:null, round:'Quarterfinals', teams:null },
-  { m:100, date:'2026-07-11', time:'18:00', venue:'ATL', grp:null, round:'Quarterfinals', teams:null },
+  // ── ROUND OF 16 ──────────────────────────────────────────────────────────
+  { m:89,  date:'2026-07-04', time:'17:00', venue:'PHI', grp:null, round:'Round of 16', teams:null },
+  { m:90,  date:'2026-07-04', time:'13:00', venue:'HOU', grp:null, round:'Round of 16', teams:null },
+  { m:91,  date:'2026-07-05', time:'16:00', venue:'NYC', grp:null, round:'Round of 16', teams:null },
+  { m:92,  date:'2026-07-05', time:'20:00', venue:'MEX', grp:null, round:'Round of 16', teams:null },
+  { m:93,  date:'2026-07-06', time:'15:00', venue:'DAL', grp:null, round:'Round of 16', teams:null },
+  { m:94,  date:'2026-07-06', time:'20:00', venue:'SEA', grp:null, round:'Round of 16', teams:null },
+  { m:95,  date:'2026-07-07', time:'12:00', venue:'ATL', grp:null, round:'Round of 16', teams:null },
+  { m:96,  date:'2026-07-07', time:'16:00', venue:'VAN', grp:null, round:'Round of 16', teams:null },
 
-  // ── SEMIFINALS ──────────────────────────────────────────────────────────────
-  { m:101, date:'2026-07-14', time:'19:00', venue:'MIA', grp:null, round:'Semifinal', teams:null },
-  { m:102, date:'2026-07-15', time:'19:00', venue:'DAL', grp:null, round:'Semifinal', teams:null },
+  // ── QUARTERFINALS ────────────────────────────────────────────────────────
+  { m:97,  date:'2026-07-09', time:'16:00', venue:'BOS', grp:null, round:'Quarterfinals', teams:null },
+  { m:98,  date:'2026-07-10', time:'15:00', venue:'LAR', grp:null, round:'Quarterfinals', teams:null },
+  { m:99,  date:'2026-07-11', time:'17:00', venue:'MIA', grp:null, round:'Quarterfinals', teams:null },
+  { m:100, date:'2026-07-11', time:'21:00', venue:'KC',  grp:null, round:'Quarterfinals', teams:null },
 
-  // ── THIRD PLACE ─────────────────────────────────────────────────────────────
-  { m:103, date:'2026-07-18', time:'16:00', venue:'MIA', grp:null, round:'3rd Place', teams:null },
+  // ── SEMIFINALS ───────────────────────────────────────────────────────────
+  { m:101, date:'2026-07-14', time:'15:00', venue:'DAL', grp:null, round:'Semifinal', teams:null },
+  { m:102, date:'2026-07-15', time:'15:00', venue:'ATL', grp:null, round:'Semifinal', teams:null },
 
-  // ── FINAL ───────────────────────────────────────────────────────────────────
-  { m:104, date:'2026-07-19', time:'18:00', venue:'NYC', grp:null, round:'Final', teams:null },
+  // ── THIRD PLACE ──────────────────────────────────────────────────────────
+  { m:103, date:'2026-07-18', time:'17:00', venue:'MIA', grp:null, round:'3rd Place', teams:null },
+
+  // ── FINAL ────────────────────────────────────────────────────────────────
+  { m:104, date:'2026-07-19', time:'15:00', venue:'NYC', grp:null, round:'Final', teams:null },
 ];
 
-// ─── BUILD A LOOKUP MAP BY MATCH NUMBER ──────────────────────────────────────
+// ─── BUILD LOOKUP MAP ─────────────────────────────────────────────────────────
 const SCHED_MAP = {};
 SCHEDULE.forEach(s => SCHED_MAP[s.m] = s);
 
 // ─── STATUS HELPERS ───────────────────────────────────────────────────────────
 function matchStatus(s) {
-  const now   = new Date();
-  const kick  = new Date(`${s.date}T${s.time}:00`); // local machine time
-  const end   = new Date(kick.getTime() + 105 * 60000); // 90+15 = 105 min
+  const now  = new Date();
+  const kick = new Date(`${s.date}T${s.time}:00`);
+  const end  = new Date(kick.getTime() + 105 * 60000);
   const today = now.toDateString() === kick.toDateString();
-
-  if (now > end)   return 'past';
-  if (now >= kick) return 'live';
-  if (today)       return 'today';
+  if (now > end)    return 'past';
+  if (now >= kick)  return 'live';
+  if (today)        return 'today';
   return 'upcoming';
 }
 
@@ -211,7 +208,6 @@ function countdownTo(s) {
 }
 
 // ─── INJECT SCHEDULE INFO INTO MATCH CARDS ───────────────────────────────────
-// Finds every .mc with a .mn span, looks up schedule, injects a .mc-sched div.
 function injectSchedule() {
   document.querySelectorAll('.mc').forEach(card => {
     const mnEl = card.querySelector('.mn');
@@ -220,8 +216,10 @@ function injectSchedule() {
     const s   = SCHED_MAP[num];
     if (!s) return;
 
-    // Don't double-inject
-    if (card.querySelector('.mc-sched')) return;
+    // Remove existing injected row to re-inject with fresh status
+    const existing = card.querySelector('.mc-sched');
+    if (existing) existing.remove();
+    card.classList.remove('mc-live','mc-today','mc-past','mc-upcoming');
 
     const status  = matchStatus(s);
     const venue   = VENUES[s.venue];
@@ -230,34 +228,29 @@ function injectSchedule() {
     const cd      = countdownTo(s);
 
     let statusBadge = '';
-    if (status === 'live')    statusBadge = '<span class="ms-badge ms-live">LIVE</span>';
+    if (status === 'live')     statusBadge = '<span class="ms-badge ms-live">LIVE</span>';
     else if (status === 'today') statusBadge = '<span class="ms-badge ms-today">TODAY</span>';
     else if (status === 'past')  statusBadge = '<span class="ms-badge ms-past">FT</span>';
 
     const cdHtml = (cd && status === 'upcoming')
       ? `<span class="ms-cd">${cd}</span>` : '';
 
-    const schedHtml = `<div class="mc-sched">
-      ${statusBadge}
-      <span class="ms-date">${dateStr}</span>
-      <span class="ms-time">${timeStr}</span>
-      <span class="ms-venue">${venue.short}</span>
-      ${cdHtml}
-    </div>`;
+    card.insertAdjacentHTML('beforeend',
+      `<div class="mc-sched">
+        ${statusBadge}
+        <span class="ms-date">${dateStr}</span>
+        <span class="ms-time">${timeStr}</span>
+        <span class="ms-venue">${venue.short}</span>
+        ${cdHtml}
+      </div>`);
 
-    card.insertAdjacentHTML('beforeend', schedHtml);
-
-    if (status === 'live')    card.classList.add('mc-live');
-    if (status === 'today')   card.classList.add('mc-today');
-    if (status === 'past')    card.classList.add('mc-past');
-    if (status === 'upcoming') card.classList.add('mc-upcoming');
+    card.classList.add(`mc-${status}`);
   });
 }
 
-// ─── AUTO RE-INJECT ON MINUTE BOUNDARY ───────────────────────────────────────
+// ─── AUTO-REFRESH EVERY MINUTE ────────────────────────────────────────────────
 function startScheduleUpdater() {
   injectSchedule();
-  // Refresh every 60 seconds so LIVE/TODAY badges stay accurate
   const msUntilNextMinute = 60000 - (Date.now() % 60000);
   setTimeout(() => {
     injectSchedule();
