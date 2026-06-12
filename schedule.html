@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Full Schedule — WC2026 Predictor</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<style>
+/* ── Round filter bar ── */
+.round-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.rf-btn{background:var(--card);border:1px solid var(--b1);border-radius:99px;font:700 11px var(--disp,'Inter'),sans-serif;color:var(--sub);padding:5px 14px;cursor:pointer;transition:.15s;text-transform:uppercase;letter-spacing:.6px}
+.rf-btn:hover{border-color:var(--b2);color:var(--text)}
+.rf-btn.on{background:color-mix(in srgb,var(--blue) 20%,transparent);border-color:var(--blue)60;color:var(--blue)}
+/* ── Countdown hero ── */
+.cd-hero{background:linear-gradient(135deg,var(--card),var(--s1));border:1px solid var(--b1);border-radius:var(--r);padding:22px 24px;margin-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.cd-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:4px}
+.cd-val{font-family:var(--cond,'Saira Condensed'),sans-serif;font-size:32px;font-weight:800;color:var(--gold);line-height:1}
+.cd-match{font-size:13px;color:var(--sub);margin-top:4px}
+.cd-right{margin-left:auto;text-align:right}
+/* ── Iran highlight ── */
+.sched-card.sc-iran{border-color:var(--iran)55;background:color-mix(in srgb,var(--iran) 5%,var(--card))}
+/* ── Today badge pulse ── */
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 var(--blue)44}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.sched-card.sc-today{animation:pulse-ring 2.5s ease-in-out infinite}
+/* ── Sections hidden when filtered ── */
+.round-section.hidden{display:none}
+/* ── Venue detail ── */
+.venue-full{font-size:11px;color:var(--dim)}
+/* ── empty state ── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-links">
+    <a class="nav-a" href="index.html"><span class="ico">🏠</span>Home</a>
+    <a class="nav-a" href="teams.html"><span class="ico">📊</span>Teams</a>
+    <a class="nav-a" href="groups.html"><span class="ico">📋</span>Groups</a>
+    <a class="nav-a" href="bracket.html"><span class="ico">⚡</span>Bracket</a>
+    <a class="nav-a on" href="schedule.html"><span class="ico">🗓</span>Schedule</a>
+    <a class="nav-a" href="iran.html"><span class="ico"><img src="https://flagcdn.com/w40/ir.png" class="f-img" alt="" onerror="this.style.opacity=.2"></span>Iran</a>
+    <a class="nav-a" href="model.html"><span class="ico">⚗</span>Model</a>
+  </div>
+  <button class="mob-menu" onclick="toggleMobileNav()">☰</button>
+  <button class="lang-btn" onclick="toggleLang()" id="langbtn">🌐 فارسی</button>
+  <a class="nav-brand" href="index.html">WC<span>2026</span></a>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Schedule" data-fa="برنامه">Schedule</span></div>
+  <h1 data-en="Full Match Schedule" data-fa="برنامه کامل بازی‌ها">Full Match Schedule</h1>
+  <p data-en="All 104 official WC2026 matches — dates, kick-off times (ET), venues. Auto-updates as rounds progress." data-fa="تمام ۱۰۴ بازی رسمی جام جهانی ۲۰۲۶ — تاریخ، ساعت (ET)، ورزشگاه. به‌روزرسانی خودکار پس از هر دور.">All 104 official WC2026 matches — dates, kick-off times (ET), venues. Auto-updates as rounds progress.</p>
+</div>
+
+<main>
+
+<!-- Countdown to next match -->
+<div class="cd-hero" id="cd-hero" style="display:none">
+  <div>
+    <div class="cd-label" data-en="Next Match" data-fa="بازی بعدی">Next Match</div>
+    <div class="cd-val" id="cd-val">—</div>
+    <div class="cd-match" id="cd-match"></div>
+  </div>
+  <div class="cd-right" id="cd-right"></div>
+</div>
+
+<!-- Round filter -->
+<div class="round-filter" id="round-filter"></div>
+
+<!-- Schedule content rendered by JS -->
+<div id="sched-content"></div>
+
+</main>
+
+<footer>
+  <div class="f-logo">WC2026</div>
+  <div class="f-links">
+    <a href="index.html">Home</a><a href="teams.html">Teams</a><a href="groups.html">Groups</a><a href="bracket.html">Bracket</a><a href="iran.html">Iran</a><a href="model.html">Model</a>
+  </div>
+  <div>Official FIFA WC2026 Schedule · Times in US Eastern (ET) · Venues across USA, Canada & Mexico</div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script src="assets/schedule.js"></script>
+<script>
+// ─── SCHEDULE PAGE RENDERER ───────────────────────────────────────────────────
+
+const IRAN_MATCHES = new Set([37,38,39,40,41,42]); // Group G matches with Iran
+
+let activeRound = 'all';
+
+function renderSchedulePage() {
+  renderCountdown();
+  renderRoundFilter();
+  renderContent();
+}
+
+// ── Countdown to next upcoming match ─────────────────────────────────────────
+function renderCountdown() {
+  const now = new Date();
+  const next = SCHEDULE.find(s => new Date(`${s.date}T${s.time}:00`) > now);
+  if (!next) return;
+
+  const hero  = document.getElementById('cd-hero');
+  const cdVal = document.getElementById('cd-val');
+  const cdMatch = document.getElementById('cd-match');
+  const cdRight = document.getElementById('cd-right');
+  hero.style.display = 'flex';
+
+  function tick() {
+    const cd = countdownTo(next);
+    if (!cd) { hero.style.display = 'none'; return; }
+    cdVal.textContent = cd;
+    const v = VENUES[next.venue];
+    cdMatch.textContent = `Match ${next.m} · ${next.round} · ${formatMatchDate(next)} · ${formatMatchTime(next)}`;
+    cdRight.innerHTML = `<div class="cd-label">${v.name}</div><div style="font-size:13px;color:var(--sub)">${v.city}</div>`;
+    if (next.teams) {
+      cdMatch.textContent = `Match ${next.m}: ${next.teams[1]} vs ${next.teams[3]} · ${formatMatchDate(next)} · ${formatMatchTime(next)}`;
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ── Round filter buttons ──────────────────────────────────────────────────────
+function renderRoundFilter() {
+  const rounds = ['all', ...new Set(SCHEDULE.map(s => s.round))];
+  const bar = document.getElementById('round-filter');
+  bar.innerHTML = rounds.map(r => {
+    const label = r === 'all' ? 'All Matches' : r;
+    return `<button class="rf-btn${r === activeRound ? ' on' : ''}" onclick="filterRound('${r}')">${label}</button>`;
+  }).join('');
+}
+
+function filterRound(round) {
+  activeRound = round;
+  document.querySelectorAll('.rf-btn').forEach(b => b.classList.toggle('on', b.textContent === (round === 'all' ? 'All Matches' : round)));
+  document.querySelectorAll('.round-section').forEach(sec => {
+    if (round === 'all') sec.classList.remove('hidden');
+    else sec.classList.toggle('hidden', sec.dataset.round !== round);
+  });
+}
+
+// ── Main schedule content ─────────────────────────────────────────────────────
+function renderContent() {
+  const content = document.getElementById('sched-content');
+
+  // Group by round, then by date within round
+  const rounds = [];
+  const roundMap = {};
+  SCHEDULE.forEach(s => {
+    if (!roundMap[s.round]) { roundMap[s.round] = []; rounds.push(s.round); }
+    roundMap[s.round].push(s);
+  });
+
+  const html = rounds.map(round => {
+    const matches = roundMap[round];
+    // sub-group by date
+    const dateMap = {};
+    matches.forEach(s => { (dateMap[s.date] = dateMap[s.date] || []).push(s); });
+
+    const datesHtml = Object.keys(dateMap).sort().map(date => {
+      const dm = dateMap[date];
+      const d = new Date(`${date}T12:00:00`);
+      const dateLabel = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+
+      const cardsHtml = dm.map(s => buildSchedCard(s)).join('');
+      return `<div class="sched-date-hdr">${dateLabel}</div><div class="sched-grid">${cardsHtml}</div>`;
+    }).join('');
+
+    return `<div class="sec round-section" data-round="${round}">
+      <div class="sec-head"><div class="sec-ico">📅</div><div class="sec-ttl">${round}</div><div class="sec-sub">${matches.length} matches</div></div>
+      ${datesHtml}
+    </div>`;
+  }).join('');
+
+  content.innerHTML = html;
+}
+
+function buildSchedCard(s) {
+  const status = matchStatus(s);
+  const venue  = VENUES[s.venue];
+  const dateStr = formatMatchDate(s);
+  const timeStr = formatMatchTime(s);
+  const cd = countdownTo(s);
+  const isIran = IRAN_MATCHES.has(s.m);
+
+  let statusClass = `sc-${status}`;
+  if (isIran) statusClass += ' sc-iran';
+
+  let badgeHtml = '';
+  if (status === 'live')     badgeHtml = '<span class="sched-badge sb-live">LIVE</span>';
+  else if (status === 'today') badgeHtml = '<span class="sched-badge sb-today">TODAY</span>';
+  else if (status === 'past')  badgeHtml = '<span class="sched-badge sb-past">FT</span>';
+  else                         badgeHtml = '<span class="sched-badge sb-upcoming">UPCOMING</span>';
+
+  let teamsHtml = '';
+  if (s.teams) {
+    const [iso2A, nameA, iso2B, nameB] = s.teams;
+    teamsHtml = `<div class="sched-teams">
+      <div class="sched-team st-home">
+        <img src="https://flagcdn.com/w40/${iso2A}.png" class="f-img" alt="" onerror="this.style.opacity=.2">
+        <span>${nameA}</span>
+      </div>
+      <div class="sched-vs">vs</div>
+      <div class="sched-team st-away">
+        <span>${nameB}</span>
+        <img src="https://flagcdn.com/w40/${iso2B}.png" class="f-img" alt="" onerror="this.style.opacity=.2">
+      </div>
+    </div>`;
+  } else {
+    teamsHtml = `<div class="sched-tbd">Teams TBD — qualified from previous round</div>`;
+  }
+
+  const cdHtml = (cd && status === 'upcoming')
+    ? `<span class="sched-cd">${cd}</span>` : '';
+
+  const iranTag = isIran ? `<span style="font-size:10px;color:var(--iran);font-weight:700;letter-spacing:.4px">🇮🇷 IRAN</span>` : '';
+
+  return `<div class="sched-card ${statusClass}">
+    <div class="sched-top">
+      <span class="sched-mn">M${s.m}</span>
+      <span class="sched-round-tag">${s.round}${s.grp ? ' · Grp '+s.grp : ''}</span>
+      ${iranTag}
+      ${badgeHtml}
+    </div>
+    ${teamsHtml}
+    <div class="sched-meta">
+      <span class="sched-meta-item"><span class="sched-meta-ico">📅</span>${dateStr}</span>
+      <span class="sched-meta-item"><span class="sched-meta-ico">🕐</span>${timeStr}</span>
+      <span class="sched-meta-item"><span class="sched-meta-ico">📍</span><span title="${venue.name}, ${venue.city}">${venue.short}</span></span>
+      ${cdHtml}
+    </div>
+  </div>`;
+}
+
+// ── Live re-render every 60s ──────────────────────────────────────────────────
+function startPageUpdater() {
+  renderSchedulePage();
+  const msUntilNextMinute = 60000 - (Date.now() % 60000);
+  setTimeout(() => {
+    renderContent();
+    setInterval(renderContent, 60000);
+  }, msUntilNextMinute);
+}
+
+document.addEventListener('DOMContentLoaded', startPageUpdater);
+</script>
+</body>
+</html>
