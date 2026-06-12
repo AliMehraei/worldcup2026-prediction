@@ -187,6 +187,20 @@ footer{text-align:center;padding:36px;color:var(--dim);font-size:12px;border-top
   .pgrid{grid-template-columns:1fr}
 }
 
+/* ═══ TIMEZONE PICKER ═══════════════════════════════════════════════════════ */
+.tz-picker{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:12px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:18px}
+.tz-picker-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-right:4px;white-space:nowrap}
+.tz-btn{display:inline-flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--b1);border-radius:99px;font-size:12px;font-weight:600;color:var(--sub);padding:5px 12px;cursor:pointer;transition:border-color .15s,color .15s,background .15s;white-space:nowrap}
+.tz-btn:hover{border-color:var(--b2);color:var(--text)}
+.tz-btn.on{background:color-mix(in srgb,var(--blue) 18%,transparent);border-color:var(--blue)70;color:var(--blue)}
+.tz-btn-label{font-size:11px}
+/* Compact inline version on match cards / groups page */
+.tz-bar{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.tz-bar .tz-picker-label{font-size:10px}
+.tz-bar .tz-btn{font-size:11px;padding:3px 10px}
+.tz-bar .tz-btn-label{font-size:10px}
+@media(max-width:600px){.tz-btn-label{display:none}}
+
 /* ═══ SCHEDULE LAYER ════════════════════════════════════════════════════════ */
 /* Schedule info injected into match cards */
 .mc-sched{display:flex;align-items:center;flex-wrap:wrap;gap:5px 8px;padding:7px 10px 8px;border-top:1px solid var(--b1);margin-top:8px;font-size:11px;color:var(--sub)}

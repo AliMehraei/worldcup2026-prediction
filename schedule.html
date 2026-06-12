@@ -64,6 +64,9 @@
   <div class="cd-right" id="cd-right"></div>
 </div>
 
+<!-- Timezone picker -->
+<div class="tz-picker-host" id="tz-picker-host"></div>
+
 <!-- Round filter -->
 <div class="round-filter" id="round-filter"></div>
 
@@ -236,6 +239,7 @@ function buildSchedCard(s) {
 
 // ── Live re-render every 60s ──────────────────────────────────────────────────
 function startPageUpdater() {
+  renderTZPicker(document.getElementById('tz-picker-host'));
   renderSchedulePage();
   const msUntilNextMinute = 60000 - (Date.now() % 60000);
   setTimeout(() => {
@@ -243,6 +247,13 @@ function startPageUpdater() {
     setInterval(renderContent, 60000);
   }, msUntilNextMinute);
 }
+
+// Re-render picker labels when language is toggled
+const _schedOrigToggleLang = toggleLang;
+toggleLang = function() {
+  _schedOrigToggleLang();
+  renderTZPicker(document.getElementById('tz-picker-host'));
+};
 
 document.addEventListener('DOMContentLoaded', startPageUpdater);
 </script>

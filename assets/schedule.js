@@ -171,32 +171,101 @@ const SCHEDULE = [
 const SCHED_MAP = {};
 SCHEDULE.forEach(s => SCHED_MAP[s.m] = s);
 
+// ─── TIMEZONE SYSTEM ──────────────────────────────────────────────────────────
+// All times in data are US Eastern (UTC-4 during DST, which covers entire tournament).
+// We parse them as America/New_York and reformat in whatever TZ the user picks.
+
+const TIMEZONES = [
+  { id:'Asia/Tehran',        label:'Tehran',        labelFa:'تهران',       flag:'🇮🇷', offset:'UTC+3:30' },
+  { id:'America/New_York',   label:'New York (ET)', labelFa:'نیویورک (ET)',flag:'🇺🇸', offset:'UTC-4'    },
+  { id:'America/Los_Angeles',label:'Los Angeles',   labelFa:'لس‌آنجلس',   flag:'🇺🇸', offset:'UTC-7'    },
+  { id:'America/Chicago',    label:'Chicago (CT)',   labelFa:'شیکاگو (CT)',flag:'🇺🇸', offset:'UTC-5'    },
+  { id:'Europe/London',      label:'London (BST)',   labelFa:'لندن',       flag:'🇬🇧', offset:'UTC+1'    },
+  { id:'Europe/Paris',       label:'Paris (CEST)',   labelFa:'پاریس',      flag:'🇫🇷', offset:'UTC+2'    },
+  { id:'Asia/Dubai',         label:'Dubai',          labelFa:'دبی',        flag:'🇦🇪', offset:'UTC+4'    },
+  { id:'Asia/Karachi',       label:'Karachi',        labelFa:'کراچی',      flag:'🇵🇰', offset:'UTC+5'    },
+  { id:'Asia/Kolkata',       label:'India (IST)',    labelFa:'هند',        flag:'🇮🇳', offset:'UTC+5:30' },
+  { id:'Asia/Tokyo',         label:'Tokyo',          labelFa:'توکیو',      flag:'🇯🇵', offset:'UTC+9'    },
+  { id:'Australia/Sydney',   label:'Sydney',         labelFa:'سیدنی',      flag:'🇦🇺', offset:'UTC+10'   },
+];
+
+const TZ_KEY = 'wc2026_tz';
+let activeTZ = localStorage.getItem(TZ_KEY) || 'Asia/Tehran';
+
+function setTZ(tz) {
+  activeTZ = tz;
+  localStorage.setItem(TZ_KEY, tz);
+  // Update all TZ picker buttons on page
+  document.querySelectorAll('.tz-btn').forEach(b =>
+    b.classList.toggle('on', b.dataset.tz === tz));
+  // Re-inject schedule with new times
+  injectSchedule();
+  // If schedule page renderer exists, re-render
+  if (typeof renderContent === 'function') renderContent();
+  if (typeof renderCountdown === 'function') renderCountdown();
+}
+
+// Parse a match's kickoff as an absolute UTC moment.
+// Data times are America/New_York (EDT = UTC-4 for the whole June–July tournament).
+function kickoffUTC(s) {
+  const [h, m] = s.time.split(':').map(Number);
+  // Tournament runs entirely during EDT (UTC-4)
+  const etOffsetMs = 4 * 3600000;
+  const [Y, Mo, D] = s.date.split('-').map(Number);
+  const utcMs = Date.UTC(Y, Mo - 1, D, h, m) + etOffsetMs;
+  return new Date(utcMs);
+}
+
+function tzLabel() {
+  const t = TIMEZONES.find(t => t.id === activeTZ);
+  return t ? t.label : activeTZ;
+}
+
+function tzShortName() {
+  // Use Intl to get the short abbreviation (e.g. "IRST", "EDT")
+  try {
+    const fmt = new Intl.DateTimeFormat('en-US', { timeZone: activeTZ, timeZoneName:'short' });
+    const parts = fmt.formatToParts(new Date());
+    const tzPart = parts.find(p => p.type === 'timeZoneName');
+    return tzPart ? tzPart.value : '';
+  } catch { return ''; }
+}
+
 // ─── STATUS HELPERS ───────────────────────────────────────────────────────────
 function matchStatus(s) {
   const now  = new Date();
-  const kick = new Date(`${s.date}T${s.time}:00`);
+  const kick = kickoffUTC(s);
   const end  = new Date(kick.getTime() + 105 * 60000);
-  const today = now.toDateString() === kick.toDateString();
-  if (now > end)    return 'past';
-  if (now >= kick)  return 'live';
-  if (today)        return 'today';
+  // "today" check in user's selected timezone
+  const todayFmt = new Intl.DateTimeFormat('en-CA', { timeZone: activeTZ });
+  const nowStr   = todayFmt.format(now);
+  const kickStr  = todayFmt.format(kick);
+  if (now > end)   return 'past';
+  if (now >= kick) return 'live';
+  if (nowStr === kickStr) return 'today';
   return 'upcoming';
 }
 
 function formatMatchDate(s) {
-  const d = new Date(`${s.date}T12:00:00`);
-  return d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+  const kick = kickoffUTC(s);
+  return kick.toLocaleDateString('en-US', {
+    timeZone: activeTZ,
+    weekday:'short', month:'short', day:'numeric'
+  });
 }
 
 function formatMatchTime(s) {
-  const [h, m] = s.time.split(':').map(Number);
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  const h12  = h % 12 || 12;
-  return `${h12}:${String(m).padStart(2,'0')} ${ampm} ET`;
+  const kick = kickoffUTC(s);
+  const tzName = tzShortName();
+  const time = kick.toLocaleTimeString('en-US', {
+    timeZone: activeTZ,
+    hour:'numeric', minute:'2-digit', hour12: true
+  });
+  return `${time} ${tzName}`;
 }
 
 function countdownTo(s) {
-  const kick = new Date(`${s.date}T${s.time}:00`);
+  const kick = kickoffUTC(s);
   const diff = kick - new Date();
   if (diff <= 0) return null;
   const d = Math.floor(diff / 86400000);
@@ -206,6 +275,25 @@ function countdownTo(s) {
   if (h > 0)  return `${h}h ${m}m`;
   return `${m}m`;
 }
+
+// ─── RENDER TZ PICKER (injected into any .tz-picker-host element) ─────────────
+function renderTZPicker(host) {
+  if (!host) return;
+  const isFa = document.body.classList.contains('fa');
+  host.innerHTML = `<div class="tz-picker">
+    <span class="tz-picker-label">${isFa ? 'منطقه زمانی:' : 'Time Zone:'}</span>
+    ${TIMEZONES.map(t => `
+      <button class="tz-btn${t.id === activeTZ ? ' on' : ''}"
+              data-tz="${t.id}"
+              onclick="setTZ('${t.id}')"
+              title="${t.label} (${t.offset})">
+        ${t.flag} <span class="tz-btn-label">${isFa ? t.labelFa : t.label}</span>
+      </button>`).join('')}
+  </div>`;
+}
+
+// Re-render all pickers on lang toggle (hook into existing toggleLang)
+const _origToggleLang = typeof toggleLang !== 'undefined' ? toggleLang : null;
 
 // ─── INJECT SCHEDULE INFO INTO MATCH CARDS ───────────────────────────────────
 function injectSchedule() {
@@ -250,7 +338,12 @@ function injectSchedule() {
 
 // ─── AUTO-REFRESH EVERY MINUTE ────────────────────────────────────────────────
 function startScheduleUpdater() {
+  // Render TZ picker on groups/bracket pages (host element may not exist on schedule.html)
+  const host = document.getElementById('tz-picker-host');
+  if (host) renderTZPicker(host);
+
   injectSchedule();
+
   const msUntilNextMinute = 60000 - (Date.now() % 60000);
   setTimeout(() => {
     injectSchedule();
@@ -258,4 +351,18 @@ function startScheduleUpdater() {
   }, msUntilNextMinute);
 }
 
-document.addEventListener('DOMContentLoaded', startScheduleUpdater);
+// Re-render TZ picker labels when language toggled (for groups/bracket pages)
+document.addEventListener('DOMContentLoaded', () => {
+  startScheduleUpdater();
+
+  // Patch toggleLang only once, and only if not already patched by schedule.html
+  if (typeof toggleLang === 'function' && !toggleLang._tzPatched) {
+    const _orig = toggleLang;
+    toggleLang = function() {
+      _orig();
+      const h = document.getElementById('tz-picker-host');
+      if (h) renderTZPicker(h);
+    };
+    toggleLang._tzPatched = true;
+  }
+});
