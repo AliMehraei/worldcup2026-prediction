@@ -28,6 +28,17 @@
 .venue-full{font-size:11px;color:var(--dim)}
 /* ── empty state ── */
 .empty-state{text-align:center;padding:60px 20px;color:var(--dim);font-size:13px}
+/* ── Prediction vs actual ledger ── */
+.sched-ledger{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--b1);padding-top:10px}
+.ledger-pane + .ledger-pane{border-left:1px solid var(--b1);padding-left:12px}
+.ledger-label{font-size:9.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.ledger-match{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;color:var(--text);min-height:22px}
+.ledger-result{font-family:var(--cond,'Saira Condensed'),sans-serif;font-size:18px;font-weight:800;line-height:1.05;color:#fff;margin-top:4px}
+.ledger-result span{font-family:var(--disp,'Inter'),sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin-left:6px}
+.ledger-note{font-size:11px;color:var(--dim);min-height:22px}
+.ledger-tbd{color:var(--dim);font-style:italic}
+.ledger-winner{font-size:10.5px;color:var(--gold);font-weight:700;margin-top:2px}
+@media(max-width:560px){.sched-ledger{grid-template-columns:1fr}.ledger-pane + .ledger-pane{border-left:0;border-top:1px solid var(--b1);padding-left:0;padding-top:10px}}
 </style>
 </head>
 <body>
@@ -48,8 +59,8 @@
 
 <div class="page-hero">
   <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Schedule" data-fa="برنامه">Schedule</span></div>
-  <h1 data-en="Full Match Schedule" data-fa="برنامه کامل بازی‌ها">Full Match Schedule</h1>
-  <p data-en="All 104 official WC2026 matches — dates, kick-off times (ET), venues. Auto-updates as rounds progress." data-fa="تمام ۱۰۴ بازی رسمی جام جهانی ۲۰۲۶ — تاریخ، ساعت (ET)، ورزشگاه. به‌روزرسانی خودکار پس از هر دور.">All 104 official WC2026 matches — dates, kick-off times (ET), venues. Auto-updates as rounds progress.</p>
+  <h1 data-en="Full Match Ledger" data-fa="دفتر کامل بازی‌ها">Full Match Ledger</h1>
+  <p data-en="All 104 matches with predicted opponents/result and actual opponents/result where known." data-fa="تمام ۱۰۴ بازی با حریف و نتیجه پیش‌بینی‌شده و حریف و نتیجه واقعی در صورت مشخص بودن.">All 104 matches with predicted opponents/result and actual opponents/result where known.</p>
 </div>
 
 <main>
@@ -89,6 +100,113 @@
 // ─── SCHEDULE PAGE RENDERER ───────────────────────────────────────────────────
 
 const IRAN_MATCHES = new Set([37,38,39,40,41,42]); // Group G matches with Iran
+
+const MATCH_LEDGER = {
+  1:{predScore:"2–0",actualScore:"2–0"},
+  2:{predScore:"1–1",actualScore:"2–1"},
+  3:{predScore:"1–1",actualScore:"1–1"},
+  4:{predScore:"1–1",actualScore:"1–0"},
+  5:{predScore:"1–1",actualScore:"0–3"},
+  6:{predScore:"1–1",actualScore:"1–0"},
+  7:{predScore:"1–1",actualScore:"1–1"},
+  8:{predScore:"1–1",actualScore:"1–1"},
+  9:{predScore:"2–0",actualScore:"4–1"},
+  10:{predScore:"1–1",actualScore:"6–0"},
+  11:{predScore:"1–1",actualScore:"3–1"},
+  12:{predScore:"1–1",actualScore:"3–1"},
+  13:{predScore:"1–1",actualScore:"1–1"},
+  14:{predScore:"0–2",actualScore:"0–1"},
+  15:{predScore:"1–1",actualScore:"0–1"},
+  16:{predScore:"3–0",actualScore:"3–0"},
+  17:{predScore:"0–2",actualScore:"0–3"},
+  18:{predScore:"2–0",actualScore:"4–2"},
+  19:{predScore:"1–1",actualScore:"4–1"},
+  20:{predScore:"1–1",actualScore:"2–0"},
+  21:{predScore:"1–1",actualScore:"2–0"},
+  22:{predScore:"1–1",actualScore:"0–1"},
+  23:{predScore:"1–1",actualScore:"3–2"},
+  24:{predScore:"1–1",actualScore:"0–0"},
+  25:{predScore:"2–0",actualScore:"7–1"},
+  26:{predScore:"1–1",actualScore:"1–0"},
+  27:{predScore:"1–1",actualScore:"2–1"},
+  28:{predScore:"2–0",actualScore:"0–0"},
+  29:{predScore:"1–1",actualScore:"2–1"},
+  30:{predScore:"0–2",actualScore:"0–2"},
+  31:{predScore:"1–1",actualScore:"2–2"},
+  32:{predScore:"1–1",actualScore:"5–1"},
+  33:{predScore:"1–1",actualScore:"5–1"},
+  34:{predScore:"1–1",actualScore:"0–4"},
+  35:{predScore:"1–1",actualScore:"1–1"},
+  36:{predScore:"0–2",actualScore:"1–3"},
+  37:{predScore:"2–0",actualScore:"2–2"},
+  38:{predScore:"1–1",actualScore:"1–1"},
+  39:{predScore:"1–1",actualScore:"0–0"},
+  40:{predScore:"0–2",actualScore:"1–3"},
+  41:{predScore:"1–1",actualScore:"1–1"},
+  42:{predScore:"0–2",actualScore:"1–5"},
+  43:{predScore:"3–0",actualScore:"0–0"},
+  44:{predScore:"0–2",actualScore:"1–1"},
+  45:{predScore:"2–0",actualScore:"4–0"},
+  46:{predScore:"2–0",actualScore:"2–2"},
+  47:{predScore:"1–1",actualScore:"0–0"},
+  48:{predScore:"1–1",actualScore:"0–1"},
+  49:{predScore:"2–1",actualScore:"3–1"},
+  50:{predScore:"1–1",actualScore:"1–4"},
+  51:{predScore:"3–0",actualScore:"3–0"},
+  52:{predScore:"1–1",actualScore:"3–2"},
+  53:{predScore:"1–2",actualScore:"4–1"},
+  54:{predScore:"2–0",actualScore:"5–0"},
+  55:{predScore:"2–0",actualScore:"3–0"},
+  56:{predScore:"1–1",actualScore:"3–1"},
+  57:{predScore:"2–1",actualScore:"2–0"},
+  58:{predScore:"1–1",actualScore:"1–2"},
+  59:{predScore:"1–1",actualScore:"3–3"},
+  60:{predScore:"0–3",actualScore:"1–3"},
+  61:{predScore:"2–0",actualScore:"1–1"},
+  62:{predScore:"1–1",actualScore:"1–3"},
+  63:{predScore:"2–0",actualScore:"5–0"},
+  64:{predScore:"1–1",actualScore:"1–0"},
+  65:{predScore:"1–1",actualScore:"0–0"},
+  66:{predScore:"1–1",actualScore:"3–1"},
+  67:{predScore:"1–1",actualScore:"4–2"},
+  68:{predScore:"1–1",actualScore:"1–0"},
+  69:{predScore:"2–0",actualScore:"0–0"},
+  70:{predScore:"1–1",actualScore:"0–1"},
+  71:{predScore:"1–2",actualScore:"0–2"},
+  72:{predScore:"2–0",actualScore:"2–1"},
+  73:{predTeams:[["za","South Africa"],["ca","Canada"]],predScore:"0–2",predWinner:"Canada",actualTeams:[["za","South Africa"],["ca","Canada"]]},
+  74:{predTeams:[["de","Germany"],["py","Paraguay"]],predScore:"1–1 pens",predWinner:"Germany",actualTeams:[["de","Germany"],["py","Paraguay"]]},
+  75:{predTeams:[["nl","Netherlands"],["ma","Morocco"]],predScore:"1–1 pens",predWinner:"Netherlands",actualTeams:[["nl","Netherlands"],["ma","Morocco"]]},
+  76:{predTeams:[["br","Brazil"],["jp","Japan"]],predScore:"1–1 pens",predWinner:"Brazil",actualTeams:[["br","Brazil"],["jp","Japan"]]},
+  77:{predTeams:[["fr","France"],["se","Sweden"]],predScore:"2–0",predWinner:"France",actualTeams:[["fr","France"],["se","Sweden"]]},
+  78:{predTeams:[["ci","Ivory Coast"],["no","Norway"]],predScore:"1–1 pens",predWinner:"Norway",actualTeams:[["ci","Ivory Coast"],["no","Norway"]]},
+  79:{predTeams:[["mx","Mexico"],["ec","Ecuador"]],predScore:"1–1 pens",predWinner:"Mexico",actualTeams:[["mx","Mexico"],["ec","Ecuador"]]},
+  80:{predTeams:[["gb-eng","England"],["cd","DR Congo"]],predScore:"2–0",predWinner:"England",actualTeams:[["gb-eng","England"],["cd","DR Congo"]]},
+  81:{predTeams:[["us","USA"],["ba","Bosnia & Herz."]],predScore:"2–0",predWinner:"USA",actualTeams:[["us","USA"],["ba","Bosnia & Herz."]]},
+  82:{predTeams:[["be","Belgium"],["sn","Senegal"]],predScore:"1–1 pens",predWinner:"Belgium",actualTeams:[["be","Belgium"],["sn","Senegal"]]},
+  83:{predTeams:[["pt","Portugal"],["hr","Croatia"]],predScore:"1–1 pens",predWinner:"Portugal",actualTeams:[["pt","Portugal"],["hr","Croatia"]]},
+  84:{predTeams:[["es","Spain"],["at","Austria"]],predScore:"2–0",predWinner:"Spain",actualTeams:[["es","Spain"],["at","Austria"]]},
+  85:{predTeams:[["ch","Switzerland"],["dz","Algeria"]],predScore:"1–1 pens",predWinner:"Switzerland",actualTeams:[["ch","Switzerland"],["dz","Algeria"]]},
+  86:{predTeams:[["ar","Argentina"],["cv","Cape Verde"]],predScore:"3–0",predWinner:"Argentina",actualTeams:[["ar","Argentina"],["cv","Cape Verde"]]},
+  87:{predTeams:[["co","Colombia"],["gh","Ghana"]],predScore:"1–1 pens",predWinner:"Colombia",actualTeams:[["co","Colombia"],["gh","Ghana"]]},
+  88:{predTeams:[["au","Australia"],["eg","Egypt"]],predScore:"1–1 pens",predWinner:"Egypt",actualTeams:[["au","Australia"],["eg","Egypt"]]},
+  89:{predTeams:[["ca","Canada"],["nl","Netherlands"]],predScore:"1–1 pens",predWinner:"Netherlands"},
+  90:{predTeams:[["de","Germany"],["fr","France"]],predScore:"1–1 pens",predWinner:"France"},
+  91:{predTeams:[["br","Brazil"],["no","Norway"]],predScore:"1–1 pens",predWinner:"Brazil"},
+  92:{predTeams:[["mx","Mexico"],["gb-eng","England"]],predScore:"1–1 pens",predWinner:"England"},
+  93:{predTeams:[["pt","Portugal"],["es","Spain"]],predScore:"1–1 pens",predWinner:"Spain"},
+  94:{predTeams:[["us","USA"],["be","Belgium"]],predScore:"1–1 pens",predWinner:"Belgium"},
+  95:{predTeams:[["ar","Argentina"],["eg","Egypt"]],predScore:"2–1",predWinner:"Argentina"},
+  96:{predTeams:[["ch","Switzerland"],["co","Colombia"]],predScore:"1–1 pens",predWinner:"Switzerland"},
+  97:{predTeams:[["nl","Netherlands"],["fr","France"]],predScore:"1–1 pens",predWinner:"France"},
+  98:{predTeams:[["es","Spain"],["be","Belgium"]],predScore:"1–1 pens",predWinner:"Spain"},
+  99:{predTeams:[["br","Brazil"],["gb-eng","England"]],predScore:"1–1 pens",predWinner:"Brazil"},
+  100:{predTeams:[["ar","Argentina"],["ch","Switzerland"]],predScore:"1–1 pens",predWinner:"Argentina"},
+  101:{predTeams:[["fr","France"],["es","Spain"]],predScore:"1–1 pens",predWinner:"Spain"},
+  102:{predTeams:[["br","Brazil"],["ar","Argentina"]],predScore:"1–1 pens",predWinner:"Argentina"},
+  103:{predTeams:[["fr","France"],["br","Brazil"]],predScore:"1–1 pens",predWinner:"France"},
+  104:{predTeams:[["es","Spain"],["ar","Argentina"]],predScore:"1–1 pens",predWinner:"Spain"},
+};
 
 let activeRound = 'all';
 
@@ -172,12 +290,54 @@ function renderContent() {
     }).join('');
 
     return `<div class="sec round-section" data-round="${round}">
-      <div class="sec-head"><div class="sec-ico">📅</div><div class="sec-ttl">${round}</div><div class="sec-sub">${matches.length} matches</div></div>
+    <div class="sec-head"><div class="sec-ico">📅</div><div class="sec-ttl">${round}</div><div class="sec-sub">${matches.length} matches · prediction vs actual</div></div>
       ${datesHtml}
     </div>`;
   }).join('');
 
   content.innerHTML = html;
+}
+
+function ledgerTeam([iso2, name]) {
+  return `<span class="ledger-team"><img src="https://flagcdn.com/w40/${iso2}.png" class="f-img" alt="" onerror="this.style.opacity=.2">${name}</span>`;
+}
+
+function ledgerMatchup(teams) {
+  if (!teams) return `<span class="ledger-tbd">Opponents TBD</span>`;
+  return `${ledgerTeam(teams[0])}<span class="sched-vs">vs</span>${ledgerTeam(teams[1])}`;
+}
+
+function teamsFromSchedule(s) {
+  if (!s.teams) return null;
+  return [[s.teams[0], s.teams[1]], [s.teams[2], s.teams[3]]];
+}
+
+function buildLedger(s) {
+  const item = MATCH_LEDGER[s.m] || {};
+  const isGroupStage = s.m <= 72;
+  const actualTeams = item.actualTeams || teamsFromSchedule(s);
+  const predictedTeams = isGroupStage ? null : item.predTeams;
+  const predictedScore = item.predScore || 'TBD';
+  const actualScore = item.actualScore || 'TBD';
+  const predictionBody = isGroupStage
+    ? `<div class="ledger-note">Opponents fixed by group draw</div>`
+    : `<div class="ledger-match">${ledgerMatchup(predictedTeams)}</div>`;
+  const predictionWinner = item.predWinner
+    ? `<div class="ledger-winner">Predicted winner: ${item.predWinner}</div>` : '';
+
+  return `<div class="sched-ledger">
+    <div class="ledger-pane">
+      <div class="ledger-label">Prediction</div>
+      ${predictionBody}
+      <div class="ledger-result">${predictedScore}<span>model result</span></div>
+      ${predictionWinner}
+    </div>
+    <div class="ledger-pane">
+      <div class="ledger-label">Actual</div>
+      <div class="ledger-match">${ledgerMatchup(actualTeams)}</div>
+      <div class="ledger-result ${actualScore === 'TBD' ? 'ledger-tbd' : ''}">${actualScore}<span>real result</span></div>
+    </div>
+  </div>`;
 }
 
 function buildSchedCard(s) {
@@ -212,7 +372,7 @@ function buildSchedCard(s) {
       </div>
     </div>`;
   } else {
-    teamsHtml = `<div class="sched-tbd">Teams TBD — qualified from previous round</div>`;
+    teamsHtml = `<div class="sched-tbd">Actual opponents TBD — qualified from previous round</div>`;
   }
 
   const cdHtml = (cd && status === 'upcoming')
@@ -228,6 +388,7 @@ function buildSchedCard(s) {
       ${badgeHtml}
     </div>
     ${teamsHtml}
+    ${buildLedger(s)}
     <div class="sched-meta">
       <span class="sched-meta-item"><span class="sched-meta-ico">📅</span>${dateStr}</span>
       <span class="sched-meta-item"><span class="sched-meta-ico">🕐</span>${timeStr}</span>
