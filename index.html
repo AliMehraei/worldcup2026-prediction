@@ -284,16 +284,16 @@ footer{text-align:center;padding:32px;color:var(--dim);font-size:12px;border-top
   <img class="hero-img" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1600&q=75&auto=format&fit=crop&crop=center" alt="" aria-hidden="true" onerror="this.style.display='none'"/>
   <div class="hero-fade"></div>
   <div class="hero-content">
-    <div class="live-badge"><span class="live-dot"></span> <span data-en="Live AI Prediction · WC2026" data-fa="پیش‌بینی زنده هوشواره · جام جهانی ۲۰۲۶">Live AI Prediction · WC2026</span></div>
-    <h1 data-en="FIFA World Cup 2026<br>AI Forecast" data-fa="پیش‌بینی جام جهانی فوتبال ۲۰۲۶<br>هوشواره">FIFA World Cup 2026<br>AI Forecast</h1>
-    <p class="hero-sub" data-en="Real Dixon-Coles bivariate Poisson simulation — runs 10,000 full tournaments in your browser. Every run is independent. Results change based on the stochastic model." data-fa="شبیه‌سازی واقعی Poisson دوگانه Dixon-Coles — ۱۰٬۰۰۰ تورنمنت کامل را در مرورگر شما اجرا می‌کند. هر اجرا مستقل است. نتایج بر اساس ماهیت تصادفی مدل تغییر می‌کنند.">Real Dixon-Coles bivariate Poisson simulation — runs 10,000 full tournaments in your browser. Every run is independent. Results change based on the stochastic model.</p>
+    <div class="live-badge"><span class="live-dot"></span> <span data-en="Updated Knockout Forecast · WC2026" data-fa="پیش‌بینی به‌روز مرحله حذفی · جام جهانی ۲۰۲۶">Updated Knockout Forecast · WC2026</span></div>
+    <h1 data-en="FIFA World Cup 2026<br>Knockout Forecast" data-fa="پیش‌بینی مرحله حذفی<br>جام جهانی ۲۰۲۶">FIFA World Cup 2026<br>Knockout Forecast</h1>
+    <p class="hero-sub" data-en="Group-stage results are locked in. The forecast now keeps completed-match predictions beside actual scores and recalculates the remaining knockout path from the confirmed Round of 32." data-fa="نتایج مرحله گروهی ثبت شده‌اند. پیش‌بینی اکنون نتایج پیش‌بینی‌شده بازی‌های انجام‌شده را کنار نتیجه واقعی نگه می‌دارد و مسیر حذفی باقی‌مانده را از مرحله ۳۲ تیم قطعی دوباره محاسبه می‌کند.">Group-stage results are locked in. The forecast now keeps completed-match predictions beside actual scores and recalculates the remaining knockout path from the confirmed Round of 32.</p>
     <div class="hero-kpis">
-      <div class="kpi"><div class="kpi-n" id="kpi-sims">10K</div><div class="kpi-l" data-en="Simulations" data-fa="شبیه‌سازی">Simulations</div></div>
-      <div class="kpi"><div class="kpi-n">48</div><div class="kpi-l" data-en="Teams" data-fa="تیم">Teams</div></div>
-      <div class="kpi"><div class="kpi-n">12</div><div class="kpi-l" data-en="Groups" data-fa="گروه">Groups</div></div>
-      <div class="kpi"><div class="kpi-n">104</div><div class="kpi-l" data-en="Matches" data-fa="بازی">Matches</div></div>
+      <div class="kpi"><div class="kpi-n" id="kpi-sims">72</div><div class="kpi-l" data-en="Group matches done" data-fa="بازی گروهی انجام‌شده">Group matches done</div></div>
+      <div class="kpi"><div class="kpi-n">32</div><div class="kpi-l" data-en="Teams alive" data-fa="تیم باقی‌مانده">Teams alive</div></div>
+      <div class="kpi"><div class="kpi-n">16</div><div class="kpi-l" data-en="R32 ties" data-fa="بازی R32">R32 ties</div></div>
+      <div class="kpi"><div class="kpi-n">Spain</div><div class="kpi-l" data-en="Modal champion" data-fa="قهرمان مسیر محتمل">Modal champion</div></div>
     </div>
-    <button class="run-btn" id="runBtn" onclick="runSimulation()" data-en="▶ Run Simulation Now" data-fa="▶ اجرای شبیه‌سازی">▶ Run Simulation Now</button>
+    <button class="run-btn" id="runBtn" onclick="location.href='bracket.html'" data-en="▶ View Updated Bracket" data-fa="▶ مشاهده براکت به‌روز">▶ View Updated Bracket</button>
   </div>
 </div>
 
@@ -362,15 +362,15 @@ footer{text-align:center;padding:32px;color:var(--dim);font-size:12px;border-top
 <div id="preRun" class="sec">
   <div class="sec-head">
     <div class="sec-ico">▶</div>
-    <div class="sec-ttl" data-en='Click "Run Simulation" to generate predictions' data-fa='روی "اجرای شبیه‌سازی" کلیک کنید'>Click "Run Simulation" to generate predictions</div>
+    <div class="sec-ttl" data-en="Updated predictions are ready" data-fa="پیش‌بینی‌های به‌روز آماده‌اند">Updated predictions are ready</div>
   </div>
-  <p style="color:var(--sub);font-size:14px;line-height:1.75" data-en="The model will run 10,000 full World Cup tournaments using Dixon-Coles bivariate Poisson. Each team's attack (λ_att) and defense (λ_def) parameters are derived from Elo ratings, FIFA rankings, recent form, and squad depth. Results are probabilistic — re-running gives slightly different outputs due to the stochastic nature of Monte Carlo simulation." data-fa="مدل ۱۰٬۰۰۰ تورنمنت کامل جام جهانی را با استفاده از Poisson دوگانه Dixon-Coles اجرا می‌کند. پارامترهای حمله (λ_att) و دفاع (λ_def) هر تیم از رتبه‌بندی Elo، رنکینگ فیفا، فرم اخیر و عمق ترکیب استخراج می‌شوند. نتایج احتمالاتی هستند — اجرای مجدد به دلیل ماهیت تصادفی شبیه‌سازی، خروجی‌های کمی متفاوتی می‌دهد.">The model will run 10,000 full World Cup tournaments using Dixon-Coles bivariate Poisson. Each team's attack (λ_att) and defense (λ_def) parameters are derived from Elo ratings, FIFA rankings, recent form, and squad depth. Results are probabilistic — re-running gives slightly different outputs due to the stochastic nature of Monte Carlo simulation.</p>
+  <p style="color:var(--sub);font-size:14px;line-height:1.75" data-en="Completed group matches now show both the original Dixon-Coles prediction and the actual score. The bracket, team tracker, schedule, and Iran page have been recalculated from the confirmed Round of 32 field." data-fa="بازی‌های انجام‌شده گروهی اکنون هم پیش‌بینی اولیه دیکسون-کولز و هم نتیجه واقعی را نشان می‌دهند. براکت، صفحه تیم‌ها، برنامه و صفحه ایران بر اساس تیم‌های قطعی مرحله ۳۲ دوباره محاسبه شده‌اند.">Completed group matches now show both the original Dixon-Coles prediction and the actual score. The bracket, team tracker, schedule, and Iran page have been recalculated from the confirmed Round of 32 field.</p>
   <div style="margin-top:20px">
     <div class="page-nav">
-      <a class="pnav" href="teams.html"><div class="pnav-ico">📊</div><div class="pnav-t" data-en="Team Rankings" data-fa="رتبه‌بندی تیم‌ها">Team Rankings</div><div class="pnav-d" data-en="All 48 teams with Elo, λ values, and power ratings" data-fa="همه ۴۸ تیم با Elo، مقادیر λ و رتبه‌بندی قدرت">All 48 teams with Elo, λ values, and power ratings</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
-      <a class="pnav" href="groups.html"><div class="pnav-ico">📋</div><div class="pnav-t" data-en="Group Standings" data-fa="جدول‌های گروهی">Group Standings</div><div class="pnav-d" data-en="All 12 groups A–L with predicted tables" data-fa="همه ۱۲ گروه A تا L با جدول‌های پیش‌بینی‌شده">All 12 groups A–L with predicted tables</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
-      <a class="pnav" href="bracket.html"><div class="pnav-ico">⚡</div><div class="pnav-t" data-en="Bracket" data-fa="مسیر حذفی">Bracket</div><div class="pnav-d" data-en="Full knockout bracket R32 through Final" data-fa="جدول حذفی کامل از R32 تا فینال">Full knockout bracket R32 through Final</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
-      <a class="pnav" href="iran.html"><div class="pnav-ico">🇮🇷</div><div class="pnav-t" data-en="Iran Deep Dive" data-fa="تحلیل عمیق ایران">Iran Deep Dive</div><div class="pnav-d" data-en="Detailed match analysis, scenarios, squad" data-fa="تحلیل دقیق بازی‌ها، سناریوها و ترکیب">Detailed match analysis, scenarios, squad</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
+      <a class="pnav" href="teams.html"><div class="pnav-ico">📊</div><div class="pnav-t" data-en="Team Tracker" data-fa="ردیاب تیم‌ها">Team Tracker</div><div class="pnav-d" data-en="Actual group finish, R32 status, and updated title odds" data-fa="رتبه واقعی گروه، وضعیت R32 و شانس قهرمانی به‌روز">Actual group finish, R32 status, and updated title odds</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
+      <a class="pnav" href="groups.html"><div class="pnav-ico">📋</div><div class="pnav-t" data-en="Group Results" data-fa="نتایج گروهی">Group Results</div><div class="pnav-d" data-en="All 12 final tables plus prediction vs actual match cards" data-fa="جدول نهایی ۱۲ گروه همراه پیش‌بینی در برابر نتیجه واقعی">All 12 final tables plus prediction vs actual match cards</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
+      <a class="pnav" href="bracket.html"><div class="pnav-ico">⚡</div><div class="pnav-t" data-en="Bracket" data-fa="مسیر حذفی">Bracket</div><div class="pnav-d" data-en="Recalculated knockout path from the confirmed R32 field" data-fa="مسیر حذفی دوباره محاسبه‌شده از تیم‌های قطعی R32">Recalculated knockout path from the confirmed R32 field</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
+      <a class="pnav" href="iran.html"><div class="pnav-ico">🇮🇷</div><div class="pnav-t" data-en="Iran Review" data-fa="مرور ایران">Iran Review</div><div class="pnav-d" data-en="Final Group G result and why Iran missed the best-third cut" data-fa="نتیجه نهایی گروه G و دلیل جا ماندن ایران از سهمیه تیم‌های سوم">Final Group G result and why Iran missed the best-third cut</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
       <a class="pnav" href="model.html"><div class="pnav-ico">⚗</div><div class="pnav-t" data-en="Model" data-fa="مدل">Model</div><div class="pnav-d" data-en="Dixon-Coles methodology, formulas, limitations" data-fa="روش‌شناسی Dixon-Coles، فرمول‌ها، محدودیت‌ها">Dixon-Coles methodology, formulas, limitations</div><div class="pnav-a" data-en="View →" data-fa="مشاهده ←">View →</div></a>
     </div>
   </div>
@@ -766,9 +766,9 @@ function renderResults(){
   const iranGrp = groupTally['G'];
   const iranAvgPts = (iranGrp['IRN'].pts/iranGrp['IRN'].cnt).toFixed(1);
   document.getElementById('iranSummary').textContent =
-    `Group G — Iran R32 probability: ${iranR32}% · Avg pts: ${iranAvgPts} · Champion: ${pct(champCount['IRN'])}`;
+    `Historical sandbox — pre-tournament Iran R32 probability: ${iranR32}% · Avg pts: ${iranAvgPts}`;
   document.getElementById('iranDesc').textContent =
-    `Based on ${N_SIMS.toLocaleString()} simulations. Belgium (λ_att=${TEAM['BEL'].att}) is the clear group favorite with Elo ${TEAM['BEL'].elo}. Iran's key match is vs Egypt — nearly even at λ_IRI=${TEAM['IRN'].att} vs λ_EGY=${TEAM['EGY'].att}. Iran has an ${iranR32}% chance of qualifying from the group stage.`;
+    `This legacy simulator is preserved as a pre-tournament model sandbox. The active forecast uses actual group results: Iran finished third in Group G with 3 points and was eliminated as the 9th-best third-place team.`;
 
   // Iran matches Poisson
   const iranMatchups = [
